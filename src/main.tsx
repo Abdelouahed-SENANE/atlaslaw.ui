@@ -1,10 +1,13 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import '@/styles/globals.css'
-import App from './app'
+import "@/styles/globals.css";
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import App from "./app";
 
-createRoot(document.getElementById('root')!).render(
+import "@/config/i18n";
+
+document.title = import.meta.env.VITE_APP_NAME;
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <App />
-  </StrictMode>,
-)
+  </StrictMode>
+);

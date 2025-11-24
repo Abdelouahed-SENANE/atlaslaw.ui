@@ -1,5 +1,7 @@
 "use client";
 
+import { cn } from "@/lib/utils";
+import { CircleAlert, CircleCheck, CircleX, Info, X } from "lucide-react";
 import {
   Toast,
   ToastClose,
@@ -9,27 +11,25 @@ import {
   ToastViewport,
 } from "./toast";
 import { useToast } from "./use-toast";
-import { cn } from "@/lib/utils";
-import { CircleAlert, CircleCheck, CircleX, Info, X } from "lucide-react";
 
 export const alertStyles = {
   info: {
-    icon: <Info className="text-blue-500 size-6" aria-hidden={true} />,
+    icon: <Info className="text-blue-500 size-5" aria-hidden={true} />,
     text: "text-blue-500",
     bg: "bg-blue-500",
   },
   success: {
-    icon: <CircleCheck className="text-green-500 size-6" aria-hidden={true} />,
+    icon: <CircleCheck className="text-green-500 size-5" aria-hidden={true} />,
     text: "text-green-500",
     bg: "bg-green-500",
   },
   error: {
-    icon: <CircleX className="text-red-500 size-6" aria-hidden={true} />,
+    icon: <CircleX className="text-red-500 size-5" aria-hidden={true} />,
     text: "text-red-500",
     bg: "bg-red-500",
   },
   warning: {
-    icon: <CircleAlert className="text-yellow-500 size-6" aria-hidden={true} />,
+    icon: <CircleAlert className="text-yellow-500 size-5" aria-hidden={true} />,
     text: "text-yellow-500",
     bg: "bg-yellow-500",
   },
@@ -41,48 +41,58 @@ export function Toaster() {
   return (
     <ToastProvider>
       {toasts.map(({ id, title, description, action, type, ...props }) => (
-        <Toast
-          key={id}
-          variant={"default"}
-          {...props}
-          className="relative bg-card rounded-xs border-none top-0 p-3 right-0 w-full text-card-foreground data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-[var(--radix-toast-swipe-end-x)] data-[swipe=move]:translate-y-[var(--radix-toast-swipe-move-x)] data-[swipe=move]:transition-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[swipe=end]:animate-out data-[state=closed]:fade-out-80 data-[state=closed]:slide-out-to-right-full data-[state=open]:slide-in-from-bottom-full data-[state=open]:sm:slide-in-from-top-full"
-        >
-          <div
-            className={cn(
-              "h-0.5 w-full absolute top-0 left-0 right-0",
-              alertStyles[type].bg
-            )}
-          ></div>
-          <div className="flex w-full space-x-2 relative ">
-            <div className="px-1">{alertStyles[type].icon}</div>
-            <div className="flex justify-between flex-1">
-              <div className="flex-1 flex flex-col items-start justify-between  ">
-                {title && (
-                  <ToastTitle
-                    className={cn(
-                      alertStyles[type].text,
-                      "text-base font-semibold"
-                    )}
-                  >
-                    {title}
-                  </ToastTitle>
-                )}
-                {description && (
-                  <ToastDescription>
-                    <p className="text-sm font-medium">{description}</p>
-                  </ToastDescription>
-                )}
-                {action}
+        <div key={id} className="relative w-full">
+          <Toast
+            variant={"default"}
+            {...props}
+            className="
+  relative bg-background shadow-card max-w-xs p-2 border-none text-card-foreground
+  top-5 left-1/2 -translate-x-1/2
+  transition-transform  duration-300 ease-out
+  opacity-0
+  data-[state=open]:translate-y-0
+  data-[state=open]:opacity-100
+  data-[state=closed]:translate-y-full
+  data-[state=closed]:opacity-0
+"
+          >
+            <div
+              className={cn(
+                "h-full w-1 absolute top-0 left-0 right-0",
+                alertStyles[type].bg
+              )}
+            ></div>
+            <div className="flex w-full space-x-2 relative ">
+              <div className="px-1">{alertStyles[type].icon}</div>
+              <div className="flex justify-between flex-1">
+                <div className="flex-1 flex flex-col items-start justify-between  ">
+                  {title && (
+                    <ToastTitle
+                      className={cn(
+                        alertStyles[type].text,
+                        "text-sm font-semibold"
+                      )}
+                    >
+                      {title}
+                    </ToastTitle>
+                  )}
+                  {description && (
+                    <ToastDescription>
+                      <p className="text-xs font-medium">{description}</p>
+                    </ToastDescription>
+                  )}
+                  {action}
+                </div>
+                <ToastClose className="block cursor-pointer  shrink-0 rounded-md  text-xs hover:opacity-75 text-card-foreground">
+                  <X />
+                </ToastClose>
               </div>
-              <ToastClose className="block cursor-pointer  shrink-0 rounded-md  text-xs hover:opacity-75 text-card-foreground">
-                <X />
-              </ToastClose>
             </div>
-          </div>
-        </Toast>
+          </Toast>
+        </div>
       ))}
       <ToastViewport
-        className={cn("fixed top-15 right-2 z-50 flex flex-col gap-1")}
+        className={cn("fixed top-0 left-0 right-0 z-50 flex flex-col gap-1")}
       />
     </ToastProvider>
   );

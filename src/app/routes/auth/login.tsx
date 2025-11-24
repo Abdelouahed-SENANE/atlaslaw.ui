@@ -6,46 +6,47 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { SwitchLanguage } from "@/components/ui/language/switch-language";
 import { toast } from "@/components/ui/toast/use-toast";
 import { paths } from "@/config/paths";
 import { LoginForm } from "@/features/auth/components/login-form";
+import { useTranslation } from "react-i18next";
 import { useNavigate, useSearchParams } from "react-router";
 
 const LoginPage = () => {
   const [searchParams] = useSearchParams();
+  const { t } = useTranslation();
   const redirectTo = searchParams.get("redirectTo");
   const navigate = useNavigate();
 
   return (
     <AuthLayout>
+      <SwitchLanguage />
       <Card className=" min-w-sm">
         <CardHeader className="flex items-center pt-4 flex-col">
           <div>
             <img src="/assets/logo-sm.png" className="size-9" />
           </div>
-          <CardTitle>Let's Get Started Blogger</CardTitle>
-          <CardDescription>Sign in to continue to Dastone.</CardDescription>
+          <CardTitle>{t("login.title")}</CardTitle>
+          <CardDescription>{t("login.description")}</CardDescription>
         </CardHeader>
         <CardContent>
           <LoginForm
             onError={(err: any) => {
               const message = err.response.data.message;
               toast({
-                title: "Failed",
+                title: t("login.failed"),
                 description: message,
                 type: "error",
               });
             }}
             onSuccess={() => {
-              navigate(
-                redirectTo ? redirectTo : paths.admin.dashboard.route(),
-                {
-                  replace: true,
-                }
-              );
+              navigate(redirectTo ? redirectTo : paths.home.route(), {
+                replace: true,
+              });
               toast({
-                title: "Success",
-                description: "Authenticated Success",
+                title: t("login.success"),
+                description: t("login.authenticated"),
                 type: "success",
               });
             }}

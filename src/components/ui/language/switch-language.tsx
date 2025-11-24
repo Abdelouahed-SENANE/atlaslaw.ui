@@ -1,37 +1,51 @@
-import { useState, useEffect } from "react";
-import { Globe } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown/dropdown-menu";
+import { Globe } from "lucide-react";
+import { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../avatar";
 import { Button } from "../button";
-import i18n from "@/config/i18n";
+import { useTranslation } from "react-i18next";
 
-const languages = [
-  { code: "ar", label: "العربية", flag: "/assets/flags/ar.svg" },
-  { code: "en", label: "English", flag: "/assets/flags/us.svg" },
+type Language = {
+  code: string;
+  label: string;
+  flag: string;
+};
+
+const languages: Language[] = [
   { code: "fr", label: "Français", flag: "/assets/flags/fr.svg" },
+  { code: "ar", label: "العربية", flag: "/assets/flags/ar.svg" },
 ];
 
-export function Locale() {
-  const [selected, setSelected] = useState(() => {
-    const current = i18n.language || "en";
-    return languages.find((l) => l.code === current) || languages[1];
-  });
+export function SwitchLanguage() {
+  const [selected, setSelected] = useState<Language>(languages[0]);
+  const { i18n } = useTranslation(); // Add this hook
 
-  const handleChange = (lang: any) => {
+  useEffect(() => {
+    const savedLang = localStorage.getItem("lang") || "fr";
+    const langObj = languages.find((l) => l.code === savedLang) || languages[0];
+    setSelected(langObj);
+
+    if (i18n.language !== savedLang) {
+      i18n.changeLanguage(savedLang);
+    }
+
+    document.documentElement.dir = savedLang === "ar" ? "rtl" : "ltr";
+    document.documentElement.lang = savedLang;
+  }, [i18n]); // Add i18n to dependencies
+
+  const handleChange = (lang: Language) => {
+    if (i18n.language === lang.code) return;
     setSelected(lang);
     i18n.changeLanguage(lang.code);
     localStorage.setItem("lang", lang.code);
     document.documentElement.dir = lang.code === "ar" ? "rtl" : "ltr";
+    document.documentElement.lang = lang.code;
   };
-
-  useEffect(() => {
-    document.documentElement.dir = i18n.language === "ar" ? "rtl" : "ltr";
-  }, []);
 
   return (
     <DropdownMenu>
@@ -52,12 +66,12 @@ export function Locale() {
         {languages.map((lang) => (
           <DropdownMenuItem
             key={lang.code}
-            onClick={() => handleChange(lang)}
+            onClick={() => handleChange(lang)} // Fixed: call handleChange instead of i18n.changeLanguage directly
             className={`flex items-center gap-2 cursor-pointer ${
               lang.code === selected.code ? "font-semibold" : ""
             }`}
           >
-            <img src={lang.flag} alt={lang.code} className="h-4" />
+            <img src={lang.flag} alt={lang.label} className="h-4 w-4" />
             <span>{lang.label}</span>
           </DropdownMenuItem>
         ))}

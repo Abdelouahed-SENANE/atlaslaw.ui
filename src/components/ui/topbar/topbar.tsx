@@ -1,11 +1,11 @@
+import { cn } from "@/lib/utils";
 import { Bell, Menu, Plus } from "lucide-react";
 import { Button } from "../button";
-import { useSidebar } from "../sidebar";
-import { cn } from "@/lib/utils";
-import { UserNavgation } from "../user-navigation";
-import { ThemeToggle } from "../theme";
-import { Locale } from "../locale/locale";
 import { Input } from "../form";
+import { SwitchLanguage } from "../language/switch-language";
+import { useSidebar } from "../sidebar";
+import { ThemeToggle } from "../theme";
+import { UserNavgation } from "../user-navigation";
 
 type TopbarProps = {
   className?: string;
@@ -46,10 +46,10 @@ export const Topbar = ({ className }: TopbarProps) => {
 
         <ul className="flex items-center space-x-2">
           <li className="min-w-xs">
-            <Input placeholder="Search..." className="w-sm"/>
+            <Input placeholder="Search..." className="w-sm" />
           </li>
           <li>
-            <Locale />
+            <SwitchLanguage />
           </li>
           <li>
             <ThemeToggle />

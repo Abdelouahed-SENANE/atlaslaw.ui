@@ -9,11 +9,14 @@ import { Navigate, useLocation } from "react-router";
 import { z } from "zod";
 
 export const loginSchema = z.object({
-  username: z.string().min(1, "Username is required."),
+  email: z
+    .email(("login.errors.invalid_email"))
+    .min(1, ("login.errors.email_required")), // required
+  // invalid format
   password: z
     .string()
-    .min(1, "Password is required.")
-    .min(8, "Password must be at least 8 characters long."),
+    .min(1, ("login.errors.password_required"))
+    .min(8, ("login.errors.password_min")), // min length
 });
 
 export async function getMe(): Promise<User | null> {
@@ -57,9 +60,9 @@ const authConfig = {
   loginFn: async (payload: LoginInputs) => {
     const res = await login(payload);
     const access_token = res?.data?.access_token || "";
+
     useTokenStore.getState().setAccessToken(access_token);
-    const user = getMe();
-    console.log(user);
+    const user = await getMe();
 
     return user;
   },

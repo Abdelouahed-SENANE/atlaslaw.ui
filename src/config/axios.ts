@@ -1,6 +1,6 @@
 import Axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
-import { useTokenStore } from "@/store/token-store";
 import { paths } from "./paths";
+import { useTokenStore } from "../store/token-store";
 
 function authRequestInterceptor(config: InternalAxiosRequestConfig) {
   const accessToken = useTokenStore.getState().access_token;

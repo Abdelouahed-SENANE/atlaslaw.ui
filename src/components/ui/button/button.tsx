@@ -1,6 +1,6 @@
-import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
+import * as React from "react";
 
 import { cn } from "@/lib/utils";
 import { Spinner } from "../spinner";
@@ -20,7 +20,7 @@ const buttonVariants = cva(
         ghost:
           "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",
-        plain: "bg-transparent text-foreground", 
+        plain: "bg-transparent text-foreground",
       },
       size: {
         default: "px-4 py-1.5 has-[>svg]:px-3",
@@ -52,7 +52,7 @@ function Button({
     isLoading?: boolean;
   }) {
   const Comp = asChild ? Slot : "button";
-
+  const isRTL = document.documentElement.dir === "rtl";
   return (
     <Comp
       data-slot="button"
@@ -61,7 +61,13 @@ function Button({
       aria-disabled={isLoading}
       {...props}
     >
-      {isLoading && <Spinner size="xs" className="mr-0.5" variant='light' />}
+      {isLoading && (
+        <Spinner
+          size="xs"
+          className={isRTL ? "ml-1" : "mr-1"}
+          variant="light"
+        />
+      )}
       {children}
     </Comp>
   );
