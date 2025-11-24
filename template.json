@@ -1,0 +1,10 @@
+{
+  "name": "react-starter",
+  "description": "Private React starter template",
+  "variables": {
+    "projectName": {
+      "type": "string",
+      "default": "my-app"
+    }
+  }
+}
