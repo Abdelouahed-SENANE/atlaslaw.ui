@@ -1,28 +1,30 @@
 import { api$ } from "@/config/axios";
-import { paths } from "@/config/paths";
 import { useTokenStore } from "@/store/token-store";
 import { ApiResponse, Jwt, User } from "@/types/api";
 import { AxiosError } from "axios";
 import React from "react";
 import { configureAuth } from "react-query-auth";
-import { Navigate, useLocation } from "react-router";
+import { useLocation } from "react-router";
 import { z } from "zod";
+import { buildAuthLoginRedirect } from "../utils";
+import { Redirect } from "@/utils/smooth-redirect";
+import { Logger } from "@/utils/logger";
 
 export const loginSchema = z.object({
   email: z
-    .email(("login.errors.invalid_email"))
-    .min(1, ("login.errors.email_required")), // required
+    .email("login.errors.invalid_email")
+    .min(1, "login.errors.email_required"), // required
   // invalid format
   password: z
     .string()
-    .min(1, ("login.errors.password_required"))
-    .min(8, ("login.errors.password_min")), // min length
+    .min(1, "login.errors.password_required")
+    .min(8, "login.errors.password_min"), // min length
 });
 
 export async function getMe(): Promise<User | null> {
-  const token = useTokenStore.getState().access_token;
+  // const token = useTokenStore.getState().access_token;
 
-  if (!token) return null;
+  // if (!token) return null;
 
   try {
     const { data } = await api$.get<ApiResponse<User>>("/me");
@@ -63,6 +65,7 @@ const authConfig = {
 
     useTokenStore.getState().setAccessToken(access_token);
     const user = await getMe();
+    Logger.info(user);
 
     return user;
   },
@@ -85,7 +88,7 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   console.log("user auth ", user.data);
 
   if (!user.data) {
-    return <Navigate to={paths.login.route(location.pathname)} replace />;
+    return <Redirect to={buildAuthLoginRedirect(location.pathname)} />;
   }
 
   return children;

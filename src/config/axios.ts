@@ -10,10 +10,10 @@ function authRequestInterceptor(config: InternalAxiosRequestConfig) {
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
-    config.headers.Accept = "application/json";
+    config.withCredentials = true;
   }
 
-  config.withCredentials = true;
+
   return config;
 }
 const API_URL = import.meta.env.VITE_API_URL;

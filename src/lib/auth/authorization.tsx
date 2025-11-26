@@ -1,48 +1,41 @@
 import * as React from "react";
 
-import { User } from "@/types/api";
-
 import { useUser } from "./authentication";
 
-export enum ROLES {
-  ADMIN = "ADMIN",
+export enum Roles {
+  SUPER_ADMIN = "super_admin",
   USER = "USER",
 }
 
-type RoleTypes = keyof typeof ROLES;
 
-export const POLICIES = {
-  "comment:delete": (user: User) => {
-    if (user.role === "ADMIN") {
-      return true;
-    }
+// export const POLICIES = {
+//   "comment:delete": (user: User) => {
+//     if (user.role === "ADMIN") {
+//       return true;
+//     }
 
-    // if (user.role === 'USER' && comment.author?.id === user.id) {
-    //   return true;
-    // }
+//     // if (user.role === 'USER' && comment.author?.id === user.id) {
+//     //   return true;
+//     // }
 
-    return false;
-  },
-};
+//     return false;
+//   },
+// };
 
 export const useAuthorization = () => {
   let user = useUser();
-
-  user.data = {
-    id: "1",
-    email: "abdo@test.com",
-    role: "ADMIN" as ROLES,
-    username: "senane",
-  };
-
+  
+  
   if (!user.data) {
     throw Error("User does not exist!");
   }
 
   const checkAccess = React.useCallback(
-    ({ allowedRoles }: { allowedRoles: RoleTypes[] }) => {
+    ({ allowedRoles }: { allowedRoles: Roles[] }) => {
       if (allowedRoles && allowedRoles.length > 0 && user.data) {
-        return allowedRoles?.includes(user.data.role);
+        return user.data.roles.some((role) =>
+          allowedRoles.includes(role)
+        );
       }
 
       return true;
@@ -50,7 +43,7 @@ export const useAuthorization = () => {
     [user.data]
   );
 
-  return { checkAccess, role: user.data.role };
+  return { checkAccess, roles: user.data.roles };
 };
 
 type AuthorizationProps = {
@@ -58,7 +51,7 @@ type AuthorizationProps = {
   children: React.ReactNode;
 } & (
   | {
-      allowedRoles: RoleTypes[];
+      allowedRoles: Roles[];
       policyCheck?: never;
     }
   | {

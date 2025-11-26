@@ -104,7 +104,7 @@
 .dark {
   --background: #141414;
   --foreground: #c8c8db;
-  --card: #1A1A1A;
+  --card: #1a1a1a;
   --card-foreground: oklch(0.984 0.003 247.858);
   --popover: oklch(0.208 0.042 265.755);
   --popover-foreground: oklch(0.984 0.003 247.858);
@@ -151,4 +151,8 @@
   body {
     @apply bg-background text-foreground font-display;
   }
+}
+
+.sidebar-indicator {
+  inset-inline-start: -16px;
 }

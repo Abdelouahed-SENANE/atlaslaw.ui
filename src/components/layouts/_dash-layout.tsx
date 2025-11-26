@@ -1,7 +1,7 @@
 import { paths } from "@/config/paths";
-import { ROLES, useAuthorization } from "@/lib/auth/authorization";
+import { Roles, useAuthorization } from "@/lib/auth/authorization";
 import { cn } from "@/lib/utils";
-import { Layout } from "lucide-react";
+import { Building, Layout, Users2 } from "lucide-react";
 import React, { Fragment } from "react";
 import { Sidebar, useSidebar } from "../ui/sidebar";
 import { Topbar } from "../ui/topbar/topbar";
@@ -9,17 +9,36 @@ import { Topbar } from "../ui/topbar/topbar";
 export const DashLayout = ({ children }: { children: React.ReactNode }) => {
   const { checkAccess } = useAuthorization();
   const { isCollapsed } = useSidebar();
+
   const items = [
-    ...(checkAccess({ allowedRoles: [ROLES.ADMIN] })
+    ...(checkAccess({ allowedRoles: [Roles.SUPER_ADMIN] })
       ? [
           {
             label: "Dashboard",
-            url: paths.admin.dashboard.route() + "/*",
+            url: paths.admin.dashboard.route(),
             icon: <Layout className="size-4" />,
+          },
+          {
+            label: "Tenants",
+            url: paths.admin.tenants.root,
+            icon: <Building className="size-4" />,
+            sublinks: [
+              { title: "List Tenants", to: paths.admin.tenants.list.route() },
+              { title: "New Tenant", to: paths.admin.tenants.new.route() },
+            ],
+          },
+          {
+            label: "Users",
+            url: paths.admin.users.root,
+            icon: <Users2 className="size-4" />,
+            sublinks: [
+              { title: "List Users", to: paths.admin.users.list.route() },
+              { title: "New User", to: paths.admin.users.new.route() },
+            ],
           },
         ]
       : []),
-    ...(checkAccess({ allowedRoles: [ROLES.USER] }) ? [] : []),
+    ...(checkAccess({ allowedRoles: [Roles.USER] }) ? [] : []),
   ];
 
   return (
@@ -29,16 +48,14 @@ export const DashLayout = ({ children }: { children: React.ReactNode }) => {
           className={cn(
             "transition-[transform,width] duration-300 ease-in-out",
             isCollapsed
-              ? "w-[var(--sidebar-collapsed-width)]"
-              : "w-[var(--sidebar-width)]"
+              ? "w-(--sidebar-collapsed-width)"
+              : "w-(--sidebar-width)"
           )}
         >
           <Sidebar.Brand
-            lightLogo={<img src="/assets/logo-light.png" alt="Light Logo" />}
-            darkLogo={<img src="/assets/logo-dark.png" alt="Dark Logo" />}
-            smallLogo={
-              <img src="/assets/logo-sm.png" alt="Small Logo" className="h-6" />
-            }
+            pathLight={"/assets/logo-light.png"}
+            pathDark={"/assets/logo-dark.png"}
+            pathSmall={"/assets/logo-sm.png"}
           />
           <Sidebar.Body>
             <Sidebar.Menu className="mb-4">
@@ -51,6 +68,7 @@ export const DashLayout = ({ children }: { children: React.ReactNode }) => {
                     title={item.label}
                     to={item.url}
                     icon={item.icon}
+                    items={item.sublinks}
                   />
                 ))}
               </Sidebar.Item>
@@ -62,7 +80,7 @@ export const DashLayout = ({ children }: { children: React.ReactNode }) => {
 
           <div
             className={cn(
-              "ml-auto transition-[width] h-[calc(100%-var(--topbar-height))] duration-300 flex flex-col  w-full mt-[var(--topbar-height)] px-2",
+              "ms-auto transition-[width] h-[calc(100%-var(--topbar-height))] duration-300 flex flex-col w-full mt-(--topbar-height) px-2",
               isCollapsed
                 ? "w-[calc(100%-var(--sidebar-collapsed))]"
                 : "w-[calc(100%-var(--sidebar-expended))]"

@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/card";
 import { SwitchLanguage } from "@/components/ui/language/switch-language";
 import { toast } from "@/components/ui/toast/use-toast";
-import { paths } from "@/config/paths";
 import { LoginForm } from "@/features/auth/components/login-form";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useSearchParams } from "react-router";
@@ -41,14 +40,12 @@ const LoginPage = () => {
               });
             }}
             onSuccess={() => {
-              navigate(redirectTo ? redirectTo : paths.home.route(), {
-                replace: true,
-              });
               toast({
                 title: t("login.success"),
                 description: t("login.authenticated"),
                 type: "success",
               });
+              navigate(redirectTo ? redirectTo : "/");
             }}
           />
         </CardContent>

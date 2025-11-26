@@ -15,7 +15,7 @@ export const Topbar = ({ className }: TopbarProps) => {
   return (
     <div
       className={cn(
-        "h-[var(--topbar-height)] z-10 border-b bg-background px-2 ml-auto fixed inset-0 transition-[width] duration-300",
+        "h-(--topbar-height) z-10 border-b bg-background px-2 ms-auto fixed inset-0 transition-[width] duration-300",
         isCollapsed
           ? "w-[calc(100%-var(--sidebar-collapsed))]"
           : "w-[calc(100%-var(--sidebar-expended))]",

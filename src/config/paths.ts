@@ -1,4 +1,3 @@
-
 export const paths = {
   home: {
     root: "/",
@@ -18,12 +17,36 @@ export const paths = {
     route: (redirectTo: string | null | undefined) =>
       `/register${redirectTo ? `?redirectTo=${encodeURIComponent(redirectTo)}` : ""}`,
   },
-  admin : {
+  admin: {
     root: "/admin",
     route: () => "/admin",
-    dashboard : {
-      root: "/admin/dashboard",
-      route: () => "/admin/dashboard",
-    }
-  }
+    dashboard: {
+      root: "dashboard",
+      route: () => "dashboard",
+    },
+    tenants: {
+      root: "tenants",
+      route: () => "/admin/tenants",
+      list: {
+        root: "",
+        route: () => "/admin/tenants",
+      },
+      new: {
+        root: "new",
+        route: () => "/admin/tenants/new",
+      },
+    },
+    users: {
+      root: "users",
+      route: () => "/admin/users",
+      list: {
+        root: "",
+        route: () => "/admin/users",
+      },
+      new: {
+        root: "new",
+        route: () => "/admin/users/new",
+      },
+    },
+  },
 };

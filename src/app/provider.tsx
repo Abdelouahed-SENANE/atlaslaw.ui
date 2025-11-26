@@ -1,19 +1,18 @@
 import { ThemeProvider } from "@/components/ui/theme/provider";
+import { Toaster } from "@/components/ui/toast/toaster";
+import { env } from "@/config/env";
 import { queryConfig } from "@/config/react-query";
+import { AuthLoader } from "@/lib/auth";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import React from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { env } from "@/config/env";
-import { Toaster } from "@/components/ui/toast/toaster";
-import { AuthLoader } from "@/lib/auth";
 
 interface ProviderProps {
   children: React.ReactNode;
 }
 
 export const Provider = ({ children }: ProviderProps) => {
-
   const [queryClient] = React.useState(
     () => new QueryClient({ defaultOptions: queryConfig })
   );

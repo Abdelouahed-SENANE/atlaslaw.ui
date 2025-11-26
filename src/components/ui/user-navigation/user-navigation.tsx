@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import { paths } from "@/config/paths";
 import { useLogout } from "@/lib/auth";
 import { cn } from "@/lib/utils";
-import { useTokenStore } from "@/store/token-store.ts";
 import { Lock, Power, Settings, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "../avatar/avatar.tsx";
@@ -25,7 +24,6 @@ export const UserNavgation = () => {
   const navigate = useNavigate();
   const logout = useLogout({
     onSuccess: () => {
-      useTokenStore.getState().clearAccessToken();
       navigate(paths.login.root, { replace: true });
     },
   });
@@ -67,7 +65,7 @@ export const UserNavgation = () => {
         >
           <span className="sr-only">Open user menu</span>
           <Avatar className="size-9">
-            <AvatarImage src="https://github.com/shadcnx.png" />
+            <AvatarImage src="/assets/avatar-fallback.png" />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
         </Button>
@@ -75,11 +73,11 @@ export const UserNavgation = () => {
       <DropdownMenuContent
         sideOffset={6}
         align="end"
-        className="min-w-[10rem] bg-card rounded-none border p-0"
+        className="min-w-40 bg-card rounded-none border p-0"
       >
         <DropdownMenuItem className="flex items-center bg-primary/5 px-6 py-3 focus:bg-transparent">
           <Avatar className="size-9">
-            <AvatarImage src="https://github.com/shadcnx.png" />
+            <AvatarImage src="/assets/avatar-fallback.png" />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
           <div className="">
@@ -97,8 +95,9 @@ export const UserNavgation = () => {
               {nav.title}
             </small>
             {nav.items &&
-              nav.items.map((item) => (
+              nav.items.map((item , index) => (
                 <Link
+                  key={index}
                   to={item.to}
                   className="flex w-full text-card-foreground  px-6 py-2 hover:bg-border/50   hover:text-card-foreground/95 text-xs font-medium gap-2 cursor-pointer duration-300 ease-in-out items-center"
                 >

@@ -1,4 +1,4 @@
-import { ROLES } from "@/lib/auth/authorization";
+import { Roles } from "@/lib/auth/authorization";
 
 export type BaseEntity = {
   id: string;
@@ -13,7 +13,7 @@ export type Entity<T> = {
 export type User = Entity<{
   email: string;
   username: string;
-  role: ROLES
+  roles: Roles[];
 }>;
 
 export type Jwt = {
@@ -27,17 +27,16 @@ export type ApiResponse<T = void> = {
   status: number;
   message: string;
   data?: T | null;
-  errors? : Record<string, string>;
-  meta?: Metadata
+  errors?: Record<string, string>;
+  meta?: Metadata;
 };
 
-
 export type Metadata = {
-  path? : string;
-  method? : string;
-  timestamp? : string;
-  request_id? : string;
-  pagination? : Pagination
+  path?: string;
+  method?: string;
+  timestamp?: string;
+  request_id?: string;
+  pagination?: Pagination;
   sorting?: Sorting;
 };
 
@@ -46,11 +45,11 @@ type Pagination = {
   per_page: number;
   total: number;
   last_page: number;
-  from : number
-  to : number
+  from: number;
+  to: number;
 };
 
 type Sorting = {
-  sort_by : string;
-  sort_order : 'asc' | 'desc';
-}
+  sort_by: string;
+  sort_order: "asc" | "desc";
+};

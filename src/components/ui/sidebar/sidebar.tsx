@@ -1,18 +1,23 @@
 import { cn } from "@/lib/utils";
 import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 import React, { forwardRef, HTMLAttributes } from "react";
+import {
+  matchPath,
+  Link as RouterLink,
+  useLocation,
+  useResolvedPath,
+} from "react-router-dom";
 import { Button } from "../button";
-import { Link as RouterLink, useLocation, matchPath, useResolvedPath } from "react-router-dom";
 
 import { create } from "zustand";
 import { useTheme } from "../theme";
 
 type SidebarStore = {
   isCollapsed: boolean;
-  openKey: string | null; // 👈 track which dropdown is open
+  openKey: string | null;
   toggle: () => void;
   setCollapsed: (isCollapsed: boolean) => void;
-  setOpenKey: (key: string | null) => void; // 👈 open/close specific dropdown
+  setOpenKey: (key: string | null) => void;
 };
 
 export const useSidebar = create<SidebarStore>((set, get) => ({
@@ -20,10 +25,7 @@ export const useSidebar = create<SidebarStore>((set, get) => ({
   openKey: null,
   toggle: () => set({ isCollapsed: !get().isCollapsed }),
   setCollapsed: (isCollapsed: boolean) => set({ isCollapsed }),
-  setOpenKey: (key) =>
-    set((state) => ({
-      openKey: state.openKey === key ? null : key,
-    })),
+  setOpenKey: (key) => set({ openKey: key }),
 }));
 
 const Root = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
@@ -34,9 +36,11 @@ const Root = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
         ref={ref}
         data-collapsed={isCollapsed}
         className={cn(
-          "fixed h-screen flex flex-col z-10 group top-0 left-0 bg-card ease-in-out transition-[width] duration-300",
+          "fixed h-screen flex flex-col z-20 group/sidebar top-0  bg-card ease-in-out transition-[width] duration-300 inset-inline-start-0",
           className,
-          isCollapsed ? "w-[var(--sidebar-collapsed)]" : "w-[var(--sidebar-expended)]"
+          isCollapsed
+            ? "w-(--sidebar-collapsed) hover:w-(--sidebar-expended)"
+            : "w-(--sidebar-expended)"
         )}
         {...props}
       >
@@ -60,16 +64,22 @@ const Separator = React.forwardRef<
 });
 
 Separator.displayName = "SidebarSeparator";
-
 export const Label = React.forwardRef<
   HTMLSpanElement,
   React.HTMLAttributes<HTMLSpanElement>
 >(({ className, title, ...props }, ref) => {
+  const { isCollapsed } = useSidebar();
   return (
     <span
       ref={ref}
       className={cn(
-        "text-xs text-sidebar-foreground/60 uppercase  block mb-4 mt-3 tracking-wider w-full group-data-[collapsed=false]:block group-data-[collapsed=true]:hidden",
+        "text-xs text-sidebar-foreground/60 uppercase mb-4 mt-3 tracking-wider w-full transition-all duration-200",
+
+        // collapsed → hide, but recover on hover
+        isCollapsed
+          ? "opacity-0 -translate-x-1 pointer-events-none group-hover/sidebar:opacity-100 group-hover/sidebar:translate-x-0"
+          : "opacity-100 translate-x-0",
+
         className
       )}
       {...props}
@@ -81,15 +91,14 @@ export const Label = React.forwardRef<
 
 Label.displayName = "SidebarLabel";
 
-
 const Brand = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & {
-    lightLogo?: React.ReactNode;
-    darkLogo?: React.ReactNode;
-    smallLogo?: React.ReactNode;
+    pathLight?: string;
+    pathDark?: string;
+    pathSmall?: string;
   }
->(({ className, darkLogo, lightLogo, smallLogo, ...props }, ref) => {
+>(({ className, pathDark, pathLight, pathSmall, ...props }, ref) => {
   const { isCollapsed } = useSidebar();
   const { theme } = useTheme();
 
@@ -103,39 +112,27 @@ const Brand = React.forwardRef<
         isCollapsed ? "justify-center" : "justify-start"
       )}
     >
-      <div
-        className={cn(
-          "transition-all duration-200",
-          isCollapsed ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2",
-          "absolute"
-        )}
-      >
-        {smallLogo}
+      <div className={cn(isCollapsed ? "block" : "hidden")}>
+        <img
+          className="px-2 py-2 h-10 group-hover/sidebar:hidden"
+          src={pathSmall}
+          alt="small-logo"
+        />
       </div>
 
+      {/* Full logo */}
       <div
         className={cn(
-          "flex items-center transition-all duration-200",
-          isCollapsed ? "opacity-0 scale-95" : "opacity-100 scale-100"
+          "items-center w-full flex",
+          isCollapsed && "hidden group-hover/sidebar:block"
         )}
       >
-        <div
-          className={cn(
-            "transition-opacity duration-200",
-            theme === "dark" ? "opacity-0" : "opacity-100"
-          )}
-        >
-          {darkLogo}
+        <div className={theme === "dark" ? "hidden" : "block"}>
+          <img className="px-2" src={pathDark} alt="dark-logo" />
         </div>
 
-        <div
-          className={cn(
-            "transition-opacity duration-200",
-            theme === "dark" ? "opacity-100" : "opacity-0",
-            "absolute"
-          )}
-        >
-          {lightLogo}
+        <div className={cn(theme === "dark" ? "block" : "hidden")}>
+          <img className="px-2" src={pathLight} alt="light-logo" />
         </div>
       </div>
     </div>
@@ -175,7 +172,7 @@ const Trigger = React.forwardRef<
         "absolute top-4 z-50 px-0.5 text-card-foreground  bg-card border-card  hover:text-white rounded-none   py-1.5 cursor-pointer ",
         className,
         isCollapsed
-          ? "left-[100%] rounded-br-sm rounded-tr-sm  border-border border border-l-0"
+          ? "left-full rounded-br-sm rounded-tr-sm  border-border border border-l-0"
           : "right-0 rounded-bl-sm rounded-tl-sm border-border border border-r-0"
       )}
       {...props}
@@ -226,7 +223,6 @@ interface LinkProps extends React.ComponentPropsWithoutRef<"a"> {
 }
 
 // ...
-
 export const Link = React.forwardRef<HTMLDivElement, LinkProps>(
   ({ title, icon, to, items = [], className, ...props }, ref) => {
     const { isCollapsed, setOpenKey, openKey } = useSidebar();
@@ -235,53 +231,96 @@ export const Link = React.forwardRef<HTMLDivElement, LinkProps>(
     const resolved = useResolvedPath(to);
     const { pathname } = useLocation();
 
-    const activeSelf    = !!matchPath({ path: resolved.pathname, end: true }, pathname);
-    const activeNested  = !!matchPath({ path: resolved.pathname + "/*", end: false }, pathname);
-    const isActive      = activeSelf || activeNested;
+    const activeSelf = !!matchPath(
+      { path: resolved.pathname, end: true },
+      pathname
+    );
+    const activeNested = !!matchPath(
+      { path: resolved.pathname + "/*", end: false },
+      pathname
+    );
+    const isActive = activeSelf || activeNested;
 
-    const isOpen = openKey === to  || isActive;
-
+    const isOpen = openKey === to;
     const toggle = (e: React.MouseEvent) => {
-      if (hasChildren) {
-        e.preventDefault();
-        setOpenKey(to);
+      if (!hasChildren) return;
+      e.preventDefault();
+
+      if (openKey === to) {
+        setOpenKey(null);
+        return;
       }
+
+      // open the clicked one AND close all others
+      setOpenKey(to);
     };
 
     return (
       <div ref={ref} className="w-full">
         <RouterLink
           to={to}
-          onClick={toggle}
+          onClick={(e) => {
+            if (!hasChildren) {
+              if (isActive) {
+                e.preventDefault();
+                e.stopPropagation();
+              }
+
+              setOpenKey(null);
+              return;
+            }
+
+            if (hasChildren) {
+              toggle(e);
+              e.preventDefault();
+              return;
+            }
+
+            toggle(e);
+          }}
           className={cn(
-            "flex items-center mb-1 relative py-1.5 px-2 w-full gap-2 leading-[20px] text-[13px] border border-transparent rounded-xs cursor-pointer duration-200 text-sidebar-foreground/70 hover:text-sidebar-foreground",
-            isCollapsed ? "justify-center" : "justify-start",
-            "before:content-[''] before:absolute before:left-[-16px] before:top-0 before:bottom-0 before:w-[4px] before:rounded-[5px] before:border-[2px] before:border-transparent before:bg-transparent",
+            "group/item flex items-center mb-1 relative py-1.5 px-2 w-full leading-5 text-[13px] border border-transparent rounded-xs cursor-pointer duration-200 text-sidebar-foreground/70 hover:text-sidebar-foreground",
+            isCollapsed
+              ? "justify-center gap-0 group-hover/sidebar:gap-2"
+              : "justify-start gap-2",
+            "before:content-[''] rtl:before:-right-4 ltr:before:-left-4 before:absolute before:top-0 before:bottom-0 before:w-1 before:rounded-[5px] before:border-2 before:border-transparent before:bg-transparent",
             className,
-            (isActive || isOpen) &&
+            isActive &&
+              "before:border-primary before:bg-primary hover:text-primar text-primary",
+            isOpen &&
               "bg-primary/5 text-primary before:border-primary before:bg-primary hover:text-primary"
           )}
           {...props}
         >
-          {icon && <span className="size-4">{icon}</span>}
-          {!isCollapsed && (
-            <>
-              <span className="font-semibold flex-1">{title}</span>
-              {hasChildren && (
-                <span
-                  className={cn(
-                    "transition-transform duration-300",
-                    isOpen && "rotate-180"
-                  )}
-                >
-                  {isOpen ? (
-                    <ChevronDown size={14} className="opacity-70" />
-                  ) : (
-                    <ChevronRight size={14} className="opacity-70" />
-                  )}
-                </span>
+          {icon && <span className="size-4 shrink-0">{icon}</span>}
+          <span
+            className={cn(
+              "font-semibold flex-1 whitespace-nowrap transition-all duration-200",
+              isCollapsed
+                ? "hidden group-hover/sidebar:inline-block"
+                : "inline-block"
+            )}
+          >
+            {title}
+          </span>
+
+          {/* chevron: same idea */}
+          {hasChildren && (
+            <span
+              className={cn(
+                "transition-transform duration-300",
+                isOpen && "rotate-180",
+                isCollapsed
+                  ? "hidden group-hover/sidebar:inline-flex"
+                  : "inline-flex"
               )}
-            </>
+            >
+              {isOpen ? (
+                <ChevronDown size={14} className="opacity-70" />
+              ) : (
+                <ChevronRight size={14} className="opacity-70" />
+              )}
+            </span>
           )}
         </RouterLink>
 
@@ -289,24 +328,42 @@ export const Link = React.forwardRef<HTMLDivElement, LinkProps>(
           <div
             className={cn(
               "grid transition-all duration-300 ease-in-out",
-              isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+              !isCollapsed && isOpen && "grid-rows-[1fr] opacity-100",
+              isCollapsed &&
+                isOpen &&
+                "group-hover/sidebar:grid-rows-[1fr]  group-hover/sidebar:opacity-100",
+              (!isOpen || isCollapsed) && "grid-rows-[0fr] opacity-0 "
             )}
           >
             <ul
               className="mt-1 overflow-hidden transition-all duration-300 transform"
-              style={{ transform: isOpen ? "translateY(0)" : "translateY(-4px)" }}
+              style={{
+                transform: isOpen ? "translateY(0)" : "translateY(-4px)",
+              }}
             >
               {items.map((item) => {
-                // ❌ don't call hooks in a loop — use matchPath with pathname
-                const subActive = !!matchPath({ path: item.to, end: true }, pathname);
+                const subActive = !!matchPath(
+                  { path: item.to, end: true },
+                  pathname
+                );
+
                 return (
                   <li key={item.to} className="mb-0.5">
                     <RouterLink
                       to={item.to}
+                      onClick={(e) => {
+                          if (subActive) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                          }
+                      }}
                       className={cn(
-                        "flex items-center text-[13px] font-semibold gap-2 py-1.5 pr-2 pl-8 text-sidebar-foreground/70 hover:text-sidebar-foreground rounded-sm transition-colors",
-                        "relative before:content-[''] before:absolute before:w-[4px] before:h-[4px] before:border before:border-[var(--bs-nav-link-disc-color)] before:rounded-full before:bg-[rgba(137,151,189,0.2)] before:left-[16px]",
-                        subActive && "text-primary"
+                        "flex items-center text-[13px] font-semibold gap-2 py-1.5 rtl:pl-2 rtl:pr-8 ltr:pl-8 ltr:pr-2 text-sidebar-foreground/70 hover:text-sidebar-foreground rounded-sm transition-colors",
+                        "relative before:content-[''] before:absolute before:w-1.5 before:h-1.5 before:rounded-full",
+                        "before:border-2 before:border-primary/40 ",
+                        "ltr:before:left-4 rtl:before:right-4",
+                        subActive &&
+                          "text-primary before:bg-primary before:border-primary"
                       )}
                     >
                       <span>{item.title}</span>
@@ -321,7 +378,6 @@ export const Link = React.forwardRef<HTMLDivElement, LinkProps>(
     );
   }
 );
-
 
 Link.displayName = "SidebarLink";
 

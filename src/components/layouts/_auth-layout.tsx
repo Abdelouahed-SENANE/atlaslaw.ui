@@ -9,7 +9,6 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   const redirectTo = searchParams.get("redirectTo");
   const hasToken = useTokenStore((s) => !!s.access_token) as boolean;
   const user = useUser({ enabled: hasToken });
-
   if (user.data) {
     return <Navigate to={redirectTo ? redirectTo : paths.home.root} replace />;
   }
