@@ -6,6 +6,8 @@ import { ProtectedRoute } from "@/lib/auth";
 import { Authorization, Roles } from "@/lib/auth/authorization";
 import { QueryClient, useQueryClient } from "@tanstack/react-query";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import RouteError from "./routes/errors/route-err";
+import {GlobalError} from "./routes/errors/global-err";
 
 const convert = (queryClient: QueryClient) => (m: any) => {
   const { clientLoader, clientAction, default: Component, ...rest } = m;
@@ -26,57 +28,65 @@ export const LoadingScreen = (
 export const createAppRouter = (queryClient: QueryClient) => {
   return createBrowserRouter([
     {
-      path: paths.home.root,
-      lazy: () => import("./routes/public/home").then(convert(queryClient)),
-      HydrateFallback: () => LoadingScreen,
-    },
-    {
-      path: paths.login.root,
-      lazy: () => import("./routes/auth/login").then(convert(queryClient)),
-      HydrateFallback: () => LoadingScreen,
-    },
-    {
-      path: paths.admin.root,
-      HydrateFallback: () => LoadingScreen,
-      lazy: async () => {
-        const [{ default: AdminRoot }] = await Promise.all([
-          import("./routes/admin/_root"),
-        ]);
-        return {
-          element: (
-            <ProtectedRoute>
-              <Authorization allowedRoles={[Roles.SUPER_ADMIN]}>
-                <AdminRoot />
-              </Authorization>
-            </ProtectedRoute>
-          ),
-        };
-      },
+      id: "root",
+      path: "/",
+      ErrorBoundary: GlobalError,
       children: [
         {
-          path: paths.admin.dashboard.root, // relative path
-          lazy: () =>
-            import("./routes/admin/dashboard").then(convert(queryClient)),
+          path: paths.home.root,
+          lazy: () => import("./routes/public/home").then(convert(queryClient)),
           HydrateFallback: () => LoadingScreen,
         },
         {
-          path: paths.admin.tenants.root, // "tenants"
+          path: paths.login.root,
+          lazy: () => import("./routes/auth/login").then(convert(queryClient)),
+        },
+        {
+          path: paths.admin.root,
+          HydrateFallback: () => LoadingScreen,
+          ErrorBoundary: RouteError,
+          lazy: async () => {
+            const [{ default: AdminRoot }] = await Promise.all([
+              import("./routes/admin/_root"),
+            ]);
+            return {
+              element: (
+                <ProtectedRoute>
+                  <Authorization allowedRoles={[Roles.SUPER_ADMIN]}>
+                    <AdminRoot />
+                  </Authorization>
+                </ProtectedRoute>
+              ),
+            };
+          },
           children: [
             {
-              index: true, // instead of path: ""
+              path: paths.admin.dashboard.root, // relative path
               lazy: () =>
-                import("./routes/admin/tenants").then(convert(queryClient)),
-              HydrateFallback: () => LoadingScreen,
+                import("./routes/admin/dashboard").then(convert(queryClient)),
             },
             {
-              path: paths.admin.tenants.new.root, // "create"
-              lazy: () =>
-                import("./routes/admin/tenants/new-tenant").then(
-                  convert(queryClient)
-                ),
-              HydrateFallback: () => LoadingScreen,
+              path: paths.admin.tenants.root, // "tenants"
+              children: [
+                {
+                  index: true, // instead of path: ""
+                  lazy: () =>
+                    import("./routes/admin/tenants").then(convert(queryClient)),
+                },
+                {
+                  path: paths.admin.tenants.new.root, // "create"
+                  lazy: () =>
+                    import("./routes/admin/tenants/new-tenant").then(
+                      convert(queryClient)
+                    ),
+                },
+              ],
             },
           ],
+        },
+        {
+          path: "*",
+          lazy: () => import("./routes/errors/404").then(convert(queryClient)),
         },
       ],
     },

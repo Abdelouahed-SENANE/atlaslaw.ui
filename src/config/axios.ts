@@ -1,6 +1,7 @@
+import { toast } from "@/components/ui/toast/use-toast";
 import Axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
-import { paths } from "./paths";
 import { useTokenStore } from "../store/token-store";
+import { paths } from "./paths";
 
 function authRequestInterceptor(config: InternalAxiosRequestConfig) {
   const accessToken = useTokenStore.getState().access_token;
@@ -12,7 +13,6 @@ function authRequestInterceptor(config: InternalAxiosRequestConfig) {
     }
     config.withCredentials = true;
   }
-
 
   return config;
 }
@@ -37,9 +37,54 @@ function redirectToLoginPreservingPath() {
   window.location.replace(paths.login.route(from));
 }
 
+export function apiErrorHandler(error: any) {
+  // Axios network errors
+  if (error.code === "ERR_NETWORK") {
+    toast({
+      title: "Network Error",
+      description: "Unable to connect to the server. Please try again.",
+      type: "error",
+    });
+    return;
+  }
+
+  // Timeout
+  if (error.code === "ECONNABORTED") {
+    toast({
+      title: "Request Timeout",
+      description: "The server took too long to respond.",
+      type: "error",
+    });
+    return;
+  }
+
+  // API returned JSON error
+  const message =
+    error.response?.data?.message ||
+    error.message ||
+    "An unexpected error occurred.";
+
+  toast({
+    title: `Error ${error.response?.status || ""}`,
+    description: message,
+    type: "error",
+  });
+}
+
 api$.interceptors.response.use(
   (res) => res,
   (err) => {
+    // apiErrorHandler(err);
+    if (err.code === "ERR_NETWORK") {
+      toast({
+        title: "Server Offline",
+        description: "Cannot reach API server.",
+        type: "error",
+      });
+
+      return Promise.reject({ ...err, handled: true });
+    }
+
     if (!is401(err)) return Promise.reject(err);
     // if ((err.config?.url || "").toString().includes("/refresh")) {
     //   // treat as unauthenticated below

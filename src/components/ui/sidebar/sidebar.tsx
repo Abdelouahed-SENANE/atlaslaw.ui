@@ -250,8 +250,6 @@ export const Link = React.forwardRef<HTMLDivElement, LinkProps>(
         setOpenKey(null);
         return;
       }
-
-      // open the clicked one AND close all others
       setOpenKey(to);
     };
 

@@ -85,7 +85,6 @@ type ProtectedRouteProps = {
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const user = useUser();
   const location = useLocation();
-  console.log("user auth ", user.data);
 
   if (!user.data) {
     return <Redirect to={buildAuthLoginRedirect(location.pathname)} />;

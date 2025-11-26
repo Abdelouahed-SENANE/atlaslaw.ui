@@ -6,12 +6,14 @@ import { SwitchLanguage } from "../language/switch-language";
 import { useSidebar } from "../sidebar";
 import { ThemeToggle } from "../theme";
 import { UserNavgation } from "../user-navigation";
+import { useTranslation } from "react-i18next";
 
 type TopbarProps = {
   className?: string;
 };
 export const Topbar = ({ className }: TopbarProps) => {
   const { setCollapsed, isCollapsed } = useSidebar();
+  const {t} = useTranslation();
   return (
     <div
       className={cn(
@@ -39,7 +41,7 @@ export const Topbar = ({ className }: TopbarProps) => {
               className="bg-primary/10 text-primary hover:bg-none"
             >
               <Plus />
-              <span>Create Blog</span>
+              <span>{t("sidebar.create_tenant")}</span>
             </Button>
           </li>
         </ul>

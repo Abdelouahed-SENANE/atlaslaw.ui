@@ -5,35 +5,37 @@ import { Building, Layout, Users2 } from "lucide-react";
 import React, { Fragment } from "react";
 import { Sidebar, useSidebar } from "../ui/sidebar";
 import { Topbar } from "../ui/topbar/topbar";
+import { useTranslation } from "react-i18next";
 
 export const DashLayout = ({ children }: { children: React.ReactNode }) => {
   const { checkAccess } = useAuthorization();
+  const { t } = useTranslation();
   const { isCollapsed } = useSidebar();
 
   const items = [
     ...(checkAccess({ allowedRoles: [Roles.SUPER_ADMIN] })
       ? [
           {
-            label: "Dashboard",
+            label: t("sidebar.dashboard"),
             url: paths.admin.dashboard.route(),
             icon: <Layout className="size-4" />,
           },
           {
-            label: "Tenants",
+            label: t("sidebar.tenants"),
             url: paths.admin.tenants.root,
             icon: <Building className="size-4" />,
             sublinks: [
-              { title: "List Tenants", to: paths.admin.tenants.list.route() },
-              { title: "New Tenant", to: paths.admin.tenants.new.route() },
+              { title: t("sidebar.list_tenants"), to: paths.admin.tenants.list.route() },
+              { title: t("sidebar.create_tenant"), to: paths.admin.tenants.new.route() },
             ],
           },
           {
-            label: "Users",
+            label: t("sidebar.users"),
             url: paths.admin.users.root,
             icon: <Users2 className="size-4" />,
             sublinks: [
-              { title: "List Users", to: paths.admin.users.list.route() },
-              { title: "New User", to: paths.admin.users.new.route() },
+              { title: t("sidebar.list_users"), to: paths.admin.users.list.route() },
+              { title: t("sidebar.create_user"), to: paths.admin.users.new.route() },
             ],
           },
         ]
@@ -59,7 +61,7 @@ export const DashLayout = ({ children }: { children: React.ReactNode }) => {
           />
           <Sidebar.Body>
             <Sidebar.Menu className="mb-4">
-              <Sidebar.Label title="Navigation" />
+              <Sidebar.Label title={t("sidebar.navigation")} />
               <Sidebar.Item>
                 {items.map((item, index) => (
                   <Sidebar.Link

@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { paths } from "@/config/paths";
-import { useLogout } from "@/lib/auth";
+import { useLogout, useUser } from "@/lib/auth";
 import { cn } from "@/lib/utils";
-import { Lock, Power, Settings, User } from "lucide-react";
+import {  Power, Settings, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "../avatar/avatar.tsx";
 import {
@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "../dropdown/index.ts";
 import { Link } from "../link/index.ts";
+import { useTranslation } from "react-i18next";
 
 type UserNavItem = {
   title: string;
@@ -20,37 +21,35 @@ type UserNavItem = {
 };
 
 export const UserNavgation = () => {
-  // const user  = useUser();
+  const user  = useUser();
   const navigate = useNavigate();
+  const {t} = useTranslation();
   const logout = useLogout({
     onSuccess: () => {
       navigate(paths.login.root, { replace: true });
     },
   });
 
+  const isRTL = document.documentElement.dir === "rtl";
+
   const navigation = [
     {
-      title: "My Account",
+      title: t("user_navigation.label_account"),
       items: [
         {
-          name: "Profile",
+          name:  t("user_navigation.profile"),
           to: paths.profile.route(),
           icon: User,
         },
       ],
     },
     {
-      title: "Settings",
+      title: t("user_navigation.label_settings"),
       items: [
         {
-          name: "Account Settings",
-          to: paths.profile.route(),
+          name: t("user_navigation.settings"),
+          to: paths.settings.route(),
           icon: Settings,
-        },
-        {
-          name: "Security",
-          to: paths.profile.route(),
-          icon: Lock,
         },
       ],
     },
@@ -81,8 +80,8 @@ export const UserNavgation = () => {
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
           <div className="">
-            <h6 className="font-medium text-sm">Abdelouahed SENANE</h6>
-            <small className="text- mb-0 text-xs">Fullstack-Developper</small>
+            <h6 className="font-medium text-sm">{isRTL ? user?.data?.name.ar : user?.data?.name.fr}</h6>
+            <small className="text- mb-0 text-xs">{user?.data?.email}</small>
           </div>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
@@ -120,7 +119,7 @@ export const UserNavgation = () => {
             className="p-0 rounded-none px-6 py-2  h-full cursor-pointer text-destructive space-x-2  w-full text-left  items-start  transition-colors"
           >
             <Power className="text-destructive" />
-            <span>Logout</span>
+            <span>{t("user_navigation.logout")}</span>
           </Button>
         </DropdownMenuItem>
       </DropdownMenuContent>

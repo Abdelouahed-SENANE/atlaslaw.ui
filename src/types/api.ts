@@ -12,9 +12,14 @@ export type Entity<T> = {
 
 export type User = Entity<{
   email: string;
-  username: string;
+  name: Translation;
   roles: Roles[];
 }>;
+
+export type Translation = {
+  ar ?: string;
+  fr ?: string;
+}
 
 export type Jwt = {
   access_token: string;

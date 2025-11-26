@@ -18,5 +18,23 @@
     },
     "submit": "تسجيل الدخول",
     "loading": "جارٍ التحميل..."
+  },
+  "sidebar": {
+    "dashboard": "لوحة التحكم",
+    "users": "المستخدمون",
+    "tenants": "المستأجرون",
+    "settings": "الإعدادات",
+    "navigation": "القائمة",
+    "list_users": "قائمة المستخدمون",
+    "list_tenants": "قائمة المستأجرون",
+    "create_user": "إنشاء مستخدم جديد",
+    "create_tenant": "إنشاء مستأجر جديد"
+  },
+  "user_navigation": {
+    "label_account": "الحساب",
+    "label_settings": "الإعدادات",
+    "profile": "الملف الشخصي",
+    "settings": "الإعدادات",
+    "logout": "تسجيل الخروج"
   }
 }

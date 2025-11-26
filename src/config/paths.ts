@@ -7,6 +7,10 @@ export const paths = {
     root: "/profile",
     route: () => "/profile",
   },
+  settings: {
+    root: "/settings",
+    route: () => "/settings",
+  },
   login: {
     root: "/login",
     route: (redirectTo: string | null | undefined) =>
