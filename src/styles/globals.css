@@ -1,11 +1,58 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
+@font-face {
+  font-family: "Cairo";
+  src: url("/fonts/cairo/Cairo-VariableFont_slnt,wght.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("/fonts/poppins/Poppins-Light.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("/fonts/poppins/Poppins-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("/fonts/poppins/Poppins-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("/fonts/poppins/Poppins-SemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("/fonts/poppins/Poppins-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme inline {
-  --font-display: "Roboto", sans-serif;
+  --font-display: "Poppins", sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -67,7 +114,7 @@
   --secondary: oklch(0.968 0.007 247.896);
   --secondary-foreground: oklch(0.208 0.042 265.755);
   --muted: oklch(0.968 0.007 247.896);
-  --success: rgb(22, 163, 74);
+  --success: rgb(33, 206, 158);
   --danger: #f5325c;
   --error: oklch(0.627 0.28 29.8);
   --warning: oklch(0.781 0.253 97.9);
@@ -112,8 +159,8 @@
   --primary-foreground: oklch(0.984 0.003 247.858);
   --secondary: oklch(0.279 0.041 260.031);
   --secondary-foreground: oklch(0.984 0.003 247.858);
-  --muted: #aab0b9;
-  --success: rgb(22, 163, 74);
+  --muted: #6e829f;
+  --success: rgb(33, 206, 158);
   --danger: #f5325c;
   --error: oklch(0.627 0.28 29.8);
   --warning: oklch(0.781 0.253 97.9);
@@ -122,6 +169,7 @@
   --accent-foreground: oklch(0.984 0.003 247.858);
   --destructive: oklch(0.704 0.191 22.216);
   --border: #262626;
+  --pink: #d63384;
   --input: oklch(1 0 0 / 15%);
   --link: oklch(58.7% 0.156 251);
   --ring: oklch(0.551 0.027 264.364);
@@ -155,4 +203,33 @@
 
 .sidebar-indicator {
   inset-inline-start: -16px;
+}
+html[dir="rtl"] {
+  --font-display: "Cairo", sans-serif;
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display) !important;
+  }
+}
+
+@layer components {
+  .apex-tooltip {
+    @apply bg-white dark:bg-[#1a1a1a] text-black dark:text-white
+           border border-black/10 dark:border-white/10
+           shadow-lg rounded-md px-3 py-2 backdrop-blur-sm;
+  }
+
+  .apex-tooltip .apexcharts-tooltip-title {
+    @apply bg-transparent font-semibold text-sm mb-1 !important;
+  }
+
+  .apex-tooltip .apexcharts-tooltip-text-value {
+    @apply font-semibold text-xs;
+  }
+
+  .apex-tooltip .apexcharts-tooltip-marker {
+    @apply w-2.5 h-2.5 rounded-full mr-2;
+  }
 }

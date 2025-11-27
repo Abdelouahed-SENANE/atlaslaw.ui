@@ -23,10 +23,9 @@ export const paths = {
   },
   admin: {
     root: "/admin",
-    route: () => "/admin",
     dashboard: {
       root: "dashboard",
-      route: () => "dashboard",
+      route: () => "/admin/dashboard",
     },
     tenants: {
       root: "tenants",

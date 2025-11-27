@@ -7,7 +7,7 @@ import { Sidebar, useSidebar } from "../ui/sidebar";
 import { Topbar } from "../ui/topbar/topbar";
 import { useTranslation } from "react-i18next";
 
-export const DashLayout = ({ children }: { children: React.ReactNode }) => {
+export const DashLayout = ({ children , title , desc }: { children: React.ReactNode , title?: string , desc?: string}) => {
   const { checkAccess } = useAuthorization();
   const { t } = useTranslation();
   const { isCollapsed } = useSidebar();
@@ -82,12 +82,16 @@ export const DashLayout = ({ children }: { children: React.ReactNode }) => {
 
           <div
             className={cn(
-              "ms-auto transition-[width] h-[calc(100%-var(--topbar-height))] duration-300 flex flex-col w-full mt-(--topbar-height) px-2",
+              "ms-auto transition-[width] h-[calc(100%-var(--topbar-height))] duration-300 flex flex-col w-full mt-(--topbar-height) p-2",
               isCollapsed
                 ? "w-[calc(100%-var(--sidebar-collapsed))]"
                 : "w-[calc(100%-var(--sidebar-expended))]"
             )}
           >
+            <div className="mb-8">
+              <h1 className="text-2xl font-bold">{title}</h1>
+              <p className="text-sm text-card-foreground/60  ">{desc}</p>
+            </div>
             {children}
           </div>
         </main>
