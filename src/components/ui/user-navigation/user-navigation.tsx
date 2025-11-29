@@ -12,7 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../dropdown/index.ts";
-import { Link } from "../link/index.ts";
+import { RouterLink } from "../link/index.ts";
 import { useTranslation } from "react-i18next";
 
 type UserNavItem = {
@@ -95,7 +95,7 @@ export const UserNavgation = () => {
             </small>
             {nav.items &&
               nav.items.map((item , index) => (
-                <Link
+                <RouterLink
                   key={index}
                   to={item.to}
                   className="flex w-full text-card-foreground  px-6 py-2 hover:bg-border/50   hover:text-card-foreground/95 text-xs font-medium gap-2 cursor-pointer duration-300 ease-in-out items-center"
@@ -105,7 +105,7 @@ export const UserNavgation = () => {
                     aria-hidden="true"
                   />
                   <span>{item.name}</span>
-                </Link>
+                </RouterLink>
               ))}
           </DropdownMenuItem>
         ))}

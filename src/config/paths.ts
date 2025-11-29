@@ -27,6 +27,27 @@ export const paths = {
       root: "dashboard",
       route: () => "/admin/dashboard",
     },
+    rbac: {
+      root: "rbac",
+      roles: {
+        list: {
+          root: "roles",
+          route: () => "/admin/rbac/roles",
+        },
+        new: {
+          root: "new",
+          route: () => "/admin/rbac/roles/new",
+        },
+      },
+      permissions: {
+        root: "permissions",
+        route: () => "/admin/rbac/permissions",
+        new: {
+          root: "new",
+          route: () => "/admin/rbac/permissions/new",
+        },
+      },
+    },
     tenants: {
       root: "tenants",
       route: () => "/admin/tenants",
@@ -49,6 +70,26 @@ export const paths = {
       new: {
         root: "new",
         route: () => "/admin/users/new",
+      },
+    },
+  },
+
+  tenant: {
+    root: "/",
+    dashboard: {
+      root: "dashboard",
+      route: () => "/dashboard",
+    },
+    users: {
+      root: "users",
+      route: () => "/users",
+      list: {
+        root: "",
+        route: () => "/users",
+      },
+      new: {
+        root: "new",
+        route: () => "/users/new",
       },
     },
   },

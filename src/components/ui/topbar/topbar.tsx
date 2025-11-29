@@ -1,19 +1,21 @@
+import { Permission, useAuthorization } from "@/lib/authorization";
 import { cn } from "@/lib/utils";
 import { Bell, Menu, Plus } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { Button } from "../button";
 import { Input } from "../form";
 import { SwitchLanguage } from "../language/switch-language";
 import { useSidebar } from "../sidebar";
 import { ThemeToggle } from "../theme";
 import { UserNavgation } from "../user-navigation";
-import { useTranslation } from "react-i18next";
 
 type TopbarProps = {
   className?: string;
 };
 export const Topbar = ({ className }: TopbarProps) => {
   const { setCollapsed, isCollapsed } = useSidebar();
-  const {t} = useTranslation();
+  const { hasPermission } = useAuthorization();
+  const { t } = useTranslation();
   return (
     <div
       className={cn(
@@ -35,15 +37,17 @@ export const Topbar = ({ className }: TopbarProps) => {
               <Menu className="size-4" />
             </Button>
           </li>
-          <li>
-            <Button
-              variant={"plain"}
-              className="bg-primary/10 text-primary hover:bg-none"
-            >
-              <Plus />
-              <span>{t("sidebar.create_tenant")}</span>
-            </Button>
-          </li>
+          {hasPermission({ permission: Permission.CREATE_TENANT }) && (
+            <li>
+              <Button
+                variant={"plain"}
+                className="bg-primary/10 text-primary hover:bg-none"
+              >
+                <Plus />
+                <span>{t("menu.create_tenant")}</span>
+              </Button>
+            </li>
+          )}
         </ul>
 
         <ul className="flex items-center space-x-2">

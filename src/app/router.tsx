@@ -3,11 +3,13 @@ import { useMemo } from "react";
 import { Spinner } from "@/components/ui/spinner";
 import { paths } from "@/config/paths";
 import { ProtectedRoute } from "@/lib/auth";
-import { Authorization, Roles } from "@/lib/auth/authorization";
+import { Authorization, Scope } from "@/lib/authorization";
 import { QueryClient, useQueryClient } from "@tanstack/react-query";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { GlobalError } from "./routes/errors/global-err";
 import RouteError from "./routes/errors/route-err";
-import {GlobalError} from "./routes/errors/global-err";
+import LoginPage from "./routes/public/auth/login";
+import RegisterPage from "./routes/public/auth/register";
 
 const convert = (queryClient: QueryClient) => (m: any) => {
   const { clientLoader, clientAction, default: Component, ...rest } = m;
@@ -39,20 +41,26 @@ export const createAppRouter = (queryClient: QueryClient) => {
         },
         {
           path: paths.login.root,
-          lazy: () => import("./routes/auth/login").then(convert(queryClient)),
+          Component: () => <LoginPage />,
         },
         {
+          path: paths.register.root,
+          Component: () => <RegisterPage />,
+        },
+        // Admin Routes
+        {
           path: paths.admin.root,
-          HydrateFallback: () => LoadingScreen,
           ErrorBoundary: RouteError,
+          HydrateFallback: () => LoadingScreen,
+
           lazy: async () => {
             const [{ default: AdminRoot }] = await Promise.all([
-              import("./routes/admin/_root"),
+              import("./routes/secure/admin"),
             ]);
             return {
               element: (
                 <ProtectedRoute>
-                  <Authorization allowedRoles={[Roles.SUPER_ADMIN]}>
+                  <Authorization scope={Scope.SYSTEM}>
                     <AdminRoot />
                   </Authorization>
                 </ProtectedRoute>
@@ -61,28 +69,80 @@ export const createAppRouter = (queryClient: QueryClient) => {
           },
           children: [
             {
-              path: paths.admin.dashboard.root, // relative path
+              HydrateFallback: () => LoadingScreen,
+              path: paths.admin.dashboard.root,
               lazy: () =>
-                import("./routes/admin/dashboard").then(convert(queryClient)),
+                import("./routes/secure/admin/dashboard").then(
+                  convert(queryClient)
+                ),
             },
             {
-              path: paths.admin.tenants.root, // "tenants"
+              path: paths.admin.tenants.root,
+              HydrateFallback: () => LoadingScreen,
               children: [
                 {
                   index: true, // instead of path: ""
                   lazy: () =>
-                    import("./routes/admin/tenants").then(convert(queryClient)),
+                    import("./routes/secure/admin/tenants/tenants").then(
+                      convert(queryClient)
+                    ),
                 },
                 {
                   path: paths.admin.tenants.new.root, // "create"
                   lazy: () =>
-                    import("./routes/admin/tenants/new-tenant").then(
+                    import("./routes/secure/admin/tenants/new-tenant").then(
                       convert(queryClient)
                     ),
                 },
               ],
             },
+
+            {
+              path: paths.admin.rbac.root, // "rbac"
+              children: [
+                {
+                  path: paths.admin.rbac.roles.list.root, // "roles"
+                  children: [
+                    {
+                      index: true,
+                      lazy: () =>
+                        import("./routes/secure/admin/rbac/roles").then(
+                          convert(queryClient)
+                        ),
+                    },
+                    {
+                      path: paths.admin.rbac.roles.new.root, // "new"
+                      lazy: () =>
+                        import("./routes/secure/admin/rbac/new-role").then(
+                          convert(queryClient)
+                        ),
+                    },
+                  ],
+                },
+              ],
+            },
           ],
+        },
+
+        // Tenant Routes
+        {
+          path: paths.tenant.root,
+          ErrorBoundary: RouteError,
+          HydrateFallback: () => LoadingScreen,
+          lazy: async () => {
+            const [{ default: TenantRoot }] = await Promise.all([
+              import("./routes/secure/tenant"),
+            ]);
+            return {
+              element: (
+                <ProtectedRoute>
+                  <Authorization scope={Scope.TENANT}>
+                    <TenantRoot />
+                  </Authorization>
+                </ProtectedRoute>
+              ),
+            };
+          },
         },
         {
           path: "*",

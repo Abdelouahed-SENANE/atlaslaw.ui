@@ -16,7 +16,7 @@ export type SwitchProps = React.ComponentPropsWithoutRef<
   };
 
 const Switch = React.forwardRef<
-  React.ElementRef<typeof SwitchPrimitives.Root>,
+  React.ComponentRef<typeof SwitchPrimitives.Root>,
   SwitchProps
 >(({ className, label, error, registration, ...props }, ref) => {
   return (

@@ -1,5 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Form, Input } from "@/components/ui/form";
+import { RouterLink } from "@/components/ui/link";
+import { paths } from "@/config/paths";
 import { loginSchema, useLogin } from "@/lib/auth";
 import { useTranslation } from "react-i18next";
 
@@ -26,13 +28,12 @@ export const LoginForm = ({ onSuccess, onError }: LoginFormProps) => {
         <>
           <div>
             <label htmlFor="email" className="text-sm font-bold">
-              {t("login.email.label")}{" "}
-              <span className="text-destructive">*</span>
+              {t("user.email.label")} <span className="text-error">*</span>
             </label>
             <Input
               id="email"
               type="text"
-              placeholder={t("login.email.placeholder")}
+              placeholder={t("user.email.placeholder")}
               error={
                 formState.errors["email"] &&
                 t(`${formState.errors["email"].message}`)
@@ -44,13 +45,12 @@ export const LoginForm = ({ onSuccess, onError }: LoginFormProps) => {
 
           <div>
             <label htmlFor="password" className="text-sm font-bold">
-              {t("login.password.label")}{" "}
-              <span className="text-destructive">*</span>
+              {t("user.password.label")} <span className="text-error">*</span>
             </label>
             <Input
               id="password"
               type="password"
-              placeholder={t("login.password.placeholder")}
+              placeholder={t("user.password.placeholder")}
               error={
                 formState.errors["password"] &&
                 t(`${formState.errors["password"].message}`)
@@ -60,14 +60,20 @@ export const LoginForm = ({ onSuccess, onError }: LoginFormProps) => {
             />
           </div>
 
-          <div>
+          <div className="col-span-2 my-5 flex flex-col">
             <Button
-              className=" font-medium  text-primary-foreground w-full flex items-center justify-center"
+              className=" font-medium py-2 rounded-sm text-primary-foreground w-full flex items-center justify-center"
               isLoading={login.isPending}
               type="submit"
             >
               {login.isPending ? t("login.loading") : t("login.submit")}
             </Button>
+            <RouterLink
+              to={paths.register.root}
+              className="text-sm font-medium self-end text-primary/90 hover:text-primary mt-3"
+            >
+              {t("register.link")}
+            </RouterLink>
           </div>
         </>
       )}

@@ -4,8 +4,10 @@ import { RadialChart } from "@/components/common/radial-chart";
 import { DashLayout } from "@/components/layouts/_dash-layout";
 import { Building, Check, Lock, Users2 } from "lucide-react";
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const DashboardPage = () => {
+  const {t} = useTranslation()
   const metrics = React.useMemo(
     () => [
       {
@@ -73,7 +75,7 @@ const DashboardPage = () => {
   ];
 
   return (
-    <DashLayout title="Dashboard" desc="Welcome to your dashboard!">
+    <DashLayout title={t("dashboard.page.title")} desc={t("dashboard.page.desc")}>
       <div className="grid grid-cols-8 gap-2">
         {metrics.map((metric) => (
           <MetricCard className="col-span-2" key={metric.title} {...metric} />

@@ -6,7 +6,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { SwitchLanguage } from "@/components/ui/language/switch-language";
 import { toast } from "@/components/ui/toast/use-toast";
 import { LoginForm } from "@/features/auth/components/login-form";
 import { useTranslation } from "react-i18next";
@@ -20,7 +19,6 @@ const LoginPage = () => {
 
   return (
     <AuthLayout>
-      <SwitchLanguage />
       <Card className=" min-w-sm">
         <CardHeader className="flex items-center pt-4 flex-col">
           <div>

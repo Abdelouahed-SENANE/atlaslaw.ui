@@ -1,29 +1,77 @@
 {
-  "login": {
-    "title": "Connectez-vous à votre compte",
-    "description": "Connectez-vous dès maintenant",
+  "dashboard": {
+    "page": {
+      "title": "Tableau de bord",
+      "desc": "Vue d’ensemble de vos activités et indicateurs clés."
+    }
+  },
+  "user": {
+    "name": {
+      "label": {
+        "ar": "Nom (Ar)",
+        "fr": "Nom (Fr)"
+      },
+      "placeholder": {
+        "ar": "Entrez votre nom en arabe",
+        "fr": "Entrez votre nom en français"
+      },
+      "errors": {
+        "ar": "Le nom en arabe est requis.",
+        "fr": "Le nom en français est requis."
+      }
+    },
     "email": {
       "label": "Email",
-      "placeholder": "Entrez votre email"
+      "placeholder": "Entrez votre email",
+      "errors": {
+        "required": "L'email est requis.",
+        "invalid": "Adresse email invalide."
+      }
     },
     "password": {
       "label": "Mot de passe",
-      "placeholder": "Entrez votre mot de passe"
+      "placeholder": "Entrez votre mot de passe",
+      "errors": {
+        "required": "Le mot de passe est requis.",
+        "min": "Le mot de passe doit contenir au moins 8 caractères."
+      }
     },
-    "errors": {
-      "email_required": "L'email est requis.",
-      "invalid_email": "Adresse email invalide.",
-      "password_required": "Le mot de passe est requis.",
-      "password_min": "Le mot de passe doit contenir au moins 8 caractères."
-    },
+    "phone": {
+      "label": "Phone",
+      "placeholder": "Entrez votre phone",
+      "errors": {
+        "invalid": "Phone number is invalid."
+      }
+    }
+  },
+  "errors": {
+    "email_required": "L'email est requis.",
+    "invalid_email": "Adresse email invalide.",
+    "password_required": "Le mot de passe est requis.",
+    "password_min": "Le mot de passe doit contenir au moins 8 caractères."
+  },
+  "login": {
+    "title": "Connectez-vous à votre compte",
+    "description": "Connectez-vous dès maintenant",
     "failed": "Échec",
     "success": "Succès",
-    "authenticated": "Connecté",
+    "authenticated": "Connecté avec succès",
     "not_authenticated": "Non connecté",
     "submit": "Se connecter",
-    "loading": "Chargement..."
+    "loading": "Chargement...",
+    "link": "Se connecter"
   },
-  "sidebar": {
+  "register": {
+    "title": "Créer un compte",
+    "description": "Créez votre compte",
+    "failed": "Échec",
+    "success": "Succès",
+    "registered": "Votre compte a été Enregistré",
+    "submit": "S'inscrire",
+    "loading": "Chargement...",
+    "link": "S'inscrire"
+  },
+  "menu": {
     "dashboard": "Tableau de bord",
     "users": "Utilisateurs",
     "tenants": "Tenants",
@@ -32,7 +80,42 @@
     "list_users": "Liste des utilisateurs",
     "list_tenants": "Liste des tenants",
     "create_user": "Créer un utilisateur",
-    "create_tenant": "Créer un tenant"
+    "create_tenant": "Créer un tenant",
+    "rbac": "Identity & Access",
+    "list_roles": "Liste des rôles",
+    "create_role": "Créer un rôles"
+  },
+  "roles": {
+    "page": {
+      "create_title": "Créer un rôle",
+      "create_desc": "Créez un rôle et choisissez les permissions que vous souhaitez lui attribuer."
+    },
+    "fields": {
+      "name": {
+        "label": "Nom",
+        "placeholder": "Entrez le nom du rôles",
+        "errors": {
+          "required": "Le nom du rôles est requis."
+        }
+      },
+      "description": {
+        "label": "Description",
+        "placeholder": "Entrez la description du rôles",
+        "errors": {
+          "required": "La description du rôles est requis."
+        }
+      },
+      "scope": {
+        "label": "Scope",
+        "system": "Système",
+        "tenant": "Tenant",
+        "errors": {
+          "required": "Le scope du rôles est requis."
+        }
+      }
+    },
+    "create": "Créer rôle",
+    "update": "Modifier rôle"
   },
   "user_navigation": {
     "label_account": "Compte",
@@ -40,5 +123,6 @@
     "profile": "Profil",
     "settings": "Paramètres",
     "logout": "Se déconnecter"
-  }
+  },
+  "cancel": "Annuler"
 }

@@ -52,7 +52,7 @@
 }
 
 @theme inline {
-  --font-display: "Poppins", sans-serif;
+  --font-display: "Cairo", sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -204,7 +204,7 @@
 .sidebar-indicator {
   inset-inline-start: -16px;
 }
-html[dir="rtl"] {
+/* html[dir="rtl"] {
   --font-display: "Cairo", sans-serif;
 }
 
@@ -212,7 +212,7 @@ html[dir="rtl"] {
   .font-display {
     font-family: var(--font-display) !important;
   }
-}
+} */
 
 @layer components {
   .apex-tooltip {
@@ -222,7 +222,7 @@ html[dir="rtl"] {
   }
 
   .apex-tooltip .apexcharts-tooltip-title {
-    @apply bg-transparent font-semibold text-sm mb-1 !important;
+    @apply bg-transparent font-semibold text-sm mb-1;
   }
 
   .apex-tooltip .apexcharts-tooltip-text-value {

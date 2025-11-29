@@ -1,10 +1,10 @@
-import { Link as RouterLink, LinkProps } from 'react-router-dom';
+import { Link , LinkProps } from 'react-router-dom';
 
 import { cn } from '@/lib/utils';
 
-export const Link = ({ className, children, ...props }: LinkProps) => {
+export const RouterLink = ({ className, children, ...props }: LinkProps) => {
   return (
-    <RouterLink
+    <Link
       className={cn(
         'text-link hover:text-foreground hover:underline',
         className
@@ -12,6 +12,6 @@ export const Link = ({ className, children, ...props }: LinkProps) => {
       {...props}
     >
       {children}
-    </RouterLink>
+    </Link>
   );
 };

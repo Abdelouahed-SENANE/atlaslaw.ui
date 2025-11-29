@@ -1,31 +1,26 @@
 import { api$ } from "@/config/axios";
-import { useTokenStore } from "@/store/token-store";
+import { paths } from "@/config/paths";
 import { ApiResponse, Jwt, User } from "@/types/api";
+import { Redirect } from "@/utils/smooth-redirect";
 import { AxiosError } from "axios";
 import React from "react";
 import { configureAuth } from "react-query-auth";
 import { useLocation } from "react-router";
 import { z } from "zod";
-import { buildAuthLoginRedirect } from "../utils";
-import { Redirect } from "@/utils/smooth-redirect";
+import { normalizeToE164 } from "../utils";
 import { Logger } from "@/utils/logger";
 
 export const loginSchema = z.object({
   email: z
-    .email("login.errors.invalid_email")
-    .min(1, "login.errors.email_required"), // required
-  // invalid format
+    .email("user.email.errors.invalid")
+    .min(1, "user.email.errors.required"), // required
   password: z
     .string()
-    .min(1, "login.errors.password_required")
-    .min(8, "login.errors.password_min"), // min length
+    .min(1, "user.password.errors.required")
+    .min(8, "user.password.errors.min"), // min length
 });
 
 export async function getMe(): Promise<User | null> {
-  // const token = useTokenStore.getState().access_token;
-
-  // if (!token) return null;
-
   try {
     const { data } = await api$.get<ApiResponse<User>>("/me");
     return data.data ?? null;
@@ -33,7 +28,6 @@ export async function getMe(): Promise<User | null> {
     const err = e as AxiosError;
     console.error(err);
     if (err.response?.status === 401) {
-      useTokenStore.getState().clearAccessToken();
       return null;
     }
     throw e; // non-401 errors bubble
@@ -50,27 +44,49 @@ const login = async (payload: LoginInputs): Promise<ApiResponse<Jwt>> => {
   return res.data;
 };
 
-// export type RegisterInputs = z.infer<typeof userSchema>;
-// export const register = (
-//   payload: RegisterInputs
-// ): Promise<ApiResponse<Jwt>> => {
-//   return api$.post("/register", payload);
-// };
+export const createTranslationSchema = (key?: string) => {
+  return z.object({
+    ar: z.string().min(1, `${key}.ar`),
+    fr: z.string().min(1, `${key}.fr`),
+  });
+};
+
+export const registerSchema = z.object({
+  name: createTranslationSchema("user.name.errors"),
+  email: z
+    .email("user.email.errors.invalid")
+    .min(1, "user.email.errors.required"), // required
+  password: z
+    .string()
+    .min(1, "user.password.errors.required")
+    .min(8, "user.password.errors.min"),
+  phone: z
+    .string()
+    .optional()
+    .transform((value) => normalizeToE164(value || "", "+212"))
+    .refine(
+      (value) => !value || /^\+[1-9]\d{7,14}$/.test(value),
+      "user.phone.errors.invalid"
+    ),
+});
+
+export type RegisterInputs = z.infer<typeof registerSchema>;
+export const register = (
+  payload: RegisterInputs
+): Promise<ApiResponse<User>> => {
+  return api$.post("/register", payload);
+};
 
 const authConfig = {
   userFn: getMe,
   loginFn: async (payload: LoginInputs) => {
-    const res = await login(payload);
-    const access_token = res?.data?.access_token || "";
-
-    useTokenStore.getState().setAccessToken(access_token);
+    await login(payload);
     const user = await getMe();
-    Logger.info(user);
-
+    Logger.info("User logged in", user);
     return user;
   },
-  registerFn: async () => {
-    // await register(userRequest);
+  registerFn: async (payload: RegisterInputs) => {
+    await register(payload);
     return null;
   },
   logoutFn: logout,
@@ -87,7 +103,7 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const location = useLocation();
 
   if (!user.data) {
-    return <Redirect to={buildAuthLoginRedirect(location.pathname)} />;
+    return <Redirect to={paths.login.route(location.pathname)} />;
   }
 
   return children;

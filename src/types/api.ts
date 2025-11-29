@@ -1,4 +1,4 @@
-import { Roles } from "@/lib/auth/authorization";
+import { Permission, Scope } from "@/lib/authorization";
 
 export type BaseEntity = {
   id: string;
@@ -13,13 +13,14 @@ export type Entity<T> = {
 export type User = Entity<{
   email: string;
   name: Translation;
-  roles: Roles[];
+  scope: Scope;
+  permissions: Permission[];
 }>;
 
 export type Translation = {
-  ar ?: string;
-  fr ?: string;
-}
+  ar?: string;
+  fr?: string;
+};
 
 export type Jwt = {
   access_token: string;
@@ -58,3 +59,10 @@ type Sorting = {
   sort_by: string;
   sort_order: "asc" | "desc";
 };
+
+export type Role = Entity<{
+  tenantID: string;
+  name: string;
+  scope: Scope;
+  description: string;
+}>;

@@ -1,12 +1,7 @@
 import * as React from "react";
 
-import { useUser } from "./authentication";
-
-export enum Roles {
-  SUPER_ADMIN = "super_admin",
-  USER = "USER",
-}
-
+import { useUser } from "../auth/authentication";
+import { Permission, Scope } from "./constants";
 
 // export const POLICIES = {
 //   "comment:delete": (user: User) => {
@@ -24,26 +19,32 @@ export enum Roles {
 
 export const useAuthorization = () => {
   let user = useUser();
-  
-  
+
   if (!user.data) {
     throw Error("User does not exist!");
   }
 
-  const checkAccess = React.useCallback(
-    ({ allowedRoles }: { allowedRoles: Roles[] }) => {
-      if (allowedRoles && allowedRoles.length > 0 && user.data) {
-        return user.data.roles.some((role) =>
-          allowedRoles.includes(role)
-        );
+  const hasScope = React.useCallback(
+    ({ scope }: { scope: Scope }) => {
+      if (scope && user.data) {
+        return user.data.scope === scope;
       }
-
       return true;
     },
     [user.data]
   );
 
-  return { checkAccess, roles: user.data.roles };
+  const hasPermission = React.useCallback(
+    ({ permission }: { permission:  Permission }) => {
+      if (user.data) {
+        return user.data.permissions.includes(permission);
+      }
+      return false;
+    },
+    [user.data]
+  );
+
+  return { hasScope, hasPermission };
 };
 
 type AuthorizationProps = {
@@ -51,31 +52,31 @@ type AuthorizationProps = {
   children: React.ReactNode;
 } & (
   | {
-      allowedRoles: Roles[];
-      policyCheck?: never;
+      scope: Scope;
+      permission?: never;
     }
   | {
-      allowedRoles?: never;
-      policyCheck: boolean;
+      scope?: never;
+      permission: Permission;
     }
 );
 
 export const Authorization = ({
-  policyCheck,
-  allowedRoles,
+  permission,
+  scope,
   forbiddenFallback = null,
   children,
 }: AuthorizationProps) => {
-  const { checkAccess } = useAuthorization();
+  const { hasScope , hasPermission } = useAuthorization();
 
   let canAccess = false;
 
-  if (allowedRoles) {
-    canAccess = checkAccess({ allowedRoles });
+  if (scope) {
+    canAccess = hasScope({ scope });
   }
 
-  if (typeof policyCheck !== "undefined") {
-    canAccess = policyCheck;
+  if (permission) {
+    canAccess = hasPermission({ permission });
   }
 
   return <>{canAccess ? children : forbiddenFallback}</>;

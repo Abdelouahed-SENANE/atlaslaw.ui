@@ -1,46 +1,82 @@
 import { paths } from "@/config/paths";
-import { Roles, useAuthorization } from "@/lib/auth/authorization";
+import { Scope } from "@/lib/authorization";
+import { useAuthorization } from "@/lib/authorization/authorization";
 import { cn } from "@/lib/utils";
-import { Building, Layout, Users2 } from "lucide-react";
+import { Building, Fingerprint, Layout, Users2 } from "lucide-react";
 import React, { Fragment } from "react";
+import { useTranslation } from "react-i18next";
 import { Sidebar, useSidebar } from "../ui/sidebar";
 import { Topbar } from "../ui/topbar/topbar";
-import { useTranslation } from "react-i18next";
 
-export const DashLayout = ({ children , title , desc }: { children: React.ReactNode , title?: string , desc?: string}) => {
-  const { checkAccess } = useAuthorization();
+export const DashLayout = ({
+  children,
+  title,
+  desc,
+}: {
+  children: React.ReactNode;
+  title?: string;
+  desc?: string;
+}) => {
+  const { hasScope } = useAuthorization();
   const { t } = useTranslation();
   const { isCollapsed } = useSidebar();
 
+  const ADMIN_ROUTES = [
+    {
+      label: t("menu.dashboard"),
+      url: paths.admin.dashboard.route(),
+      icon: <Layout className="size-4" />,
+    },
+    {
+      label: t("menu.tenants"),
+      url: paths.admin.tenants.root,
+      icon: <Building className="size-4" />,
+      sublinks: [
+        {
+          title: t("menu.list_tenants"),
+          to: paths.admin.tenants.list.route(),
+        },
+        {
+          title: t("menu.create_tenant"),
+          to: paths.admin.tenants.new.route(),
+        },
+      ],
+    },
+    {
+      label: t("menu.users"),
+      url: paths.admin.users.root,
+      icon: <Users2 className="size-4" />,
+      sublinks: [
+        {
+          title: t("menu.list_users"),
+          to: paths.admin.users.list.route(),
+        },
+        {
+          title: t("menu.create_user"),
+          to: paths.admin.users.new.route(),
+        },
+      ],
+    },
+    {
+      label: t("menu.rbac"),
+      url: paths.admin.rbac.root,
+      icon: <Fingerprint className="size-4" />,
+      sublinks: [
+        {
+          title: t("menu.list_roles"),
+          to: paths.admin.rbac.roles.list.route(),
+        },
+        {
+          title: t("menu.create_role"),
+          to: paths.admin.rbac.roles.new.route(),
+        },
+      ],
+    },
+  ];
+
   const items = [
-    ...(checkAccess({ allowedRoles: [Roles.SUPER_ADMIN] })
-      ? [
-          {
-            label: t("sidebar.dashboard"),
-            url: paths.admin.dashboard.route(),
-            icon: <Layout className="size-4" />,
-          },
-          {
-            label: t("sidebar.tenants"),
-            url: paths.admin.tenants.root,
-            icon: <Building className="size-4" />,
-            sublinks: [
-              { title: t("sidebar.list_tenants"), to: paths.admin.tenants.list.route() },
-              { title: t("sidebar.create_tenant"), to: paths.admin.tenants.new.route() },
-            ],
-          },
-          {
-            label: t("sidebar.users"),
-            url: paths.admin.users.root,
-            icon: <Users2 className="size-4" />,
-            sublinks: [
-              { title: t("sidebar.list_users"), to: paths.admin.users.list.route() },
-              { title: t("sidebar.create_user"), to: paths.admin.users.new.route() },
-            ],
-          },
-        ]
-      : []),
-    ...(checkAccess({ allowedRoles: [Roles.USER] }) ? [] : []),
+    ...(hasScope({ scope: Scope.SYSTEM }) ? ADMIN_ROUTES : []),
+    ...(hasScope({ scope: Scope.TENANT }) ? [] : []),
   ];
 
   return (
@@ -61,7 +97,7 @@ export const DashLayout = ({ children , title , desc }: { children: React.ReactN
           />
           <Sidebar.Body>
             <Sidebar.Menu className="mb-4">
-              <Sidebar.Label title={t("sidebar.navigation")} />
+              <Sidebar.Label title={t("menu.navigation")} />
               <Sidebar.Item>
                 {items.map((item, index) => (
                   <Sidebar.Link

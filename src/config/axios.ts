@@ -1,16 +1,17 @@
 import { toast } from "@/components/ui/toast/use-toast";
 import Axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
-import { useTokenStore } from "../store/token-store";
-import { paths } from "./paths";
+// import { useTokenStore } from "../store/token-store";
+import i18n from "./i18n";
 
 function authRequestInterceptor(config: InternalAxiosRequestConfig) {
-  const accessToken = useTokenStore.getState().access_token;
-
+  // const accessToken = useTokenStore.getState().access_token;
+  const lang = i18n.language;
   if (config.headers) {
     config.headers.Accept = "application/json";
-    if (accessToken) {
-      config.headers.Authorization = `Bearer ${accessToken}`;
-    }
+    config.headers["Accept-Language"] = lang;
+    // if (accessToken) {
+    //   config.headers.Authorization = `Bearer ${accessToken}`;
+    // }
     config.withCredentials = true;
   }
 
@@ -26,50 +27,17 @@ api$.interceptors.request.use(authRequestInterceptor);
 const is401 = (e: unknown): e is AxiosError =>
   !!(e as AxiosError)?.response && (e as AxiosError).response!.status === 401;
 
-let redirecting = false;
+// let redirecting = false;
 
-function redirectToLoginPreservingPath() {
-  if (window.location.pathname.startsWith("/login")) return;
-  if (redirecting) return;
-  redirecting = true;
+// function redirectToLoginPreservingPath() {
+//   if (window.location.pathname.startsWith("/login")) return;
+//   if (redirecting) return;
+//   redirecting = true;
 
-  const from = window.location.pathname + window.location.search;
-  window.location.replace(paths.login.route(from));
-}
+//   const from = window.location.pathname + window.location.search;
+//   window.location.replace(paths.login.route(from));
+// }
 
-export function apiErrorHandler(error: any) {
-  // Axios network errors
-  if (error.code === "ERR_NETWORK") {
-    toast({
-      title: "Network Error",
-      description: "Unable to connect to the server. Please try again.",
-      type: "error",
-    });
-    return;
-  }
-
-  // Timeout
-  if (error.code === "ECONNABORTED") {
-    toast({
-      title: "Request Timeout",
-      description: "The server took too long to respond.",
-      type: "error",
-    });
-    return;
-  }
-
-  // API returned JSON error
-  const message =
-    error.response?.data?.message ||
-    error.message ||
-    "An unexpected error occurred.";
-
-  toast({
-    title: `Error ${error.response?.status || ""}`,
-    description: message,
-    type: "error",
-  });
-}
 
 api$.interceptors.response.use(
   (res) => res,
@@ -89,8 +57,8 @@ api$.interceptors.response.use(
     // if ((err.config?.url || "").toString().includes("/refresh")) {
     //   // treat as unauthenticated below
     // }
-    useTokenStore.getState().clearAccessToken();
-    redirectToLoginPreservingPath();
+    // useTokenStore.getState().clearAccessToken();
+    // redirectToLoginPreservingPath();
     return Promise.reject(err);
   }
 );
