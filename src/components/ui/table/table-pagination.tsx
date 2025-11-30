@@ -1,7 +1,5 @@
 import * as React from "react";
 
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import {
   Select,
   SelectContent,
@@ -9,12 +7,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/form";
-import { useSearchParams } from "react-router-dom";
+import { cn } from "@/lib/utils";
 import { useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
 
-import { Link } from "../link";
-import { ChevronLeft, ChevronRight, Ellipsis } from "lucide-react";
 import { useDirection } from "@/hooks/use-direction";
+import { ChevronLeft, ChevronRight, Ellipsis } from "lucide-react";
+import { RouterLink } from "../link";
 
 const Pagination = ({ className, ...props }: React.ComponentProps<"nav">) => (
   <nav
@@ -32,7 +31,7 @@ const PaginationContent = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <ul
     ref={ref}
-    className={cn("flex flex-row items-center gap-1", className)}
+    className={cn("flex flex-row items-center ", className)}
     {...props}
   />
 ));
@@ -51,13 +50,17 @@ const PaginationItem = React.forwardRef<
   HTMLLIElement,
   React.ComponentProps<"li">
 >(({ className, ...props }, ref) => (
-  <li ref={ref} className={cn("", className)} {...props} />
+  <li
+    ref={ref}
+    className={cn("w-full h-full flex items-center justify-center", className)}
+    {...props}
+  />
 ));
 PaginationItem.displayName = "PaginationItem";
 
 type PaginationLinkProps = {
   isActive?: boolean;
-} & { size: keyof typeof size } & React.ComponentProps<"a">;
+} & { size?: keyof typeof size } & React.ComponentProps<"a">;
 
 const PaginationLink = ({
   className,
@@ -67,21 +70,20 @@ const PaginationLink = ({
   href,
   ...props
 }: PaginationLinkProps) => (
-  <Link
+  <RouterLink
     to={href as string}
     aria-current={isActive ? "page" : undefined}
     className={cn(
-      buttonVariants({
-        variant: isActive ? "outline" : "ghost",
-        size,
-      }),
-      className,
-      "size-6 hover:bg-primary/80! "
+      "flex items-center hover: justify-center px-3 h-8 text-sm transition-colors",
+      isActive
+        ? " bg-card-foreground text-primary-foreground font-semibold"
+        : "hover:bg-border",
+      className
     )}
     {...props}
   >
     {children}
-  </Link>
+  </RouterLink>
 );
 PaginationLink.displayName = "PaginationLink";
 
@@ -91,10 +93,10 @@ const PaginationPrevious = ({
 }: React.ComponentProps<typeof PaginationLink>) => (
   <PaginationLink
     aria-label="Go to previous page"
-    className={cn("flex items-center justify-center", className)}
+    className={cn("flex items-center h-full justify-center", className)}
     {...props}
   >
-    <ChevronLeft className="size-4 rtl:scale-x-[-1]" />
+    <ChevronLeft className="size-4" />
   </PaginationLink>
 );
 PaginationPrevious.displayName = "PaginationPrevious";
@@ -108,7 +110,7 @@ const PaginationNext = ({
     className={cn("flex items-center justify-center", className)}
     {...props}
   >
-    <ChevronRight className="size-4 rtl:scale-x-[-1]" />
+    <ChevronRight className="size-4 " />
   </PaginationLink>
 );
 PaginationNext.displayName = "PaginationNext";
@@ -131,60 +133,61 @@ PaginationEllipsis.displayName = "PaginationEllipsis";
 export {
   Pagination,
   PaginationContent,
-  PaginationLink,
-  PaginationItem,
-  PaginationPrevious,
-  PaginationNext,
   PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
 };
 
 export interface TablePaginationProps {
-  totalItems: number;
-  currentPage: number;
-  perPage: number;
-  rootUrl: string; // base path (ex: /blogs)
+  total: number;
+  page: number;
+  limit: number;
+  rootUrl: string;
 }
 
 export const TablePagination = ({
-  totalItems,
-  currentPage,
-  perPage,
+  total,
+  page,
+  limit,
   rootUrl,
 }: TablePaginationProps) => {
-  const totalPages = Math.ceil(totalItems / perPage);
+  const totalPages = Math.ceil(total / limit);
   const [searchParams, setSearchParams] = useSearchParams();
   const dir = useDirection();
 
-  const start = (currentPage - 1) * perPage + 1;
-  const end = Math.min(currentPage * perPage, totalItems);
+  // const start = (page - 1) * limit + 1;
+  // const end = Math.min(page * limit, total);
 
   const createHref = (page: number) => {
     const params = new URLSearchParams(searchParams);
     params.set("page", String(page));
-    params.set("perPage", String(perPage));
+    params.set("limit", String(limit));
     return `${rootUrl}?${params.toString()}`;
   };
 
-  const handlePerPageChange = (value: string) => {
-    const params = new URLSearchParams(searchParams);
-    params.set("page", "1");
-    params.set("per_page", value);
-    setSearchParams(params);
-  };
+  // const handlePerPageChange = (value: string) => {
+  //   const params = new URLSearchParams(searchParams);
+  //   params.set("page", "1");
+  //   params.set("limit", value);
+  //   setSearchParams(params);
+  // };
 
   const renderPageItems = useMemo(() => {
     const delta = 2;
     const items: React.ReactNode[] = [];
-    const left = Math.max(2, currentPage - delta);
-    const right = Math.min(totalPages - 1, currentPage + delta);
+    const left = Math.max(2, page - delta);
+    const right = Math.min(totalPages - 1, page + delta);
 
     items.push(
       <PaginationItem key={1}>
         <PaginationLink
           size="sm"
           href={createHref(1)}
+          isActive={page === 1}
           className={cn(
-            currentPage === 1
+            page === 1
               ? "bg-primary font-semibold text-primary-foreground"
               : "text-foreground"
           )}
@@ -207,11 +210,12 @@ export const TablePagination = ({
         <PaginationItem key={i}>
           <PaginationLink
             size="sm"
+            aria-current={page === i ? "page" : undefined}
             href={createHref(i)}
             className={cn(
-              currentPage === i
-                ? "bg-primary font-semibold text-primary-foreground hover:bg-primary/80"
-                : "text-foreground"
+              page === i
+              ? "bg-primary font-semibold text-primary-foreground"
+              : "text-foreground"
             )}
           >
             {i}
@@ -235,7 +239,7 @@ export const TablePagination = ({
             size="sm"
             href={createHref(totalPages)}
             className={cn(
-              currentPage === totalPages
+              page === totalPages
                 ? "bg-primary font-semibold text-primary-foreground hover:bg-primary/80"
                 : "text-foreground"
             )}
@@ -246,34 +250,29 @@ export const TablePagination = ({
       );
     }
 
-    return dir === "rtl" ? items.reverse() : items;
-  }, [currentPage, totalPages, dir]);
+    return items;
+  }, [page, totalPages, dir]);
 
   return (
     <Pagination
       className={cn(
-        "w-full items-center py-2 flex ltr:flex-row-reverse flex-col gap-3 sm:flex-row sm:justify-between"
+        "w-full items-center  py-2 flex flex-col gap-3 sm:flex-row sm:justify-between"
       )}
     >
-      <div
+
+      <PaginationContent dir="ltr"
         className={cn(
-          "text-sm font-medium text-left rtl:text-right text-foreground whitespace-nowrap"
+          "flex items-center justify-start ltr:ml-auto  mr-1 bg-card h-9 rounded-md border border-border overflow-hidden divide-x divide-border ",
         )}
       >
-        {dir === "rtl"
-          ? `عرض ${start} إلى ${end} من أصل ${totalItems} إدخالات`
-          : `Showing ${start} to ${end} of ${totalItems} entries`}
-      </div>
-      <PaginationContent className="flex-row justify-center items-center gap-2  se rtl:space-x-reverse">
         {/* Previous button */}
         <PaginationItem>
           <PaginationPrevious
-            size="sm"
-            href={createHref(Math.max(currentPage - 1, 1))}
-            aria-disabled={currentPage <= 1}
+            href={createHref(Math.max(page - 1, 1))}
+            aria-disabled={page <= 1}
             className={cn(
-              "rounded-md transition-colors",
-              currentPage <= 1
+              "transition-colors h-full",
+              page <= 1
                 ? "pointer-events-none text-foreground/50"
                 : "text-foreground hover:bg-primary/10"
             )}
@@ -281,7 +280,7 @@ export const TablePagination = ({
         </PaginationItem>
 
         {/* Page numbers */}
-        <div className="flex items-center justify-center gap-1 rtl:flex-row-reverse rtl:space-x-reverse">
+        <div className="flex items-center w-full h-full justify-center ">
           {renderPageItems}
         </div>
 
@@ -289,11 +288,11 @@ export const TablePagination = ({
         <PaginationItem>
           <PaginationNext
             size="sm"
-            href={createHref(Math.min(currentPage + 1, totalPages))}
-            aria-disabled={currentPage >= totalPages}
+            href={createHref(Math.min(page + 1, totalPages))}
+            aria-disabled={page >= totalPages}
             className={cn(
               "rounded-md transition-colors",
-              currentPage >= totalPages
+              page >= totalPages
                 ? "pointer-events-none text-foreground/50"
                 : "text-foreground hover:bg-primary/10"
             )}
@@ -301,23 +300,23 @@ export const TablePagination = ({
         </PaginationItem>
       </PaginationContent>
 
-      <div className={cn("flex items-center gap-2 text-sm whitespace-nowrap")}>
+      {/* <div className={cn("flex items-center gap-2 text-sm whitespace-nowrap")}>
         <span className="text-sm font-medium">
           {dir === "rtl" ? "لكل صفحة" : "Per page"}
         </span>
-        <Select value={String(perPage)} onValueChange={handlePerPageChange}>
+        <Select value={String(limit)} onValueChange={handlePerPageChange}>
           <SelectTrigger className="h-8 px-2 rounded-sm w-[70px] bg-background!">
-            <SelectValue placeholder={String(perPage)} />
+            <SelectValue placeholder={String(limit)} />
           </SelectTrigger>
           <SelectContent className="bg-background" align="end">
-            {[5, 10, 15 , 25, 50].map((val) => (
+            {[5, 10, 15, 25, 50].map((val) => (
               <SelectItem key={val} value={String(val)}>
                 {val}
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
-      </div>
+      </div> */}
     </Pagination>
   );
 };

@@ -1,5 +1,5 @@
 import { toast } from "@/components/ui/toast/use-toast";
-import Axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
+import Axios, { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from "axios";
 // import { useTokenStore } from "../store/token-store";
 import i18n from "./i18n";
 
@@ -19,7 +19,7 @@ function authRequestInterceptor(config: InternalAxiosRequestConfig) {
 }
 const API_URL = import.meta.env.VITE_API_URL;
 
-export const api$ = Axios.create({
+export const api$ : AxiosInstance = Axios.create({
   baseURL: API_URL,
 });
 

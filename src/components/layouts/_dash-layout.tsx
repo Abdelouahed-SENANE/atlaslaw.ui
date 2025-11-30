@@ -115,7 +115,6 @@ export const DashLayout = ({
         </Sidebar.Root>
         <main className={cn("flex-1 relative")}>
           <Topbar />
-
           <div
             className={cn(
               "ms-auto transition-[width] h-[calc(100%-var(--topbar-height))] duration-300 flex flex-col w-full mt-(--topbar-height) p-2",
@@ -124,9 +123,9 @@ export const DashLayout = ({
                 : "w-[calc(100%-var(--sidebar-expended))]"
             )}
           >
-            <div className="mb-8">
-              <h1 className="text-2xl font-bold">{title}</h1>
-              <p className="text-sm text-card-foreground/60  ">{desc}</p>
+            <div className="mb-6">
+              <h1 className="text-3xl font-bold">{title}</h1>
+              <p className=" text-card-foreground/60  ">{desc}</p>
             </div>
             {children}
           </div>

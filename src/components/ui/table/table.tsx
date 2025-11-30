@@ -1,29 +1,22 @@
-import {
-  ArrowDown,
-  ArrowUp,
-  ArrowUpDown,
-  CheckSquare,
-  Inbox,
-  Square,
-} from "lucide-react";
+import { ArrowDown, ArrowUp, ArrowUpDown, Inbox } from "lucide-react";
 import * as React from "react";
 
-import { BaseEntity } from "@/types/api";
 import { cn } from "@/lib/utils";
+import { BaseEntity } from "@/types/api";
 
-import { TablePagination, TablePaginationProps } from "./table-pagination";
+import { useTranslation } from "react-i18next";
+import { Checkbox } from "../form";
 import { Spinner } from "../spinner";
-import { useSearchParams } from "react-router-dom";
 
 const TableElement = React.forwardRef<
   HTMLTableElement,
   React.HTMLAttributes<HTMLTableElement>
 >(({ className, ...props }, ref) => (
-  <div className="relative w-full overflow-auto">
+  <div className="relative w-full overflow-auto rounded-md border border-border">
     <table
       ref={ref}
       className={cn(
-        "w-full caption-bottom text-sm border bg-card/30 border-border ",
+        "w-full caption-bottom text-sm  bg-card/30 ",
         className
       )}
       {...props}
@@ -38,7 +31,7 @@ const TableHeader = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <thead
     ref={ref}
-    className={cn("[&_tr]:border-b  bg-background", className)}
+    className={cn("[&_tr]:border-b h-12  bg-background", className)}
     {...props}
   />
 ));
@@ -93,7 +86,7 @@ const TableHead = React.forwardRef<
   <th
     ref={ref}
     className={cn(
-      "text-left align-middle px-4 py-2.5  text-xs text-foreground  [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+      "ltr:text-left rtl:text-right align-middle px-2  py-2.5 text-base font-bold  text-card-foreground *:[[role=checkbox]]:translate-y-0.5",
       className
     )}
     {...props}
@@ -108,7 +101,7 @@ const TableCell = React.forwardRef<
   <td
     ref={ref}
     className={cn(
-      "p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+      "p-2 align-middle  *:[[role=checkbox]]:translate-y-0.5",
       className
     )}
     {...props}
@@ -129,14 +122,14 @@ const TableCaption = React.forwardRef<
 TableCaption.displayName = "TableCaption";
 
 export {
-  TableElement,
-  TableHeader,
   TableBody,
+  TableCaption,
+  TableCell,
+  TableElement,
   TableFooter,
   TableHead,
-  TableRow,
-  TableCell,
-  TableCaption,
+  TableHeader,
+  TableRow
 };
 
 export type TableColumn<Entry> = {
@@ -152,160 +145,134 @@ export interface SortConfig<Entry> {
 export type TableProps<Entry extends BaseEntity> = {
   data: Entry[];
   columns: TableColumn<Entry>[];
-  pagination?: TablePaginationProps;
   isLoading?: boolean;
-  onRowSelect?: (selectedRows: Entry[]) => void;
-  emptyMessage?: string; // 👈 new prop
+
+  sortBy?: keyof Entry;
+  sortDir?: "asc" | "desc";
+  onSortChange?: (field: keyof Entry, direction: "asc" | "desc") => void;
+
+  selectedRows?: Set<string | number>;
+  onSelectRow?: (id: string | number) => void;
+  onSelectAll?: () => void;
+
+  emptyMessage?: string;
 };
 
 export const Table = <Entry extends BaseEntity>({
   data,
   columns,
-  pagination,
   isLoading = false,
-  onRowSelect,
-  emptyMessage = "",
+  sortBy,
+  sortDir = "asc",
+  onSortChange,
+  selectedRows,
+  onSelectRow,
+  onSelectAll,
+  emptyMessage = "No entries found.",
 }: TableProps<Entry>) => {
-  const [selectedRows, setSelectedRows] = React.useState<Set<string | number>>(
-    new Set()
-  );
-  const [searchParams, setSearchParams] = useSearchParams();
-
+  const { t } = useTranslation();
   const handleSort = (field: keyof Entry) => {
-    const currentSortBy = searchParams.get("sort_by");
-    const currentSortDir = searchParams.get("sort_dir") ?? "asc";
+    if (!onSortChange) return;
 
-    const nextDir =
-      currentSortBy === field && currentSortDir === "asc" ? "desc" : "asc";
+    const nextDir = sortBy === field && sortDir === "asc" ? "desc" : "asc";
 
-    const newParams = new URLSearchParams(searchParams);
-    newParams.set("sort_by", String(field));
-    newParams.set("sort_dir", nextDir);
-    newParams.set("page", "1");
-
-    setSearchParams(newParams);
+    onSortChange(field, nextDir);
   };
-
-  const toggleRow = (id: string | number) => {
-    const newSelected = new Set(selectedRows);
-    newSelected.has(id) ? newSelected.delete(id) : newSelected.add(id);
-    setSelectedRows(newSelected);
-    onRowSelect?.(data.filter((row) => newSelected.has(row.id!)));
-  };
-
-  const toggleSelectAll = () => {
-    if (selectedRows.size === data.length) {
-      setSelectedRows(new Set());
-      onRowSelect?.([]);
-    } else {
-      const all = new Set(data.map((row) => row.id!));
-      setSelectedRows(all);
-      onRowSelect?.(data);
-    }
-  };
-
   return (
-    <>
-      <TableElement>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="p-2 size-4 bg-table-head">
-              <button onClick={toggleSelectAll} className="cursor-pointer">
-                {selectedRows.size === data.length ? (
-                  <CheckSquare className="size-4 text-primary" />
-                ) : (
-                  <Square className="size-4 text-muted-foreground" />
-                )}
-              </button>
+    <TableElement > 
+      {/* HEADER */}
+      <TableHeader className="bg-background">
+        <TableRow>
+          {selectedRows && onSelectAll && (
+            <TableHead className="p-2 ">
+              <Checkbox
+                checked={selectedRows.size === data.length && data.length > 0}
+                onCheckedChange={() => onSelectAll?.()}
+              />
             </TableHead>
-
-            {columns.map((column, index) => {
-              const currentSortBy = searchParams.get("sort_by");
-              const currentSortDir = searchParams.get("sort_dir") ?? "asc";
-
-              const isActive = currentSortBy === column.field;
-              const direction = isActive ? currentSortDir : "asc";
-
-              return (
-                <TableHead
-                  key={index}
-                  className={cn(
-                    "text-md font-bold bg-table-head",
-                    column.sortable && "cursor-pointer select-none"
-                  )}
-                  onClick={() => column.sortable && handleSort(column.field)}
-                >
-                  <span className="flex items-center gap-1">
-                    {column.title}
-                    {column.sortable && (
-                      <>
-                        {isActive ? (
-                          direction === "asc" ? (
-                            <ArrowUp className="size-4 text-primary" />
-                          ) : (
-                            <ArrowDown className="size-4 text-primary" />
-                          )
-                        ) : (
-                          <ArrowUpDown className="size-4 opacity-50" />
-                        )}
-                      </>
-                    )}
-                  </span>
-                </TableHead>
-              );
-            })}
-          </TableRow>
-        </TableHeader>
-
-        <TableBody>
-          {isLoading ? (
-            <TableRow>
-              <TableCell colSpan={columns.length + 1} className="w-full py-5">
-                <div className="text-center text-md font-bold inline-flex items-center justify-center w-full space-x-1">
-                  <Spinner size="sm" className="text-foreground/80" />
-                  <p>Loading...</p>
-                </div>
-              </TableCell>
-            </TableRow>
-          ) : data.length > 0 ? (
-            data.map((entry, entryIndex) => (
-              <TableRow
-                key={entry.id || entryIndex}
-                className={`border-b border-border hover:bg-background/50 text-sm cursor-pointer ${
-                  selectedRows.has(entry.id!) ? "bg-primary/10" : ""
-                }`}
-                onClick={() => toggleRow(entry.id!)}
-              >
-                <TableCell className="text-center">
-                  {selectedRows.has(entry.id!) ? (
-                    <CheckSquare className="size-4 text-primary" />
-                  ) : (
-                    <Square className="size-4 text-muted-foreground" />
-                  )}
-                </TableCell>
-                {columns.map(({ Cell, field }, columnIndex) => (
-                  <TableCell key={columnIndex} className="px-4">
-                    {Cell ? <Cell entry={entry} /> : `${entry[field]}`}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell
-                colSpan={columns.length + 1}
-                className="text-center py-5"
-              >
-                <div className="flex justify-center items-center gap-2 text-foreground/80">
-                  <Inbox className="size-5" />
-                  {emptyMessage || "No Entries Found"}
-                </div>
-              </TableCell>
-            </TableRow>
           )}
-        </TableBody>
-      </TableElement>
-      {pagination && !isLoading && <TablePagination {...pagination} />}
-    </>
+
+          {columns.map((column, index) => {
+            const active = sortBy === column.field;
+            const direction = active ? sortDir : "asc";
+
+            return (
+              <TableHead
+                key={index}
+                className={` ${column.sortable ? "cursor-pointer select-none" : ""}`}
+                onClick={() => column.sortable && handleSort(column.field)}
+              >
+                <span className="flex items-center gap-1">
+                  {column.title}
+                  {column.sortable &&
+                    (active ? (
+                      direction === "asc" ? (
+                        <ArrowUp className="size-4 text-primary" />
+                      ) : (
+                        <ArrowDown className="size-4 text-primary" />
+                      )
+                    ) : (
+                      <ArrowUpDown className="size-4 opacity-50" />
+                    ))}
+                </span>
+              </TableHead>
+            );
+          })}
+        </TableRow>
+      </TableHeader>
+
+      {/* BODY */}
+      <TableBody>
+        {isLoading ? (
+          <TableRow>
+            <TableCell
+              colSpan={columns.length + 1}
+              className="text-center py-5"
+            >
+              <div className="flex items-center justify-center gap-2 text-foreground">
+                <Spinner size="sm" />
+                <span>{t("loading")}</span>
+              </div>
+            </TableCell>
+          </TableRow>
+        ) : data.length === 0 ? (
+          <TableRow>
+            <TableCell
+              colSpan={columns.length + 1}
+              className="text-center py-5"
+            >
+              <div className="flex items-center justify-center gap-2 text-foreground">
+                <Inbox className="size-5" />
+                {emptyMessage}
+              </div>
+            </TableCell>
+          </TableRow>
+        ) : (
+          data.map((entry, idx) => (
+            <TableRow
+              key={entry.id ?? idx}
+              className={`hover:bg-background/50 h-10 ${
+                selectedRows?.has(entry.id!) ? "bg-foreground/4" : ""
+              }`}
+            >
+              {selectedRows && onSelectRow && (
+                <TableCell>
+                  <Checkbox
+                    checked={selectedRows.has(entry.id!)}
+                    onCheckedChange={() => onSelectRow(entry.id!)}
+                  />
+                </TableCell>
+              )}
+
+              {columns.map(({ Cell, field }, colIdx) => (
+                <TableCell key={colIdx}>
+                  {Cell ? <Cell entry={entry} /> : String(entry[field] ?? "")}
+                </TableCell>
+              ))}
+            </TableRow>
+          ))
+        )}
+      </TableBody>
+    </TableElement>
   );
 };

@@ -6,6 +6,7 @@ import {
 } from "@/features/rbac/api/create-role";
 import { RoleForm } from "@/features/rbac/components/role-form";
 import { Role } from "@/types/api";
+import { Logger } from "@/utils/logger";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -28,6 +29,7 @@ const NewRolePage = () => {
         navigate(-1);
       },
       onError: (error: any) => {
+        Logger.error(error);
         setApiErrors(error.response.data.errors);
       },
     },

@@ -35,17 +35,17 @@ export const RoleForm = ({
             <div className="grid grid-cols-3 gap-2">
               <div>
                 <label htmlFor="name" className="text-sm font-bold">
-                  {t("roles.fields.name.label")} <span className="text-error">*</span>
+                  {t("roles.fields.name.label")}{" "}
+                  <span className="text-error">*</span>
                 </label>
                 <Input
                   id="name"
                   type="text"
                   placeholder={t("roles.fields.name.placeholder")}
                   error={
-                    formState.errors.name &&
-                    t(
-                      `${formState.errors.name.message}` || apiErrors.name?.[0]!
-                    )
+                    (formState.errors.name &&
+                      t(`${formState.errors.name.message}`)) ||
+                    apiErrors.name?.[0]!
                   }
                   registration={register("name")}
                   className="focus:ring-2 focus:ring-primary  focus:border-primary"
@@ -60,11 +60,9 @@ export const RoleForm = ({
                   type="text"
                   placeholder={t("roles.fields.description.placeholder")}
                   error={
-                    formState.errors.description &&
-                    t(
-                      `${formState.errors.description.message}` ||
-                        apiErrors.description?.[0]!
-                    )
+                    (formState.errors.description &&
+                      t(`${formState.errors.description.message}`)) ||
+                    apiErrors.description?.[0]!
                   }
                   registration={register("description")}
                   className="focus:ring-2 focus:ring-primary  focus:border-primary"
@@ -93,10 +91,7 @@ export const RoleForm = ({
                   </div>
                   {formState.errors.scope && (
                     <InputError
-                      errorMessage={t(
-                        `${formState.errors.scope.message}` ||
-                          apiErrors.scope?.[0]!
-                      )}
+                      errorMessage={t(`${formState.errors.scope.message}`) || apiErrors.scope?.[0]!}
                     />
                   )}
                 </div>
@@ -106,7 +101,9 @@ export const RoleForm = ({
         </Form>
       </CardContent>
       <CardFooter className="flex justify-end gap-2 border-t px-2 [.border-t]:pt-4">
-        <Button onClick={() => navigate(-1)} variant={"outline"}>{t("cancel")}</Button>
+        <Button onClick={() => navigate(-1)} variant={"outline"}>
+          {t("cancel")}
+        </Button>
         <Button form="role-form" type="submit" isLoading={isLoading}>
           {defaultValues ? t("roles.update") : t("roles.create")}
         </Button>
