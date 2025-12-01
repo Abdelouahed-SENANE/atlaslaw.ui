@@ -1,6 +1,7 @@
 import { api$ } from "@/config/axios";
 import { paths } from "@/config/paths";
 import { ApiResponse, Jwt, User } from "@/types/api";
+import { Logger } from "@/utils/logger";
 import { Redirect } from "@/utils/smooth-redirect";
 import { AxiosError } from "axios";
 import React from "react";
@@ -8,7 +9,6 @@ import { configureAuth } from "react-query-auth";
 import { useLocation } from "react-router";
 import { z } from "zod";
 import { normalizeToE164 } from "../utils";
-import { Logger } from "@/utils/logger";
 
 export const loginSchema = z.object({
   email: z
@@ -19,6 +19,8 @@ export const loginSchema = z.object({
     .min(1, "user.password.errors.required")
     .min(8, "user.password.errors.min"), // min length
 });
+
+export const AUTH_KEY = "authenticated-user";
 
 export async function getMe(): Promise<User | null> {
   try {

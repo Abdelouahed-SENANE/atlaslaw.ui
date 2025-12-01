@@ -6,27 +6,21 @@ export enum Scope {
 export enum Permission {
   // TENANTS (Super Admin)
   LIST_TENANTS = "list:tenants",
-  CREATE_TENANT = "create:tenant",
-  UPDATE_TENANT = "update:tenant",
-  DELETE_TENANT = "delete:tenant",
+  CREATE_TENANTS = "create:tenants",
+  UPDATE_TENANTS = "update:tenants",
+  DELETE_TENANTS = "delete:tenants",
 
   // USERS
   LIST_USERS = "list:users",
-  VIEW_USER = "view:user",
-  CREATE_USER = "create:user",
-  UPDATE_USER = "update:user",
-  DELETE_USER = "delete:user",
+  UPDATE_USERS = "update:users",
+  CREATE_USERS = "create:users",
+  DELETE_USERS = "delete:users",
 
   // ROLES
   LIST_ROLES = "list:roles",
-  CREATE_ROLE = "create:role",
-  UPDATE_ROLE = "update:role",
-  DELETE_ROLE = "delete:role",
-
-  // PERMISSIONS
-  LIST_PERMISSIONS = "list:permissions",
-  ASSIGN_PERMISSION = "assign:permission",
-  REMOVE_PERMISSION = "remove:permission",
+  CREATE_ROLES = "create:roles",
+  UPDATE_ROLES = "update:roles",
+  DELETE_ROLES = "delete:roles",
 
   // CASES (Law Firm)
   LIST_CASES = "list:cases",

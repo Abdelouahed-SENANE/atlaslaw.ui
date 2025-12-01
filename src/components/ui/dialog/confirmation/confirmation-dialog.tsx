@@ -1,6 +1,7 @@
-import { CircleAlert, Info } from "lucide-react";
+import {  Info, Trash2 } from "lucide-react";
 import * as React from "react";
 
+import { DialogDescription } from "@radix-ui/react-dialog";
 import {
   Dialog,
   DialogContent,
@@ -40,10 +41,7 @@ export const ConfirmationDialog = ({
   const isControlled = open !== undefined;
   const actualOpen = isControlled ? open : internalOpen;
 
-  const descriptionId = React.useMemo(
-    () => `dialog-description-${Math.random().toString(36).slice(2, 9)}`,
-    []
-  );
+  const descriptionId = React.useId();
   const handleOpenChange = (isOpen: boolean) => {
     if (isControlled) {
       onOpenChange?.(isOpen);
@@ -59,38 +57,38 @@ export const ConfirmationDialog = ({
     }
   }, [isDone]);
 
+
   return (
     <Dialog open={actualOpen} onOpenChange={handleOpenChange}>
       {triggerButton && <DialogTrigger asChild>{triggerButton}</DialogTrigger>}
       <DialogContent
-        className="sm:max-w-[360px] rounded-none border-2 p-4 border-border"
+        className="sm:max-w-sm rounded-xl border-2 p-4 border-border "
         aria-describedby={descriptionId}
-        aria-description="confirmation dialog"
+        
       >
         <DialogHeader className="flex">
-          <DialogTitle className="flex items-center text-md gap-2">
-            {" "}
+          <DialogTitle className="flex flex-col mt-6 items-center text-2xl font-bold gap-1">
             {icon === "danger" && (
-              <CircleAlert className="size-5 text-red-600" aria-hidden="true" />
+              <Trash2 className="size-12 text-error/80" aria-hidden="true" />
             )}
             {icon === "info" && (
-              <Info className="size-6 text-blue-600" aria-hidden="true" />
+              <Info className="size-6 text-primary" aria-hidden="true" />
             )}
             {title}
           </DialogTitle>
         </DialogHeader>
 
-        <div className="text-center sm:mt-0 sm:text-left">
-          {body && (
-            <div id={descriptionId} className="mt-2">
-              <p>{body}</p>
-            </div>
-          )}
-          {children && <div className="mt-2">{children}</div>}
-        </div>
+        {body && (
+          <DialogDescription
+            id={descriptionId}
+            aria-describedby={descriptionId}
+            className="text-center px-4"
+          >{body}</DialogDescription>
+        )}
+        {children && <div className="mt-2">{children}</div>}
 
         <DialogFooter>
-          <div className="flex items-center justify-between w-full flex-row">
+          <div className="flex items-center justify-end gap-2 w-full flex-row">
             {cancelButton && cancelButton(close)}
             {confirmButton}
           </div>

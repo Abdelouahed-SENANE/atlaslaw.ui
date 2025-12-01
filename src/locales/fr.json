@@ -88,7 +88,18 @@
     "create_role": "Créer un rôles"
   },
   "roles": {
+    "toast": {
+      "created_title": "Rôle créé.",
+      "updated_title": "Rôle mis à jour.",
+      "deleted_title": "Rôle supprimé.",
+      "created_desc": "Le rôle a été ajouté.",
+      "updated_desc": "Le rôle a été mis à jour.",
+      "deleted_desc": "Le rôle a été supprimé.",
+      "no_changes_title": "Aucune modification.",
+      "no_changes_desc": "Aucun changement n'a été effectué."
+    },
     "page": {
+      "add": "Ajouter un rôle",
       "search": "Recherchez un rôle, une description ou un mot-clé…",
       "list_title": "Gestion des rôles",
       "list_empty": "Aucun rôles trouvé.",
@@ -96,12 +107,34 @@
       "title": "Rôles",
       "desc": "Administrez les rôles et définissez leurs permissions avec précision pour mieux sécuriser votre espace.",
       "create_title": "Nouveau rôle",
-      "create_desc": "Créez un rôle personnalisé et attribuez-lui les permissions adaptées à vos besoins opérationnels."
+      "create_desc": "Créez un rôle personnalisé et attribuez-lui les permissions adaptées à vos besoins opérationnels.",
+      "permissions_title": "Permissions du rôle",
+      "permissions_desc": "Assignez des permissions au rôle pour contrôler l'accès et la gestion des ressources.",
+      "role_permissions_title": "Permissions du rôle",
+      "role_permissions_desc": "Assignez des permissions au rôle pour contrôler l'accès et la gestion des ressources."
+    },
+    "modal": {
+      "delete_title": "Supprimer rôle",
+      "delete_desc": "Etes-vous certains de vouloir supprimer ce rôle ?",
+      "delete_cancel": "Annuler",
+      "delete_submit": "Supprimer"
+    },
+    "actions": {
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "manage_permissions": "Voir & modifier les permissions",
+      "deleting": "Suppression en cours...",
+      "save": "Enregistrer les modifications",
+      "saving": "Enregistrement en cours...",
+      "cancel": "Annuler",
+      "reset": "Réinitialiser"
     },
     "columns": {
       "name": "Nom",
       "description": "Description",
-      "scope": "Scope"
+      "scope": "Scope",
+      "created_at": "Création",
+      "updated_at": "Mise à jour"
     },
     "fields": {
       "name": {

@@ -46,14 +46,14 @@ export function Toaster() {
             variant={"default"}
             {...props}
             className="
-  relative bg-background shadow-card max-w-xs p-2 border-none text-card-foreground
-  top-5 left-1/2 -translate-x-1/2
-  transition-transform  duration-300 ease-out
-  opacity-0
-  data-[state=open]:translate-y-0
-  data-[state=open]:opacity-100
-  data-[state=closed]:translate-y-full
-  data-[state=closed]:opacity-0
+                  relative bg-background shadow-card max-w-xs p-2 border-border rounded-sm text-card-foreground
+                  top-5 rtl:right-1/2 ltr:left-1/2 ltr:-translate-x-1/2 rtl:translate-x-1/2
+                  transition-transform  duration-300 ease-out
+                  opacity-0
+                  data-[state=open]:translate-y-0
+                  data-[state=open]:opacity-100
+                  data-[state=closed]:translate-y-full
+                  data-[state=closed]:opacity-0
 "
           >
             <div
@@ -92,7 +92,7 @@ export function Toaster() {
         </div>
       ))}
       <ToastViewport
-        className={cn("fixed top-0 left-0 right-0 z-50 flex flex-col gap-1")}
+        className={cn("fixed top-0 left-0 right-0 z-100 flex flex-col gap-1")}
       />
     </ToastProvider>
   );

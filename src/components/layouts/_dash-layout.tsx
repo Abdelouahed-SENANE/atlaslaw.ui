@@ -81,10 +81,10 @@ export const DashLayout = ({
 
   return (
     <Fragment>
-      <div className="min-h-screen w-full overflow-hidden bg-background">
+      <div className="min-h-screen w-full overflow-hidden relative bg-background">
         <Sidebar.Root
           className={cn(
-            "transition-[transform,width] duration-300 ease-in-out",
+            "transition-[transform,width] duration-200 ease-in-out",
             isCollapsed
               ? "w-(--sidebar-collapsed-width)"
               : "w-(--sidebar-width)"

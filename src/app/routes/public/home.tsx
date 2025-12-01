@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { SwitchLanguage } from "@/components/ui/language/switch-language";
 import { RouterLink } from "@/components/ui/link";
 import { toast } from "@/components/ui/toast/use-toast";
 import { paths } from "@/config/paths";
@@ -15,6 +16,7 @@ const HomePage: React.FC = () => {
       <Button onClick={() => toast({ title: "Test", type: "success" })}>
         Test
       </Button>
+      <SwitchLanguage />
       <Button onClick={() => navigate(paths.login.root)}>Login</Button>
         <RouterLink to={paths.admin.dashboard.route()} className="text-primary-foreground">
           Dashnoard

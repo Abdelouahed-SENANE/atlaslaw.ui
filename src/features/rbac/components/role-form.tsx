@@ -3,6 +3,7 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Form, Input, InputError } from "@/components/ui/form";
 import { RadioInput } from "@/components/ui/form/radio-input";
 import { Role } from "@/types/api";
+import { Save } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { CreateRoleInputs, createRoleSchema } from "../api/create-role";
@@ -91,7 +92,10 @@ export const RoleForm = ({
                   </div>
                   {formState.errors.scope && (
                     <InputError
-                      errorMessage={t(`${formState.errors.scope.message}`) || apiErrors.scope?.[0]!}
+                      errorMessage={
+                        t(`${formState.errors.scope.message}`) ||
+                        apiErrors.scope?.[0]!
+                      }
                     />
                   )}
                 </div>
@@ -100,11 +104,12 @@ export const RoleForm = ({
           )}
         </Form>
       </CardContent>
-      <CardFooter className="flex justify-end gap-2 border-t px-2 [.border-t]:pt-4">
+      <CardFooter className="flex justify-end gap-2 px-2 ">
         <Button onClick={() => navigate(-1)} variant={"outline"}>
           {t("cancel")}
         </Button>
         <Button form="role-form" type="submit" isLoading={isLoading}>
+          <Save className="size-4 ltr:mr-1 rtl:ml-1" />
           {defaultValues ? t("roles.update") : t("roles.create")}
         </Button>
       </CardFooter>

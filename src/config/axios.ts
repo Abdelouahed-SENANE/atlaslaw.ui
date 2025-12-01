@@ -1,7 +1,12 @@
 import { toast } from "@/components/ui/toast/use-toast";
-import Axios, { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from "axios";
+import Axios, {
+  AxiosError,
+  AxiosInstance,
+  InternalAxiosRequestConfig,
+} from "axios";
 // import { useTokenStore } from "../store/token-store";
 import i18n from "./i18n";
+import { paths } from "./paths";
 
 function authRequestInterceptor(config: InternalAxiosRequestConfig) {
   // const accessToken = useTokenStore.getState().access_token;
@@ -19,7 +24,7 @@ function authRequestInterceptor(config: InternalAxiosRequestConfig) {
 }
 const API_URL = import.meta.env.VITE_API_URL;
 
-export const api$ : AxiosInstance = Axios.create({
+export const api$: AxiosInstance = Axios.create({
   baseURL: API_URL,
 });
 
@@ -37,28 +42,42 @@ const is401 = (e: unknown): e is AxiosError =>
 //   const from = window.location.pathname + window.location.search;
 //   window.location.replace(paths.login.route(from));
 // }
-
+// let isRedirecting = false;
 
 api$.interceptors.response.use(
   (res) => res,
   (err) => {
-    // apiErrorHandler(err);
+    const pathname = window.location.pathname;
+    const onLoginPage = pathname.startsWith("/login");
+
     if (err.code === "ERR_NETWORK") {
       toast({
         title: "Server Offline",
         description: "Cannot reach API server.",
         type: "error",
       });
-
-      return Promise.reject({ ...err, handled: true });
+      return Promise.reject(err);
     }
 
     if (!is401(err)) return Promise.reject(err);
-    // if ((err.config?.url || "").toString().includes("/refresh")) {
-    //   // treat as unauthenticated below
+
+    // 🚫 DO NOT redirect if already on login page
+    if (onLoginPage) {
+      return Promise.reject(err);
+    }
+
+    // if (!isRedirecting) {
+    //   isRedirecting = true;
+
+    //   toast({
+    //     title: "Unauthorized",
+    //     description: "Your session has expired",
+    //     type: "error",
+    //   });
+
+    //   window.location.href = paths.login.route(pathname);
     // }
-    // useTokenStore.getState().clearAccessToken();
-    // redirectToLoginPreservingPath();
+
     return Promise.reject(err);
   }
 );

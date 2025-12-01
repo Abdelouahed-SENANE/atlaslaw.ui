@@ -10,14 +10,14 @@ import { cn } from "@/lib/utils";
 
 export type QuickAction = {
   label: string;
-  value: "view" | "delete" | "edit";
+  value: "view" | "delete" | "edit" | "manage_permissions";
   icon?: React.ReactNode;
 };
 
 type EntityActionsProps = {
-  id: number;
+  id: string;
   actions: QuickAction[];
-  onAction?: (action: QuickAction["value"], id: number) => void;
+  onAction?: (action: QuickAction["value"], id: string) => void;
 };
 
 export const QuickActions = ({ id, actions, onAction }: EntityActionsProps) => {
@@ -27,7 +27,7 @@ export const QuickActions = ({ id, actions, onAction }: EntityActionsProps) => {
         <Button
           variant="ghost"
           size="icon"
-          className="h-8 w-8 text-muted-foreground hover:bg-primary! hover:text-primary-foreground"
+          className="h-8 w-8 text-foreground hover:bg-primary! hover:text-primary-foreground"
         >
           <MoreHorizontal className="h-4 w-4" />
         </Button>
@@ -36,7 +36,7 @@ export const QuickActions = ({ id, actions, onAction }: EntityActionsProps) => {
       <DropdownMenuContent
         align="end"
         sideOffset={4}
-        className="w-32 rounded-sm shadow-md p-0 bg-background"
+        className="max-w-lg rounded-sm shadow-md p-1 bg-background"
       >
         {actions.map(({ label, value, icon }) => (
           <DropdownMenuItem
@@ -46,7 +46,7 @@ export const QuickActions = ({ id, actions, onAction }: EntityActionsProps) => {
               onAction?.(value, id);
             }}
             className={cn(
-              "group flex items-center gap-2 text-sm cursor-pointer rounded-none transition-colors",
+              "group flex rtl:flex-row-reverse items-center gap-2 text-sm cursor-pointer rounded-none transition-colors",
               "hover:bg-primary! hover:text-primary-foreground"
             )}
           >

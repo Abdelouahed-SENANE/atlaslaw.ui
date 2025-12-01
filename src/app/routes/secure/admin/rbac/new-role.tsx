@@ -22,8 +22,8 @@ const NewRolePage = () => {
       onSuccess: () => {
         setApiErrors({});
         toast({
-          title: t("roles.title.created"),
-          description: t("roles.description.created"),
+          title: t("roles.toast.created_title"),
+          description: t("roles.toast.created_desc"),
           type: "success",
         });
         navigate(-1);

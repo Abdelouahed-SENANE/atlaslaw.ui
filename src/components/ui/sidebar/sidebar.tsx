@@ -36,7 +36,7 @@ const Root = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
         ref={ref}
         data-collapsed={isCollapsed}
         className={cn(
-          "fixed h-screen flex flex-col z-20 group/sidebar top-0  bg-card ease-in-out transition-[width] duration-300 inset-inline-start-0",
+          "fixed h-screen flex flex-col z-20 group/sidebar top-0 ltr:border-r rtl:border-l  bg-card ease-in-out transition-[width] duration-300 inset-inline-start-0",
           className,
           isCollapsed
             ? "w-(--sidebar-collapsed) hover:w-(--sidebar-expended)"
@@ -73,7 +73,7 @@ export const Label = React.forwardRef<
     <span
       ref={ref}
       className={cn(
-        "text-xs text-sidebar-foreground/60 uppercase mb-4 mt-3 tracking-wider w-full transition-all duration-200",
+        "text-sm text-sidebar-foreground/60 uppercase mb-4 mt-3 tracking-wider w-full transition-all duration-200",
 
         // collapsed → hide, but recover on hover
         isCollapsed
@@ -277,7 +277,7 @@ export const Link = React.forwardRef<HTMLDivElement, LinkProps>(
             toggle(e);
           }}
           className={cn(
-            "group/item flex items-center mb-1 relative py-1.5 px-2 w-full leading-5 text-[13px] border border-transparent rounded-xs cursor-pointer duration-200 text-sidebar-foreground/70 hover:text-sidebar-foreground",
+            "group/item flex items-center mb-1 relative py-1.5 px-2 w-full leading-5 text-sm border border-transparent rounded-xs cursor-pointer duration-200 text-sidebar-foreground/70 hover:text-sidebar-foreground",
             isCollapsed
               ? "justify-center gap-0 group-hover/sidebar:gap-2"
               : "justify-start gap-2",
@@ -356,7 +356,7 @@ export const Link = React.forwardRef<HTMLDivElement, LinkProps>(
                           }
                       }}
                       className={cn(
-                        "flex items-center text-[13px] font-semibold gap-2 py-1.5 rtl:pl-2 rtl:pr-8 ltr:pl-8 ltr:pr-2 text-sidebar-foreground/70 hover:text-sidebar-foreground rounded-sm transition-colors",
+                        "flex items-center text-sm font-semibold gap-2 py-1.5 rtl:pl-2 rtl:pr-8 ltr:pl-8 ltr:pr-2 text-sidebar-foreground/70 hover:text-sidebar-foreground rounded-sm transition-colors",
                         "relative before:content-[''] before:absolute before:w-1.5 before:h-1.5 before:rounded-full",
                         "before:border-2 before:border-primary/40 ",
                         "ltr:before:left-4 rtl:before:right-4",

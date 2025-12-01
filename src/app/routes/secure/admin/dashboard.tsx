@@ -7,7 +7,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 
 const DashboardPage = () => {
-  const {t} = useTranslation()
+  const { t } = useTranslation();
   const metrics = React.useMemo(
     () => [
       {
@@ -75,7 +75,10 @@ const DashboardPage = () => {
   ];
 
   return (
-    <DashLayout title={t("dashboard.page.title")} desc={t("dashboard.page.desc")}>
+    <DashLayout
+      title={t("dashboard.page.title")}
+      desc={t("dashboard.page.desc")}
+    >
       <div className="grid grid-cols-8 gap-2">
         {metrics.map((metric) => (
           <MetricCard className="col-span-2" key={metric.title} {...metric} />

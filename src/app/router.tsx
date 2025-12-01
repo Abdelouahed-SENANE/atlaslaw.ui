@@ -117,6 +117,13 @@ export const createAppRouter = (queryClient: QueryClient) => {
                           convert(queryClient)
                         ),
                     },
+                    {
+                      path: paths.admin.rbac.roles.permissions.root, // "new"
+                      lazy: () =>
+                        import("./routes/secure/admin/rbac/role-permissions").then(
+                          convert(queryClient)
+                        ),
+                    },
                   ],
                 },
               ],

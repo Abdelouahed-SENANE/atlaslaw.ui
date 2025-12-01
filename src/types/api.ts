@@ -1,4 +1,4 @@
-import { Permission, Scope } from "@/lib/authorization";
+import { Scope } from "@/lib/authorization";
 
 export type BaseEntity = {
   id: string;
@@ -52,7 +52,7 @@ export type Paginated<T> = {
   items: T[];
   pagination?: Pagination;
   sort?: Sorting;
-}
+};
 
 type Pagination = {
   total: number;
@@ -75,3 +75,19 @@ export type Role = Entity<{
   scope: Scope;
   description: string;
 }>;
+
+export type Permission = {
+  id: string;
+  code: string;
+  description: string;
+  assigned: boolean;
+};
+// export enum RESSOURCES {
+//   USERS = "users",
+//   ROLES = "roles",
+//   TENANTS = "tenants",
+// }
+export type RolePermission = {
+  role: Partial<Role>;
+  groups: Record<string, Permission[]>;
+};

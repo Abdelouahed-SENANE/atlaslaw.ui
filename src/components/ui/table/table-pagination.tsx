@@ -1,12 +1,5 @@
 import * as React from "react";
 
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/form";
 import { cn } from "@/lib/utils";
 import { useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
@@ -74,9 +67,9 @@ const PaginationLink = ({
     to={href as string}
     aria-current={isActive ? "page" : undefined}
     className={cn(
-      "flex items-center hover: justify-center px-3 h-8 text-sm transition-colors",
+      "flex items-center  justify-center px-3 h-9 text-sm hover:no-underline",
       isActive
-        ? " bg-card-foreground text-primary-foreground font-semibold"
+        ? " bg-card-foreground text-primary-foreground font-bold text-lg "
         : "hover:bg-border",
       className
     )}
@@ -154,7 +147,7 @@ export const TablePagination = ({
   rootUrl,
 }: TablePaginationProps) => {
   const totalPages = Math.ceil(total / limit);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const dir = useDirection();
 
   // const start = (page - 1) * limit + 1;
@@ -188,8 +181,8 @@ export const TablePagination = ({
           isActive={page === 1}
           className={cn(
             page === 1
-              ? "bg-primary font-semibold text-primary-foreground"
-              : "text-foreground"
+              ? " bg-primary text-primary-foreground font-bold text-base"
+              : "hover:bg-border text-sm text-foreground"
           )}
         >
           1
@@ -214,8 +207,8 @@ export const TablePagination = ({
             href={createHref(i)}
             className={cn(
               page === i
-              ? "bg-primary font-semibold text-primary-foreground"
-              : "text-foreground"
+                ? " bg-primary text-primary-foreground font-bold text-base"
+                : "hover:bg-border text-sm text-foreground"
             )}
           >
             {i}
@@ -240,8 +233,8 @@ export const TablePagination = ({
             href={createHref(totalPages)}
             className={cn(
               page === totalPages
-                ? "bg-primary font-semibold text-primary-foreground hover:bg-primary/80"
-                : "text-foreground"
+                ? " bg-primary text-primary-foreground font-bold text-base"
+                : "hover:bg-border text-sm text-foreground"
             )}
           >
             {totalPages}
@@ -259,10 +252,10 @@ export const TablePagination = ({
         "w-full items-center  py-2 flex flex-col gap-3 sm:flex-row sm:justify-between"
       )}
     >
-
-      <PaginationContent dir="ltr"
+      <PaginationContent
+        dir="ltr"
         className={cn(
-          "flex items-center justify-start ltr:ml-auto  mr-1 bg-card h-9 rounded-md border border-border overflow-hidden divide-x divide-border ",
+          "flex items-center justify-start ltr:ml-auto overflow-hidden  mr-1 bg-card h-9 rounded-md border border-border  divide-x divide-border "
         )}
       >
         {/* Previous button */}

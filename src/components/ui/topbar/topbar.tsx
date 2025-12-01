@@ -19,7 +19,7 @@ export const Topbar = ({ className }: TopbarProps) => {
   return (
     <div
       className={cn(
-        "h-(--topbar-height) z-10 border-b bg-background px-2 ms-auto fixed inset-0 transition-[width] duration-300",
+        "h-(--topbar-height) z-10 border-b bg-card px-2 ms-auto fixed inset-0 transition-[width] duration-300",
         isCollapsed
           ? "w-[calc(100%-var(--sidebar-collapsed))]"
           : "w-[calc(100%-var(--sidebar-expended))]",
@@ -37,7 +37,7 @@ export const Topbar = ({ className }: TopbarProps) => {
               <Menu className="size-4" />
             </Button>
           </li>
-          {hasPermission({ permission: Permission.CREATE_TENANT }) && (
+          {hasPermission({ permission: Permission.CREATE_TENANTS }) && (
             <li>
               <Button
                 variant={"plain"}
