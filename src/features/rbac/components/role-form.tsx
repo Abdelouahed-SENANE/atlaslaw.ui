@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { CreateRoleInputs, createRoleSchema } from "../api/create-role";
 
 type RoleFormProps = {
-  defaultValues?: Role;
+  defaultValues?: Partial<Role>;
   onSubmit: (values: CreateRoleInputs) => void;
   apiErrors: Partial<Record<keyof Role, string[]>>;
   isLoading?: boolean;
@@ -28,7 +28,11 @@ export const RoleForm = ({
       <CardContent className="p-0">
         <Form
           id="role-form"
-          options={{ defaultValues }}
+          options={{ defaultValues :{
+            name: defaultValues?.name ?? "",
+            description: defaultValues?.description ?? "",
+            scope: defaultValues?.scope ?? "tenant",
+          } }}
           schema={createRoleSchema}
           onSubmit={onSubmit}
         >

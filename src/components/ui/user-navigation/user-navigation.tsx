@@ -1,8 +1,10 @@
 import { Button } from "@/components/ui/button";
+import i18n from "@/config/i18n.ts";
 import { paths } from "@/config/paths";
 import { useLogout, useUser } from "@/lib/auth";
 import { cn } from "@/lib/utils";
-import {  Power, Settings, User } from "lucide-react";
+import { Power, Settings, User } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "../avatar/avatar.tsx";
 import {
@@ -13,7 +15,7 @@ import {
   DropdownMenuTrigger,
 } from "../dropdown/index.ts";
 import { RouterLink } from "../link/index.ts";
-import { useTranslation } from "react-i18next";
+import { Lang } from "@/types/api.ts";
 
 type UserNavItem = {
   title: string;
@@ -21,23 +23,23 @@ type UserNavItem = {
 };
 
 export const UserNavgation = () => {
-  const user  = useUser();
+  const user = useUser();
   const navigate = useNavigate();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
+  const lang = i18n.language;
   const logout = useLogout({
     onSuccess: () => {
       navigate(paths.login.root, { replace: true });
     },
   });
 
-  const isRTL = document.documentElement.dir === "rtl";
 
   const navigation = [
     {
       title: t("user_navigation.label_account"),
       items: [
         {
-          name:  t("user_navigation.profile"),
+          name: t("user_navigation.profile"),
           to: paths.profile.route(),
           icon: User,
         },
@@ -80,7 +82,9 @@ export const UserNavgation = () => {
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
           <div className="">
-            <h6 className="font-medium text-sm">{isRTL ? user?.data?.name.ar : user?.data?.name.fr}</h6>
+            <h6 className="font-medium text-sm">
+              {}{user?.data?.name[lang as Lang]}
+            </h6>
             <small className="text- mb-0 text-xs">{user?.data?.email}</small>
           </div>
         </DropdownMenuItem>
@@ -94,7 +98,7 @@ export const UserNavgation = () => {
               {nav.title}
             </small>
             {nav.items &&
-              nav.items.map((item , index) => (
+              nav.items.map((item, index) => (
                 <RouterLink
                   key={index}
                   to={item.to}

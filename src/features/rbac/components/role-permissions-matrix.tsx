@@ -9,13 +9,14 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { toast } from "@/components/ui/toast/use-toast";
-import { Permission } from "@/types/api";
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import {
   updateRolePermissionsSchema,
   useUpdateRolePermissions,
 } from "../api/update-role-permissions";
+import { Permission } from "../types";
 
 type Props = {
   groups: Record<string, Permission[]>;
@@ -25,6 +26,7 @@ type Props = {
 const ACTIONS = ["create", "update", "list", "delete"] as const;
 export const RolePermissionsMatrix = ({ groups, roleID }: Props) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const updateRolePermissions = useUpdateRolePermissions({
     id: roleID,
     mutationConfig: {
@@ -34,6 +36,7 @@ export const RolePermissionsMatrix = ({ groups, roleID }: Props) => {
           description: t("roles.toast.updated_desc"),
           type: "success",
         });
+        navigate(-1);
       },
     },
   });

@@ -24,3 +24,18 @@ export const normalizeToE164 = (value: string, defaultCountryCode = "+212") => {
 
   return value;
 };
+
+export function diffObject<T extends Record<string, any>>(
+  oldObj: T,
+  newObj: Partial<T>
+): Partial<T> {
+  const result: Partial<T> = {};
+
+  (Object.keys(newObj) as (keyof T)[]).forEach((key) => {
+    if (newObj[key] !== oldObj[key]) {
+      result[key] = newObj[key];
+    }
+  });
+
+  return result;
+}

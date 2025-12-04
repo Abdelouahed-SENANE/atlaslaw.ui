@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import * as React from "react";
 import { type UseFormRegisterReturn } from "react-hook-form";
 import { FieldWrapper, FieldWrapperPassThroughProps } from "./field-wrapper";
@@ -11,12 +12,15 @@ export type InputProps = React.InputHTMLAttributes<HTMLInputElement> &
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, label, error, registration, ...props }, ref) => {
     return (
-
       <FieldWrapper label={label} error={error}>
         <div className="relative w-full">
           <input
             ref={ref}
-            className="peer flex h-9 w-full border border-border  rounded-sm  bg-transparent px-2 py-1 text-sm  transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-foreground/50 focus-visible:outline-none focus-visible:ring-[3px] focus:border-primary outline-none focus-visible:ring-primary/50 disabled:cursor-not-allowed disabled:opacity-50"
+            className={cn(
+              "peer flex h-9 w-full border border-border  rounded-sm  bg-transparent px-2 py-1 text-sm  transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-foreground/50 focus-visible:outline-none focus-visible:ring-[3px] focus:border-primary outline-none focus-visible:ring-primary/50 disabled:cursor-not-allowed disabled:opacity-50",
+              error && "border-error/80 ring-3 ring-error/40",
+              className
+            )}
             type={type}
             placeholder=" "
             {...registration}

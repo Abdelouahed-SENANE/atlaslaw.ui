@@ -46,7 +46,7 @@ export function Toaster() {
             variant={"default"}
             {...props}
             className="
-                  relative bg-background shadow-card max-w-xs p-2 border-border rounded-sm text-card-foreground
+                  relative bg-background shadow-card max-w-sm p-2 border-border rounded-sm text-card-foreground
                   top-5 rtl:right-1/2 ltr:left-1/2 ltr:-translate-x-1/2 rtl:translate-x-1/2
                   transition-transform  duration-300 ease-out
                   opacity-0
@@ -70,7 +70,7 @@ export function Toaster() {
                     <ToastTitle
                       className={cn(
                         alertStyles[type].text,
-                        "text-sm font-semibold"
+                        "text-base font-semibold"
                       )}
                     >
                       {title}
@@ -78,7 +78,7 @@ export function Toaster() {
                   )}
                   {description && (
                     <ToastDescription>
-                      <p className="text-xs font-medium">{description}</p>
+                      <p className="text-sm font-medium">{description}</p>
                     </ToastDescription>
                   )}
                   {action}

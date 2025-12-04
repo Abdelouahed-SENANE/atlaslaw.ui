@@ -1,7 +1,8 @@
 import * as React from "react";
 
+import { Permission } from "@/features/rbac/types";
 import { useUser } from "../auth/authentication";
-import { Permission, Scope } from "./constants";
+import { Scope } from "./constants";
 
 // export const POLICIES = {
 //   "comment:delete": (user: User) => {
@@ -35,7 +36,7 @@ export const useAuthorization = () => {
   );
 
   const hasPermission = React.useCallback(
-    ({ permission }: { permission:  Permission }) => {
+    ({ permission }: { permission: Permission }) => {
       if (user.data) {
         return user.data.permissions.includes(permission);
       }
@@ -67,7 +68,7 @@ export const Authorization = ({
   forbiddenFallback = null,
   children,
 }: AuthorizationProps) => {
-  const { hasScope , hasPermission } = useAuthorization();
+  const { hasScope, hasPermission } = useAuthorization();
 
   let canAccess = false;
 

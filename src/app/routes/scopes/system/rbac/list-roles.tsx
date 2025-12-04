@@ -11,13 +11,13 @@ import { SearchInput } from "@/components/ui/form";
 import { RouterLink } from "@/components/ui/link";
 import { TablePagination, useQueryTable } from "@/components/ui/table";
 import { paths } from "@/config/paths";
-import { useRoles } from "@/features/rbac/api/get-roles";
+import { useRoles } from "@/features/rbac/api/list-roles";
 import { RoleTable } from "@/features/rbac/components/role-table";
-import { Role } from "@/types/api";
+import { Role } from "@/features/rbac/types";
 import { Plus } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
-const RolesPage = () => {
+const ListRolesPage = () => {
   const { t } = useTranslation();
 
   const table = useQueryTable<Role>();
@@ -32,8 +32,25 @@ const RolesPage = () => {
   const items = rolesQuery.data?.data?.items ?? [];
   const pagination = rolesQuery.data?.data?.pagination;
 
+  const breadcrumbs = [
+    {
+      label: t("menu.dashboard"),
+      url: paths.admin.dashboard.route(),
+      active: false,
+    },
+    {
+      label: t("menu.list_roles"),
+      url: "#",
+      active: true,
+    },
+  ];
+
   return (
-    <DashLayout title={t("roles.page.title")} desc={t("roles.page.desc")}>
+    <DashLayout
+      breadcrumbs={breadcrumbs}
+      title={t("roles.page.title")}
+      desc={t("roles.page.desc")}
+    >
       <Card className="p-2">
         <CardHeader className="flex items-center justify-between p-0">
           <div>
@@ -84,4 +101,4 @@ const RolesPage = () => {
   );
 };
 
-export default RolesPage;
+export default ListRolesPage;

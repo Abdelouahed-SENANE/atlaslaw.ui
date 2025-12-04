@@ -2,7 +2,7 @@ import { api$ } from "@/config/axios";
 import { MutationConfig } from "@/config/react-query";
 import { ApiResponse } from "@/types/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ROLES_KEY } from "./get-roles";
+import { ROLES_KEY } from "./list-roles";
 
 export const deleteRole = async ({
   id,

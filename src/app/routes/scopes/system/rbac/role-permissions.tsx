@@ -6,6 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { paths } from "@/config/paths";
 import { useRolePermissions } from "@/features/rbac/api/get-role-permissions";
 import { RolePermissionsMatrix } from "@/features/rbac/components/role-permissions-matrix";
 import { useTranslation } from "react-i18next";
@@ -23,8 +24,27 @@ const RolePermissionsPage = () => {
 
   if(rolePerms.isLoading) return null;
 
+    const breadcrumbs = [
+    {
+      label: t("menu.dashboard"),
+      url: paths.admin.dashboard.route(),
+      active: false,
+    },
+    {
+      label: t("menu.rbac"),
+      url: paths.admin.rbac.roles.list.route(),
+      active: false,
+    },
+    {
+      label: `${t("roles.page.permissions_title")} - ${role?.name}`,
+      url: "#",
+      active: true,
+    },
+  ];
+
   return (
     <DashLayout
+    breadcrumbs={breadcrumbs}
       title={t("roles.page.permissions_title")}
       desc={t("roles.page.permissions_desc")}
     >

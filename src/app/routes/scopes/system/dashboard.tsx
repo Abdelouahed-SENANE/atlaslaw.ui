@@ -74,10 +74,18 @@ const DashboardPage = () => {
     "2003-01-11",
   ];
 
+  const breadcrumbs = [
+    {
+      label: t("menu.dashboard"),
+      url: "#",
+      active: true,
+    },
+  ];
   return (
     <DashLayout
       title={t("dashboard.page.title")}
       desc={t("dashboard.page.desc")}
+      breadcrumbs={breadcrumbs}
     >
       <div className="grid grid-cols-8 gap-2">
         {metrics.map((metric) => (

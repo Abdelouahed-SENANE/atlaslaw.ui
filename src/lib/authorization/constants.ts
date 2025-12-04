@@ -3,7 +3,7 @@ export enum Scope {
   TENANT = "tenant",
 }
 
-export enum Permission {
+export enum PermissionCodes {
   // TENANTS (Super Admin)
   LIST_TENANTS = "list:tenants",
   CREATE_TENANTS = "create:tenants",
@@ -43,11 +43,5 @@ export enum Permission {
   DELETE_DOCUMENT = "delete:document",
   DOWNLOAD_DOCUMENT = "download:document",
 
-  // BILLING
-  LIST_INVOICES = "list:invoices",
-  VIEW_INVOICE = "view:invoice",
-  CREATE_INVOICE = "create:invoice",
-  UPDATE_INVOICE = "update:invoice",
-  DELETE_INVOICE = "delete:invoice",
-  PAY_INVOICE = "pay:invoice",
+
 }

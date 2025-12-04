@@ -1,11 +1,12 @@
 import { DashLayout } from "@/components/layouts/_dash-layout";
 import { toast } from "@/components/ui/toast/use-toast";
+import { paths } from "@/config/paths";
 import {
   CreateRoleInputs,
   useCreateRole,
 } from "@/features/rbac/api/create-role";
 import { RoleForm } from "@/features/rbac/components/role-form";
-import { Role } from "@/types/api";
+import { Role } from "@/features/rbac/types";
 import { Logger } from "@/utils/logger";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -34,11 +35,29 @@ const NewRolePage = () => {
       },
     },
   });
+  const breadcrumbs = [
+    {
+      label: t("menu.dashboard"),
+      url: paths.admin.dashboard.route(),
+      active: false,
+    },
+    {
+      label: t("menu.rbac"),
+      url: paths.admin.rbac.roles.list.route(),
+      active: false,
+    },
+    {
+      label: t("roles.page.create_title"),
+      url: "#",
+      active: true,
+    },
+  ];
   const handleOnsubmit = (values: CreateRoleInputs) => {
     createRole.mutate({ payload: values });
   };
   return (
     <DashLayout
+      breadcrumbs={breadcrumbs}
       title={t("roles.page.create_title")}
       desc={t("roles.page.create_desc")}
     >

@@ -7,6 +7,7 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get("redirectTo");
   const user = useUser();
+  
   if (user.data) {
     return <Navigate to={redirectTo ? redirectTo : paths.home.root} replace />;
   }

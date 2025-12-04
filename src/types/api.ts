@@ -10,17 +10,9 @@ export type Entity<T> = {
   [K in keyof T]: T[K];
 } & BaseEntity;
 
-export type User = Entity<{
-  email: string;
-  name: Translation;
-  scope: Scope;
-  permissions: Permission[];
-}>;
 
-export type Translation = {
-  ar?: string;
-  fr?: string;
-};
+export type Lang = "ar" | "fr";
+export type Translation = Record<Lang, string>;
 
 export type Jwt = {
   access_token: string;
@@ -69,25 +61,8 @@ type Sorting = {
   sort_order: "asc" | "desc";
 };
 
-export type Role = Entity<{
-  tenantID: string;
-  name: string;
-  scope: Scope;
-  description: string;
-}>;
-
-export type Permission = {
-  id: string;
-  code: string;
-  description: string;
-  assigned: boolean;
-};
-// export enum RESSOURCES {
-//   USERS = "users",
-//   ROLES = "roles",
-//   TENANTS = "tenants",
-// }
-export type RolePermission = {
-  role: Partial<Role>;
-  groups: Record<string, Permission[]>;
+export type BaseOption = {
+  label: string;
+  value: string;
+  [key: string]: any;
 };

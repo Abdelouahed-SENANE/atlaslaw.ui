@@ -35,7 +35,7 @@ const getRoles = async (
     },
   });
 
-  return response.data; // now valid
+  return response.data; 
 };
 
 export const getRolesQueryOptions = (params: RoleParams) => {

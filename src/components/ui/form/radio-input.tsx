@@ -21,11 +21,10 @@ const RadioInput = React.forwardRef<HTMLInputElement, InputProps>(
             {...props}
           />
 
-          {/* Custom box */}
           <div
             className={`
-              flex items-center w-full border rounded-sm px-3 py-2
-              bg-card text-sm font-medium transition-all
+              flex items-center justify-center w-full border rounded-sm px-3 py-2
+              bg-card text-sm font-medium transition-colors
               peer-checked:border-primary
               peer-checked:bg-primary/10
               peer-checked:text-primary

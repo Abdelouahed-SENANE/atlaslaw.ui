@@ -55,7 +55,7 @@ export const createAppRouter = (queryClient: QueryClient) => {
 
           lazy: async () => {
             const [{ default: AdminRoot }] = await Promise.all([
-              import("./routes/secure/admin"),
+              import("./routes/scopes/system"),
             ]);
             return {
               element: (
@@ -72,7 +72,7 @@ export const createAppRouter = (queryClient: QueryClient) => {
               HydrateFallback: () => LoadingScreen,
               path: paths.admin.dashboard.root,
               lazy: () =>
-                import("./routes/secure/admin/dashboard").then(
+                import("./routes/scopes/system/dashboard").then(
                   convert(queryClient)
                 ),
             },
@@ -83,14 +83,21 @@ export const createAppRouter = (queryClient: QueryClient) => {
                 {
                   index: true, // instead of path: ""
                   lazy: () =>
-                    import("./routes/secure/admin/tenants/tenants").then(
+                    import("./routes/scopes/system/tenants/list-tenants").then(
                       convert(queryClient)
                     ),
                 },
                 {
                   path: paths.admin.tenants.new.root, // "create"
                   lazy: () =>
-                    import("./routes/secure/admin/tenants/new-tenant").then(
+                    import("./routes/scopes/system/tenants/new-tenant").then(
+                      convert(queryClient)
+                    ),
+                },
+                {
+                  path: paths.admin.tenants.edit.root, // "create"
+                  lazy: () =>
+                    import("./routes/scopes/system/tenants/edit-tenant").then(
                       convert(queryClient)
                     ),
                 },
@@ -106,23 +113,30 @@ export const createAppRouter = (queryClient: QueryClient) => {
                     {
                       index: true,
                       lazy: () =>
-                        import("./routes/secure/admin/rbac/roles").then(
+                        import("./routes/scopes/system/rbac/list-roles").then(
                           convert(queryClient)
                         ),
                     },
                     {
                       path: paths.admin.rbac.roles.new.root, // "new"
                       lazy: () =>
-                        import("./routes/secure/admin/rbac/new-role").then(
+                        import("./routes/scopes/system/rbac/new-role").then(
+                          convert(queryClient)
+                        ),
+                    },
+                    {
+                      path: paths.admin.rbac.roles.edit.root, // "new"
+                      lazy: () =>
+                        import("./routes/scopes/system/rbac/edit-role").then(
                           convert(queryClient)
                         ),
                     },
                     {
                       path: paths.admin.rbac.roles.permissions.root, // "new"
                       lazy: () =>
-                        import("./routes/secure/admin/rbac/role-permissions").then(
-                          convert(queryClient)
-                        ),
+                        import(
+                          "./routes/scopes/system/rbac/role-permissions"
+                        ).then(convert(queryClient)),
                     },
                   ],
                 },
@@ -138,7 +152,7 @@ export const createAppRouter = (queryClient: QueryClient) => {
           HydrateFallback: () => LoadingScreen,
           lazy: async () => {
             const [{ default: TenantRoot }] = await Promise.all([
-              import("./routes/secure/tenant"),
+              import("./routes/scopes/tenant"),
             ]);
             return {
               element: (

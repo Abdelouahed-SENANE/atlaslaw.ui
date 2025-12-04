@@ -3,11 +3,11 @@ import { Table, TableColumn } from "@/components/ui/table";
 import { useQueryTable } from "@/components/ui/table/use-query-table";
 import { paths } from "@/config/paths";
 import { useDisclosure } from "@/hooks/use-disclosure";
-import { Role } from "@/types/api";
 import { Edit, Key, Trash } from "lucide-react";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { Role } from "../types";
 import { ConfirmRoleDelation } from "./confirm-role-delete";
 interface RoleTableProps {
   roles: Role[];
@@ -25,7 +25,7 @@ export const RoleTable = ({ roles, isLoading, table }: RoleTableProps) => {
         navigate(paths.admin.rbac.roles.permissions.route(id));
         break;
       case "edit":
-        console.log(id);
+        navigate(paths.admin.rbac.roles.edit.route(id));
         break;
       case "delete":
         setId(id);

@@ -38,10 +38,14 @@ export const paths = {
           root: "new",
           route: () => "/admin/rbac/roles/new",
         },
-        permissions : {
-          root : ":id/permissions",
-          route : (id : string) => `/admin/rbac/roles/${id}/permissions`
-        }
+        edit: {
+          root: ":id/edit",
+          route: (id: string) => `/admin/rbac/roles/${id}/edit`,
+        },
+        permissions: {
+          root: ":id/permissions",
+          route: (id: string) => `/admin/rbac/roles/${id}/permissions`,
+        },
       },
     },
     tenants: {
@@ -54,6 +58,10 @@ export const paths = {
       new: {
         root: "new",
         route: () => "/admin/tenants/new",
+      },
+      edit: {
+        root: ":id/edit",
+        route: (id: string) => `/admin/tenants/${id}/edit`,
       },
     },
     users: {

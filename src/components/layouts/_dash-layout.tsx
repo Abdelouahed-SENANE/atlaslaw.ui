@@ -5,6 +5,14 @@ import { cn } from "@/lib/utils";
 import { Building, Fingerprint, Layout, Users2 } from "lucide-react";
 import React, { Fragment } from "react";
 import { useTranslation } from "react-i18next";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbSeparator,
+} from "../ui/breadcrumb";
+import { RouterLink } from "../ui/link";
 import { Sidebar, useSidebar } from "../ui/sidebar";
 import { Topbar } from "../ui/topbar/topbar";
 
@@ -12,10 +20,12 @@ export const DashLayout = ({
   children,
   title,
   desc,
+  breadcrumbs = [],
 }: {
   children: React.ReactNode;
   title?: string;
   desc?: string;
+  breadcrumbs?: { label: string; url: string; active?: boolean }[];
 }) => {
   const { hasScope } = useAuthorization();
   const { t } = useTranslation();
@@ -123,9 +133,36 @@ export const DashLayout = ({
                 : "w-[calc(100%-var(--sidebar-expended))]"
             )}
           >
-            <div className="mb-6">
-              <h1 className="text-3xl font-bold">{title}</h1>
-              <p className=" text-card-foreground/60  ">{desc}</p>
+            <div className="mb-8 mt-4 space-y-1">
+              <Breadcrumb>
+                <BreadcrumbList className="flex items-center">
+                  {breadcrumbs.map((item, index) => (
+                    <React.Fragment key={index}>
+                      <BreadcrumbItem>
+                        <BreadcrumbLink asChild>
+                          <RouterLink
+                            className={cn(
+                              "hover:no-underline text-foreground hover:text-primary text-sm font-bold",
+                              item.active && "text-primary"
+                            )}
+                            to={item.active ? "#" : item.url}
+                          >
+                            {item.label}
+                          </RouterLink>
+                        </BreadcrumbLink>
+                      </BreadcrumbItem>
+                      {index < breadcrumbs.length - 1 && (
+                        <BreadcrumbSeparator />
+                      )}
+                    </React.Fragment>
+                  ))}
+                </BreadcrumbList>
+              </Breadcrumb>
+
+              <div>
+                <h1 className="text-3xl font-bold">{title}</h1>
+                <p className=" text-card-foreground/60 ">{desc}</p>
+              </div>
             </div>
             {children}
           </div>

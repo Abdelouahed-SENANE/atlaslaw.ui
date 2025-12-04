@@ -1,29 +1,64 @@
-// hooks/use-query-table.ts
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
-export const useQueryTable = <T extends { id?: string | number }>() => {
+export const useQueryTable = <
+  T extends { id?: string | number },
+  F extends Record<string, string | number | undefined> = {},
+>() => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   // ===========================
-  // URL PARAMS
+  // PAGINATION
   // ===========================
   const page = Number(searchParams.get("page") || 1);
   const query = searchParams.get("query") ?? "";
   const limit = Number(searchParams.get("limit") || 10);
 
+  // ===========================
+  // SORT
+  // ===========================
   const sort_by = (searchParams.get("sort_by") as keyof T) ?? "created_at";
   const sort_dir = searchParams.get("sort_dir") === "desc" ? "desc" : "asc";
 
   // ===========================
-  // SELECTION LOGIC
+  // GENERIC FILTERS
+  // ===========================
+  const filters = useMemo<F>(() => {
+    const result = {} as F;
+
+    searchParams.forEach((value, key) => {
+      if (!["page", "query", "limit", "sort_by", "sort_dir"].includes(key)) {
+        (result as any)[key] = value ;
+      }
+    });
+
+    return result;
+  }, [searchParams]);
+
+  const setFilter = useCallback(
+    <K extends keyof F>(key: K, value: F[K]) => {
+      const params = new URLSearchParams(searchParams);
+
+      if (value === undefined || value === "" || value === null) {
+        params.delete(String(key));
+      } else {
+        params.set(String(key), String(value));
+      }
+
+      params.set("page", "1");
+      setSearchParams(params);
+    },
+    [searchParams, setSearchParams]
+  );
+  // ===========================
+  // SELECTION
   // ===========================
   const [selectedRows, setSelectedRows] = useState<Set<string | number>>(
     () => new Set()
   );
 
   const toggleRow = useCallback((id: string | number) => {
-    setSelectedRows(prev => {
+    setSelectedRows((prev) => {
       const next = new Set(prev);
       next.has(id) ? next.delete(id) : next.add(id);
       return next;
@@ -31,16 +66,13 @@ export const useQueryTable = <T extends { id?: string | number }>() => {
   }, []);
 
   const toggleAll = useCallback((allIds: (string | number)[]) => {
-    setSelectedRows(prev => {
-      if (prev.size === allIds.length) {
-        return new Set();
-      }
-      return new Set(allIds);
-    });
+    setSelectedRows((prev) =>
+      prev.size === allIds.length ? new Set() : new Set(allIds)
+    );
   }, []);
 
   // ===========================
-  // QUERY / SEARCH LOGIC
+  // QUERY / SEARCH
   // ===========================
   const setQuery = useCallback(
     (value: string) => {
@@ -50,14 +82,13 @@ export const useQueryTable = <T extends { id?: string | number }>() => {
       else params.delete("query");
 
       params.set("page", "1");
-
       setSearchParams(params);
     },
     [searchParams, setSearchParams]
   );
 
   // ===========================
-  // SORTING LOGIC
+  // SORTING
   // ===========================
   const setSorting = useCallback(
     (field: keyof T, dir: "asc" | "desc") => {
@@ -76,6 +107,9 @@ export const useQueryTable = <T extends { id?: string | number }>() => {
     limit,
     sort_by,
     sort_dir,
+
+    filters, // <---- NEW
+    setFilter, // <---- NEW
 
     selectedRows,
     toggleRow,

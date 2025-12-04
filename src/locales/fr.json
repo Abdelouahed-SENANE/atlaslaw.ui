@@ -76,7 +76,7 @@
   "menu": {
     "dashboard": "Tableau de bord",
     "users": "Utilisateurs",
-    "tenants": "Tenants",
+    "tenants": "Locataires",
     "settings": "Paramètres",
     "navigation": "Menu",
     "list_users": "Liste des utilisateurs",
@@ -111,7 +111,9 @@
       "permissions_title": "Permissions du rôle",
       "permissions_desc": "Assignez des permissions au rôle pour contrôler l'accès et la gestion des ressources.",
       "role_permissions_title": "Permissions du rôle",
-      "role_permissions_desc": "Assignez des permissions au rôle pour contrôler l'accès et la gestion des ressources."
+      "role_permissions_desc": "Assignez des permissions au rôle pour contrôler l'accès et la gestion des ressources.",
+      "update_title": "Modifier le rôle",
+      "update_desc": "Modifiez le rôle existant et assignez des permissions appropriées."
     },
     "modal": {
       "delete_title": "Supprimer rôle",
@@ -170,5 +172,104 @@
     "settings": "Paramètres",
     "logout": "Se déconnecter"
   },
-  "cancel": "Annuler"
+  "cancel": "Annuler",
+
+  "tenants": {
+    "status": {
+      "all": "Tous",
+      "active": "Actif",
+      "suspended": "Suspendu"
+    },
+    "pages": {
+      "new": {
+        "title": "Créer un tenant",
+        "description": "Ajoutez un nouveau tenant à votre espace de gestion."
+      },
+      "list": {
+        "title": "Liste des tenants",
+        "desc": "Gérez et administrez l’ensemble des tenants.",
+        "subtitle": "Gestion des tenants",
+        "sub_desc": "Consultez, filtrez et organisez la liste des tenants.",
+        "empty_msg": "Aucun tenant trouvé pour le moment."
+      },
+      "edit": {
+        "title": "Modifier le tenant",
+        "description": "Modifiez le tenant existant."
+      }
+    },
+    "actions": {
+      "delete": "Supprimer le tenant",
+      "edit": "Modifier le tenant",
+      "update": "Mettre à jour le tenant",
+      "create": "Créer un tenant",
+      "add": "Ajouter un tenant",
+      "search": "Recherchez un tenant, un mot-clé..."
+    },
+    "columns": {
+      "name": "Nom",
+      "slug": "Slug",
+      "status": "Statut",
+      "owner_id": "Propriétaire",
+      "created_at": "Création",
+      "updated_at": "Mise à jour"
+    },
+    "toast": {
+      "created_title": "Tenant créé.",
+      "updated_title": "Tenant mis à jour.",
+      "deleted_title": "Tenant supprimé.",
+      "error_create_title": "Erreur lors de la création du tenant.",
+      "error_update_title": "Erreur lors de la mise à jour du tenant.",
+      "error_delete_title": "Erreur lors de la suppression du tenant."
+    },
+    "fields": {
+      "name": {
+        "label": "Le nom du tenant",
+        "placeholder": "Entrez le nom du tenant",
+        "errors": {
+          "required": "Le nom du tenant est requis."
+        }
+      },
+      "slug": {
+        "label": "Le slug du tenant",
+        "placeholder": "Entrez le slug du tenant",
+        "errors": {
+          "required": "Le slug du tenant est requis."
+        }
+      },
+      "status": {
+        "label": "Le statut du tenant",
+        "placeholder": "Entrez le statut du tenant",
+        "options": {
+          "active": "Actif",
+          "suspended": "Suspendu"
+        },
+        "errors": {
+          "required": "Le statut du tenant est requis."
+        }
+      },
+      "owner_id": {
+        "label": "Le propriétaire du tenant",
+        "placeholder": "Entrez le propriétaire du tenant",
+        "errors": {
+          "required": "Le propriétaire du tenant est requis."
+        }
+      }
+    }
+  },
+
+  "users": {
+    "pages": {
+      "new": {
+        "title": "Créer un utilisateur",
+        "description": "Ajoutez un nouveau utilisateur à votre espace de gestion."
+      },
+      "list": {
+        "title": "Liste des utilisateurs",
+        "desc": "Gérez et administrez l’ensemble des utilisateurs.",
+        "subtitle": "Gestion des utilisateurs",
+        "sub_desc": "Consultez, filtrez et organisez la liste des utilisateurs.",
+        "empty_msg": "Aucun utilisateur trouvé pour le moment."
+      }
+    }
+  }
 }
