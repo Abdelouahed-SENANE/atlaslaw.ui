@@ -22,6 +22,8 @@ const RolePermissionsPage = () => {
   const groups = rolePerms.data?.data?.groups ?? {};
   const { t } = useTranslation();
 
+  console.log(groups);
+  
   if(rolePerms.isLoading) return null;
 
     const breadcrumbs = [

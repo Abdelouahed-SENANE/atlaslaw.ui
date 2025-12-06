@@ -1,4 +1,5 @@
-import { Entity, User } from "@/types/api";
+import { User } from "@/features/user/types";
+import { Entity } from "@/types/api";
 
 export type Settings = {
   locale: string;

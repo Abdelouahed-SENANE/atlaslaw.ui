@@ -4,12 +4,14 @@ import { RouterLink } from "@/components/ui/link";
 import { toast } from "@/components/ui/toast/use-toast";
 import { paths } from "@/config/paths";
 import { registerSchema, useRegister } from "@/lib/auth";
+import { useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 export const RegisterForm = () => {
   const navigate = useNavigate();
+  const qc = useQueryClient();
   const { t } = useTranslation();
   const [apiErrors, setApiErrors] = React.useState<Record<string, string[]>>({
     name: [],
@@ -23,7 +25,8 @@ export const RegisterForm = () => {
         title: t("register.success"),
         description: t("register.registered"),
         type: "success",
-      })
+      });
+      qc.invalidateQueries({ queryKey: ["options"] });
       navigate(paths.login.root);
     },
     onError: (e: any) => {
@@ -88,7 +91,7 @@ export const RegisterForm = () => {
               error={
                 (formState.errors.email &&
                   t(`${formState.errors.email.message}`)) ||
-              apiErrors?.email?.[0]
+                apiErrors?.email?.[0]
               }
               registration={register("email")}
               className="focus:ring-2 focus:ring-primary  focus:border-primary"

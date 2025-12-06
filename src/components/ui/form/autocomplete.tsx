@@ -20,7 +20,7 @@ import i18n from "@/config/i18n";
 import { cn } from "@/lib/utils";
 import { BaseOption, Lang } from "@/types/api";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
-import { BoxSelect, Check, CheckCheck, CheckLine, ChevronDown } from "lucide-react";
+import { CheckCheck, ChevronDown } from "lucide-react";
 import { Spinner } from "../spinner";
 import { FieldWrapper, FieldWrapperPassThroughProps } from "./field-wrapper";
 
@@ -109,7 +109,6 @@ function AutocompleteComponent<T extends BaseOption>({
     [onChange]
   );
 
-  
   // Infinite scroll observer
   React.useEffect(() => {
     if (!loadMoreRef.current || !hasNextPage) return;
@@ -126,7 +125,11 @@ function AutocompleteComponent<T extends BaseOption>({
   const optionList = React.useMemo(
     () =>
       items.map((opt) => (
-        <CommandItem key={opt.value} value={opt.value} onSelect={() => handleSelect(opt)}>
+        <CommandItem
+          key={opt.value}
+          value={opt.value}
+          onSelect={() => handleSelect(opt)}
+        >
           {renderOption ? renderOption(opt) : getLabel(opt)}
           <CheckCheck
             className={`ml-auto h-4 w-4 ${
@@ -153,7 +156,6 @@ function AutocompleteComponent<T extends BaseOption>({
           <button
             type="button"
             data-state={open ? "open" : "closed"}
-            
             className={cn(
               "peer cursor-pointer relative flex items-center justify-between h-9 w-full rounded-sm border border-border bg-transparent px-2 py-1 text-sm",
               "transition-colors focus-visible:outline-none focus-visible:ring-[3px] focus:border-primary focus-visible:ring-primary/50",

@@ -1,8 +1,7 @@
 import * as React from "react";
 
-import { Permission } from "@/features/rbac/types";
 import { useUser } from "../auth/authentication";
-import { Scope } from "./constants";
+import { PermissionCode, Scope } from "./constants";
 
 // export const POLICIES = {
 //   "comment:delete": (user: User) => {
@@ -36,7 +35,7 @@ export const useAuthorization = () => {
   );
 
   const hasPermission = React.useCallback(
-    ({ permission }: { permission: Permission }) => {
+    ({ permission }: { permission : PermissionCode }) => {
       if (user.data) {
         return user.data.permissions.includes(permission);
       }
@@ -58,7 +57,7 @@ type AuthorizationProps = {
     }
   | {
       scope?: never;
-      permission: Permission;
+      permission: PermissionCode;
     }
 );
 

@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 
+import { AuthLayout } from "@/components/layouts/_auth-layout";
 import { Spinner } from "@/components/ui/spinner";
 import { paths } from "@/config/paths";
 import { ProtectedRoute } from "@/lib/auth";
@@ -8,8 +9,8 @@ import { QueryClient, useQueryClient } from "@tanstack/react-query";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { GlobalError } from "./routes/errors/global-err";
 import RouteError from "./routes/errors/route-err";
-import LoginPage from "./routes/public/auth/login";
-import RegisterPage from "./routes/public/auth/register";
+import LoginPage from "./routes/auth/login";
+import RegisterPage from "./routes/auth/register";
 
 const convert = (queryClient: QueryClient) => (m: any) => {
   const { clientLoader, clientAction, default: Component, ...rest } = m;
@@ -36,16 +37,24 @@ export const createAppRouter = (queryClient: QueryClient) => {
       children: [
         {
           path: paths.home.root,
-          lazy: () => import("./routes/public/home").then(convert(queryClient)),
+          lazy: () => import("./routes/home").then(convert(queryClient)),
           HydrateFallback: () => LoadingScreen,
         },
         {
           path: paths.login.root,
-          Component: () => <LoginPage />,
+          element: (
+            <AuthLayout>
+              <LoginPage />
+            </AuthLayout>
+          ),
         },
         {
           path: paths.register.root,
-          Component: () => <RegisterPage />,
+          element: (
+            <AuthLayout>
+              <RegisterPage />
+            </AuthLayout>
+          ),
         },
         // Admin Routes
         {
@@ -164,6 +173,40 @@ export const createAppRouter = (queryClient: QueryClient) => {
               ),
             };
           },
+          children: [
+            {
+              HydrateFallback: () => LoadingScreen,
+              path: paths.tenant.dashboard.root,
+              lazy: () =>
+                import("./routes/scopes/tenant/dashboard").then(
+                  convert(queryClient)
+                ),
+            },
+            {
+              path: paths.tenant.employees.root,
+              HydrateFallback: () => LoadingScreen,
+              children: [
+                {
+                  index: true, // instead of path: ""
+                  lazy: () =>
+                    import("./routes/scopes/tenant/employees/list-employees").then(
+                      convert(queryClient)
+                    ),
+                },
+                {
+                  path: paths.tenant.employees.new.root, // "create"
+                  lazy: () =>
+                    import("./routes/scopes/tenant/employees/new-employee").then(
+                      convert(queryClient)
+                    ),
+                },
+              ],
+            },
+          ],
+        },
+        {
+          path: paths.suspended.root,
+          lazy: () => import("./routes/suspended").then(convert(queryClient)),
         },
         {
           path: "*",

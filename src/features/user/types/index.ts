@@ -1,5 +1,5 @@
-import { Permission } from "@/features/rbac/types";
-import { Scope } from "@/lib/authorization";
+import { Tenant } from "@/features/tenant/types";
+import { PermissionCode, Scope } from "@/lib/authorization";
 import { BaseOption, Entity, Translation } from "@/types/api";
 
 export interface UserOption extends BaseOption {
@@ -9,5 +9,6 @@ export type User = Entity<{
   email: string;
   name: Translation;
   scope: Scope;
-  permissions: Permission[];
+  permissions: PermissionCode[];
+  tenant?: Partial<Tenant>;
 }>;

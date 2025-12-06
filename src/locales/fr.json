@@ -85,7 +85,10 @@
     "create_tenant": "Créer un tenant",
     "rbac": "Identity & Access",
     "list_roles": "Liste des rôles",
-    "create_role": "Créer un rôles"
+    "create_role": "Créer un rôles",
+    "employees": "Employés",
+    "list_employees": "Liste des employés",
+    "create_employee": "Créer un employé"
   },
   "roles": {
     "toast": {

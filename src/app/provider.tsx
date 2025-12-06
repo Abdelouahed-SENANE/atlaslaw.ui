@@ -8,6 +8,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import React from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import {GlobalError} from "./routes/errors/global-err";
+import { Spinner } from "@/components/ui/spinner";
 
 interface ProviderProps {
   children: React.ReactNode;
@@ -22,7 +23,7 @@ export const Provider = ({ children }: ProviderProps) => {
 
   return (
     <ErrorBoundary FallbackComponent={GlobalError}>
-      <React.Suspense>
+      <React.Suspense fallback={<div>Loading...</div>}>
         <ThemeProvider defaultTheme="dark" storageKey="theme">
           <QueryClientProvider client={queryClient}>
             <Toaster />
@@ -30,7 +31,9 @@ export const Provider = ({ children }: ProviderProps) => {
             <AuthLoader
               renderError={() => <div>Something went wrong</div>}
               renderLoading={() => (
-                <div className="bg-background w-screen h-screen"></div>
+                <div className="w-screen h-screen">
+                  <Spinner size="sm" />
+                </div>
               )}
             >
               {children}

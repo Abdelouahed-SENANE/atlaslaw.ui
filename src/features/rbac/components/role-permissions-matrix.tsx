@@ -124,7 +124,7 @@ export const RolePermissionsMatrix = ({ groups, roleID }: Props) => {
             </TableHeader>
             <TableBody className="w-full">
               {Object.entries(groups).map(([resource]) => (
-                <TableRow>
+                <TableRow key={resource}>
                   <TableCell
                     key={resource}
                     className="text-base font-semibold capitalize w-1/3"

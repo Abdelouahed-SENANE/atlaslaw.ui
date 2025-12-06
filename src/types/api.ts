@@ -1,4 +1,3 @@
-import { Scope } from "@/lib/authorization";
 
 export type BaseEntity = {
   id: string;
@@ -30,15 +29,6 @@ export type ApiResponse<T = any> = {
   data?: T | null;
   errors?: Record<string, string[]>;
 };
-
-// export type Metadata = {
-//   path?: string;
-//   method?: string;
-//   timestamp?: string;
-//   request_id?: string;
-//   pagination?: Pagination;
-//   sorting?: Sorting;
-// };
 
 export type Paginated<T> = {
   items: T[];

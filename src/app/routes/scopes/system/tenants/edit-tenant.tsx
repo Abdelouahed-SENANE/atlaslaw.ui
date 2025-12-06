@@ -10,10 +10,11 @@ import {
 import { TenantForm } from "@/features/tenant/components/tenant-form";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const EditTenantPage = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [apiErrors, setApiErrors] = React.useState<
     Partial<Record<keyof CreateTenantInputs, string[]>>
   >({});
@@ -36,6 +37,7 @@ const EditTenantPage = () => {
           description: t("tenants.toast.updated_desc"),
           type: "success",
         });
+        navigate(-1);
       },
       onError: (error: any) => {
         if (error.response?.status === 422) {
@@ -86,9 +88,9 @@ const EditTenantPage = () => {
         title: t("tenants.toast.no_changes_title"),
         description: t("tenants.toast.no_changes_desc"),
         type: "info",
-      })
+      });
       return;
-    };
+    }
     updateTenant.mutate({
       id: id!,
       payload: values,

@@ -14,12 +14,12 @@ export const paths = {
   login: {
     root: "/login",
     route: (redirectTo: string | null | undefined) =>
-      `/login${redirectTo ? `?redirectTo=${encodeURIComponent(redirectTo)}` : ""}`,
+      `/login${redirectTo ? `?redirect=${encodeURIComponent(redirectTo)}` : ""}`,
   },
   register: {
     root: "/register",
     route: (redirectTo: string | null | undefined) =>
-      `/register${redirectTo ? `?redirectTo=${encodeURIComponent(redirectTo)}` : ""}`,
+      `/register${redirectTo ? `?redirect=${encodeURIComponent(redirectTo)}` : ""}`,
   },
   admin: {
     root: "/admin",
@@ -77,24 +77,28 @@ export const paths = {
       },
     },
   },
-
+  suspended :{
+    root: "/suspended",
+    route: () => "/suspended",
+  },
   tenant: {
     root: "/",
     dashboard: {
       root: "dashboard",
       route: () => "/dashboard",
     },
-    users: {
-      root: "users",
-      route: () => "/users",
+    employees: {
+      root: "employees",
+      route: () => "/employees",
       list: {
         root: "",
-        route: () => "/users",
+        route: () => "/employees",
       },
       new: {
         root: "new",
-        route: () => "/users/new",
+        route: () => "/employees/new",
       },
+
     },
   },
 };

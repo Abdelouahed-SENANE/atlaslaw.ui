@@ -7,7 +7,7 @@ import { FieldError } from "react-hook-form";
 import { useDebouce } from "@/hooks/use-debounce";
 import { t } from "i18next";
 import React from "react";
-import { getUsersOptions } from "../api/get-users-options";
+import { getUsersOptions } from "../api/search-available-users";
 import { User, UserOption } from "../types";
 
 type Props = {
@@ -59,7 +59,9 @@ export const UserSelect = ({
       hasNextPage={usersOptionsQuery.hasNextPage}
       onLoadMore={usersOptionsQuery.fetchNextPage}
       renderOption={(o) =>
-        typeof o.label === "string" ? o.label : o.label[lang as Lang]
+        typeof o.label === "string"
+          ? `${o.label} - ${o.email}`
+          : `${o.label[lang as Lang]} - ${o.email}`
       }
     />
   );

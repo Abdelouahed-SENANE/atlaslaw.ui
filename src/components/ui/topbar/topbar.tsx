@@ -1,4 +1,4 @@
-import { Permission, useAuthorization } from "@/lib/authorization";
+import { PermissionCode, useAuthorization } from "@/lib/authorization";
 import { cn } from "@/lib/utils";
 import { Bell, Menu, Plus } from "lucide-react";
 import { useTranslation } from "react-i18next";
@@ -37,7 +37,7 @@ export const Topbar = ({ className }: TopbarProps) => {
               <Menu className="size-4" />
             </Button>
           </li>
-          {hasPermission({ permission: Permission.CREATE_TENANTS }) && (
+          {hasPermission({ permission: PermissionCode.CREATE_TENANTS }) && (
             <li>
               <Button
                 variant={"plain"}

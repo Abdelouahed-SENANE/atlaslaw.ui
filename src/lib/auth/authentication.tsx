@@ -1,8 +1,9 @@
 import { api$ } from "@/config/axios";
 import { paths } from "@/config/paths";
-import { ApiResponse, Jwt, User } from "@/types/api";
+import { User } from "@/features/user/types";
+import { ApiResponse, Jwt } from "@/types/api";
 import { Logger } from "@/utils/logger";
-import { Redirect } from "@/utils/smooth-redirect";
+import { Redirect } from "@/utils/redirect";
 import { AxiosError } from "axios";
 import React from "react";
 import { configureAuth } from "react-query-auth";
@@ -101,10 +102,18 @@ type ProtectedRouteProps = {
 };
 
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  const user = useUser();
+  const { isLoading, data: user } = useUser();
   const location = useLocation();
 
-  if (!user.data) {
+  if (isLoading) {
+    return (
+      <div className="h-screen w-screen flex items-center justify-center">
+        Loading...
+      </div>
+    );
+  }
+
+  if (!user) {
     return <Redirect to={paths.login.route(location.pathname)} />;
   }
 

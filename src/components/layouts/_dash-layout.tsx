@@ -84,9 +84,30 @@ export const DashLayout = ({
     },
   ];
 
+  const TENANT_ROUTES = [
+    {
+      label: t("menu.dashboard"),
+      url: paths.tenant.dashboard.route(),
+      icon: <Layout className="size-4" />,
+    },
+    {
+      label: t("menu.employees"),
+      url: paths.tenant.employees.root,
+      icon: <Users2 className="size-4" />,
+      sublinks: [
+        {
+          title: t("menu.list_employees"),
+          to: paths.tenant.employees.list.route(),
+        },
+        {
+          title: t("menu.create_user"),
+          to: paths.tenant.employees.new.route(),
+        },
+      ],
+    },
+  ];
   const items = [
-    ...(hasScope({ scope: Scope.SYSTEM }) ? ADMIN_ROUTES : []),
-    ...(hasScope({ scope: Scope.TENANT }) ? [] : []),
+    ...(hasScope({ scope: Scope.SYSTEM }) ? ADMIN_ROUTES : TENANT_ROUTES),
   ];
 
   return (

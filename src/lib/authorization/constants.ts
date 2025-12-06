@@ -3,7 +3,7 @@ export enum Scope {
   TENANT = "tenant",
 }
 
-export enum PermissionCodes {
+export enum PermissionCode {
   // TENANTS (Super Admin)
   LIST_TENANTS = "list:tenants",
   CREATE_TENANTS = "create:tenants",
