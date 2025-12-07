@@ -18,7 +18,7 @@ export const updateTenantSchema = z.object({
 
 export type UpdateTenantInputs = z.infer<typeof updateTenantSchema>;
 
-const createTenant = ({
+const updateTenant = ({
   id,
   payload,
 }: {
@@ -33,13 +33,13 @@ export const useUpdateTenant = ({
   id,
 }: {
   id: string;
-  mutationConfig?: MutationConfig<typeof createTenant>;
+  mutationConfig?: MutationConfig<typeof updateTenant>;
 }) => {
   const qc = useQueryClient();
   const { onSuccess, ...restConfig } = mutationConfig || {};
 
   return useMutation({
-    mutationFn: createTenant,
+    mutationFn: updateTenant,
     onSuccess: (...args) => {
       qc.invalidateQueries({ queryKey: [TENANTS_KEY], exact: false });
       qc.invalidateQueries({ queryKey: [TENANT_KEY, id], exact: true });

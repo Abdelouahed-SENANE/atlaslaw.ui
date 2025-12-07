@@ -7,7 +7,7 @@ import "@/config/i18n";
 
 document.title = import.meta.env.VITE_APP_NAME;
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
+  // <StrictMode>
     <App />
-  </StrictMode>
+  // </StrictMode>
 );

@@ -2,6 +2,8 @@ import * as React from "react";
 
 import { useUser } from "../auth/authentication";
 import { PermissionCode, Scope } from "./constants";
+import { Redirect } from "@/utils/redirect";
+import { paths } from "@/config/paths";
 
 // export const POLICIES = {
 //   "comment:delete": (user: User) => {
@@ -24,6 +26,12 @@ export const useAuthorization = () => {
     throw Error("User does not exist!");
   }
 
+  const unauthorized =
+    !user.data ||
+    !user.data.scope ||
+    !Array.isArray(user.data.permissions) ||
+    user.data.permissions.length === 0;
+
   const hasScope = React.useCallback(
     ({ scope }: { scope: Scope }) => {
       if (scope && user.data) {
@@ -35,7 +43,7 @@ export const useAuthorization = () => {
   );
 
   const hasPermission = React.useCallback(
-    ({ permission }: { permission : PermissionCode }) => {
+    ({ permission }: { permission: PermissionCode }) => {
       if (user.data) {
         return user.data.permissions.includes(permission);
       }
@@ -44,7 +52,7 @@ export const useAuthorization = () => {
     [user.data]
   );
 
-  return { hasScope, hasPermission };
+  return { hasScope, hasPermission, unauthorized };
 };
 
 type AuthorizationProps = {
@@ -67,8 +75,10 @@ export const Authorization = ({
   forbiddenFallback = null,
   children,
 }: AuthorizationProps) => {
-  const { hasScope, hasPermission } = useAuthorization();
-
+  const { hasScope, hasPermission, unauthorized } = useAuthorization();
+  if (unauthorized) {
+    return <Redirect to={paths.home.root} />;
+  }
   let canAccess = false;
 
   if (scope) {

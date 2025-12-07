@@ -77,7 +77,7 @@ export const paths = {
       },
     },
   },
-  suspended :{
+  suspended: {
     root: "/suspended",
     route: () => "/suspended",
   },
@@ -98,7 +98,10 @@ export const paths = {
         root: "new",
         route: () => "/employees/new",
       },
-
+      edit: {
+        root: ":id/edit",
+        route: (id: string) => `/employees/${id}/edit`,
+      },
     },
   },
 };

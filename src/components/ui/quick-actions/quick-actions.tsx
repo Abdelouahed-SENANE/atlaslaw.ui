@@ -1,17 +1,19 @@
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
-  DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown/dropdown-menu";
-import { Button } from "@/components/ui/button";
-import { MoreHorizontal } from "lucide-react";
+import { PermissionCode } from "@/lib/authorization";
 import { cn } from "@/lib/utils";
+import { MoreHorizontal } from "lucide-react";
 
 export type QuickAction = {
   label: string;
   value: "view" | "delete" | "edit" | "manage_permissions";
   icon?: React.ReactNode;
+  permission: PermissionCode;
 };
 
 type EntityActionsProps = {
@@ -21,6 +23,7 @@ type EntityActionsProps = {
 };
 
 export const QuickActions = ({ id, actions, onAction }: EntityActionsProps) => {
+  if (!actions || actions.length === 0) return null;
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

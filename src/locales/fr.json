@@ -274,5 +274,96 @@
         "empty_msg": "Aucun utilisateur trouvé pour le moment."
       }
     }
+  },
+  "employees": {
+    "pages": {
+      "new": {
+        "title": "Ajouter un nouvel employé",
+        "description": "Créez un profil d’employé et rattachez-le à votre cabinet en quelques secondes."
+      },
+      "list": {
+        "title": "Vos employés",
+        "desc": "Visualisez et gérez l’ensemble des collaborateurs de votre cabinet.",
+        "subtitle": "Administration des employés",
+        "sub_desc": "Filtrez, organisez et accédez rapidement aux informations de vos employés.",
+        "empty_msg": "Aucun employé n’a encore été ajouté à votre équipe."
+      }
+    },
+
+    "fields": {
+      "email": {
+        "label": "Adresse email",
+        "placeholder": "Sélectionnez l’email de l’employé",
+        "errors": {
+          "invalid": "Veuillez saisir une adresse email valide."
+        }
+      },
+      "job_title": {
+        "label": "Intitulé du poste",
+        "placeholder": "Exemple : Avocat junior, Assistant juridique…",
+        "errors": {
+          "required": "L’intitulé du poste ne peut pas être vide."
+        }
+      },
+      "work_phone": {
+        "label": "Numéro professionnel",
+        "placeholder": "Entrez le numéro professionnel de l’employé",
+        "errors": {
+          "invalid": "Veuillez saisir un numéro professionnel valide."
+        }
+      },
+      "hiring_date": {
+        "label": "Date d’arrivée",
+        "placeholder": "Sélectionnez la date d'intégration",
+        "errors": {
+          "invalid": "La date fournie est invalide."
+        }
+      },
+      "status": {
+        "label": "Etat de l’employé",
+        "placeholder": "Sélectionnez l’état de l’employé",
+        "options": {
+          "active": "Actif",
+          "inactive": "Inactif"
+        },
+        "errors": {
+          "required": "L’état de l’employé est requis."
+        }
+      }
+    },
+    "columns": {
+      "email": "Adresse email",
+      "job_title": "Intitulé du poste",
+      "work_phone": "Numéro professionnel",
+      "hiring_date": "Date d’arrivée",
+      "user_name": "Nom de l'employé",
+      "status": "Etat de l’employé",
+      "created_at": "Création",
+      "updated_at": "Mise à jour"
+    },
+    "status": {
+      "all": "Tous",
+      "active": "Actif",
+      "inactive": "Inactive"
+    },
+    "actions": {
+      "delete": "Retirer l’employé",
+      "edit": "Modifier les informations",
+      "update": "Enregistrer les modifications",
+      "create": "Créer un nouvel employé",
+      "add": "Ajouter un nouvel employé",
+      "search": "Rechercher un employé, un poste, un mot-clé..."
+    },
+    "toast" : {
+      "created_title": "Employé ajouté.",
+      "updated_title": "Employé mis à jour.",
+      "deleted_title": "Employé supprimé.",
+      "created_desc": "L'employé a été ajouté.",
+      "updated_desc": "L'employé a été mis à jour.",
+      "deleted_desc": "L'employé a été supprimé.",
+      "no_changes_title": "Aucun changement.",
+      "no_changes_desc": "Aucun changement n'a été effectué."
+
+    }
   }
 }

@@ -7,10 +7,10 @@ import { ProtectedRoute } from "@/lib/auth";
 import { Authorization, Scope } from "@/lib/authorization";
 import { QueryClient, useQueryClient } from "@tanstack/react-query";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { GlobalError } from "./routes/errors/global-err";
-import RouteError from "./routes/errors/route-err";
 import LoginPage from "./routes/auth/login";
 import RegisterPage from "./routes/auth/register";
+import { GlobalError } from "./routes/errors/global-err";
+import RouteError from "./routes/errors/route-err";
 
 const convert = (queryClient: QueryClient) => (m: any) => {
   const { clientLoader, clientAction, default: Component, ...rest } = m;
@@ -189,16 +189,23 @@ export const createAppRouter = (queryClient: QueryClient) => {
                 {
                   index: true, // instead of path: ""
                   lazy: () =>
-                    import("./routes/scopes/tenant/employees/list-employees").then(
-                      convert(queryClient)
-                    ),
+                    import(
+                      "./routes/scopes/tenant/employees/list-employees"
+                    ).then(convert(queryClient)),
                 },
                 {
                   path: paths.tenant.employees.new.root, // "create"
                   lazy: () =>
-                    import("./routes/scopes/tenant/employees/new-employee").then(
-                      convert(queryClient)
-                    ),
+                    import(
+                      "./routes/scopes/tenant/employees/new-employee"
+                    ).then(convert(queryClient)),
+                },
+                {
+                  path: paths.tenant.employees.edit.root, // "create"
+                  lazy: () =>
+                    import(
+                      "./routes/scopes/tenant/employees/edit-employee"
+                    ).then(convert(queryClient)),
                 },
               ],
             },

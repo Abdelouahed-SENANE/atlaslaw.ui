@@ -101,11 +101,31 @@ type ProtectedRouteProps = {
   children: React.ReactNode;
 };
 
-export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  const { isLoading, data: user } = useUser();
+export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+  const { data: user, isLoading } = useUser();
   const location = useLocation();
 
+  console.log(
+    "%c[ProtectedRoute] user:",
+    "color:#009688; font-weight:bold",
+    user
+  );
+  console.log(
+    "%c[ProtectedRoute] isLoading:",
+    "color:#009688; font-weight:bold",
+    isLoading
+  );
+  console.log(
+    "%c[ProtectedRoute] pathname:",
+    "color:#009688; font-weight:bold",
+    location.pathname
+  );
+
   if (isLoading) {
+    console.log(
+      "%c[ProtectedRoute] → waiting (loading)",
+      "color:#9c27b0; font-weight:bold"
+    );
     return (
       <div className="h-screen w-screen flex items-center justify-center">
         Loading...
@@ -114,12 +134,21 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   }
 
   if (!user) {
+    console.log(
+      "%c[ProtectedRoute] → redirect to login",
+      "color:#e91e63; font-weight:bold"
+    );
+
     return <Redirect to={paths.login.route(location.pathname)} />;
   }
 
+  console.log(
+    "%c[ProtectedRoute] → user authenticated → rendering children",
+    "color:#4caf50; font-weight:bold"
+  );
+
   return children;
 };
-
 // export const refresh = async (): Promise<string> => {
 //   const { refresh_token } = useTokenStore.getState();
 

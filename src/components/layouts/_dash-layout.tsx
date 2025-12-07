@@ -1,5 +1,5 @@
 import { paths } from "@/config/paths";
-import { Scope } from "@/lib/authorization";
+import { PermissionCode, Scope } from "@/lib/authorization";
 import { useAuthorization } from "@/lib/authorization/authorization";
 import { cn } from "@/lib/utils";
 import { Building, Fingerprint, Layout, Users2 } from "lucide-react";
@@ -27,7 +27,7 @@ export const DashLayout = ({
   desc?: string;
   breadcrumbs?: { label: string; url: string; active?: boolean }[];
 }) => {
-  const { hasScope } = useAuthorization();
+  const { hasScope, hasPermission } = useAuthorization();
   const { t } = useTranslation();
   const { isCollapsed } = useSidebar();
 
@@ -84,6 +84,21 @@ export const DashLayout = ({
     },
   ];
 
+  const EMPLOYEE_MENU = [
+    {
+      title: t("menu.list_employees"),
+      to: paths.tenant.employees.list.route(),
+      permission: PermissionCode.LIST_EMPLOYEES,
+    },
+    {
+      title: t("menu.create_employee"),
+      to: paths.tenant.employees.new.route(),
+      permission: PermissionCode.CREATE_EMPLOYEES,
+    },
+  ];
+  const employeeLinks = EMPLOYEE_MENU.filter((item) =>
+    hasPermission({ permission: item.permission })
+  );
   const TENANT_ROUTES = [
     {
       label: t("menu.dashboard"),
@@ -94,16 +109,7 @@ export const DashLayout = ({
       label: t("menu.employees"),
       url: paths.tenant.employees.root,
       icon: <Users2 className="size-4" />,
-      sublinks: [
-        {
-          title: t("menu.list_employees"),
-          to: paths.tenant.employees.list.route(),
-        },
-        {
-          title: t("menu.create_user"),
-          to: paths.tenant.employees.new.route(),
-        },
-      ],
+      sublinks: employeeLinks,
     },
   ];
   const items = [

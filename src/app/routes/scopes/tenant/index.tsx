@@ -10,6 +10,7 @@ const TenantRoot = () => {
   if (user.data?.tenant?.status === TenantStatus.SUSPENDED) {
     return <Redirect to={paths.suspended.route()} />;
   }
+  
 
   return <Outlet />;
 };

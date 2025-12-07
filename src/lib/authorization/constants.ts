@@ -16,6 +16,11 @@ export enum PermissionCode {
   CREATE_USERS = "create:users",
   DELETE_USERS = "delete:users",
 
+  // USERS
+  LIST_EMPLOYEES = "list:employees",
+  UPDATE_EMPLOYEES = "update:employees",
+  CREATE_EMPLOYEES = "create:employees",
+  DELETE_EMPLOYEES = "delete:employees",
   // ROLES
   LIST_ROLES = "list:roles",
   CREATE_ROLES = "create:roles",
@@ -42,6 +47,4 @@ export enum PermissionCode {
   UPLOAD_DOCUMENT = "upload:document",
   DELETE_DOCUMENT = "delete:document",
   DOWNLOAD_DOCUMENT = "download:document",
-
-
 }

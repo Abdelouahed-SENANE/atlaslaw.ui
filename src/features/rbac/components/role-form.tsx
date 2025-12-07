@@ -2,11 +2,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Form, Input, InputError } from "@/components/ui/form";
 import { RadioInput } from "@/components/ui/form/radio-input";
-import { Role } from "@/types/api";
 import { Save } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { CreateRoleInputs, createRoleSchema } from "../api/create-role";
+import { Role } from "../types";
 
 type RoleFormProps = {
   defaultValues?: Partial<Role>;

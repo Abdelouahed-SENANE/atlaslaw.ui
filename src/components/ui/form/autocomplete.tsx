@@ -158,7 +158,7 @@ function AutocompleteComponent<T extends BaseOption>({
             data-state={open ? "open" : "closed"}
             className={cn(
               "peer cursor-pointer relative flex items-center justify-between h-9 w-full rounded-sm border border-border bg-transparent px-2 py-1 text-sm",
-              "transition-colors focus-visible:outline-none focus-visible:ring-[3px] focus:border-primary focus-visible:ring-primary/50",
+              "transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:border-primary focus-visible:ring-primary/50",
               "data-[state=open]:border-primary data-[state=open]:ring-2 data-[state=open]:ring-primary/50",
               error && "border-error/80 ring-3 ring-error/40"
             )}

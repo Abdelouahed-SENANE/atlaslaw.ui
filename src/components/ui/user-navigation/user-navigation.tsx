@@ -16,6 +16,7 @@ import {
 } from "../dropdown/index.ts";
 import { RouterLink } from "../link/index.ts";
 import { Lang } from "@/types/api.ts";
+import { useQueryClient } from "@tanstack/react-query";
 
 type UserNavItem = {
   title: string;
@@ -24,6 +25,7 @@ type UserNavItem = {
 
 export const UserNavgation = () => {
   const user = useUser();
+  const qc = useQueryClient();
   const navigate = useNavigate();
   const { t } = useTranslation();
   const lang = i18n.language;
@@ -117,6 +119,7 @@ export const UserNavgation = () => {
         <DropdownMenuItem className="rounded-none p-0 flex items-start">
           <Button
             onClick={() => {
+              qc.clear()
               logout.mutate({});
             }}
             variant={"plain"}

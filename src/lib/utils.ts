@@ -39,3 +39,8 @@ export function diffObject<T extends Record<string, any>>(
 
   return result;
 }
+export const toDate = (value: string | Date | undefined | null): Date | undefined => {
+  if (!value) return undefined; // ⬅ safe
+  const d = new Date(value);
+  return isNaN(d.getTime()) ? undefined : d;
+};
