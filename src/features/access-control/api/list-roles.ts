@@ -1,7 +1,8 @@
 import { api$ } from "@/config/axios";
 import { QueryConfig } from "@/config/react-query";
-import { ApiResponse, Paginated, Role } from "@/types/api";
+import { ApiResponse, Paginated } from "@/types/api";
 import { useQuery } from "@tanstack/react-query";
+import { Role } from "../types";
 
 export const ROLES_KEY = "roles";
 
@@ -35,7 +36,7 @@ const getRoles = async (
     },
   });
 
-  return response.data; 
+  return response.data;
 };
 
 export const getRolesQueryOptions = (params: RoleParams) => {
@@ -52,7 +53,6 @@ type UseRolesOptions = {
 };
 
 export const useRoles = ({ params, queryConfig }: UseRolesOptions) => {
-
   return useQuery({
     ...getRolesQueryOptions(params || {}),
     ...queryConfig,

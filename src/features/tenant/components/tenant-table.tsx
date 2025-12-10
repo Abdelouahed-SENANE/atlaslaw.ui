@@ -3,6 +3,7 @@ import { QuickActions } from "@/components/ui/quick-actions";
 import { Table, TableColumn } from "@/components/ui/table";
 import { useQueryTable } from "@/components/ui/table/use-query-table";
 import { paths } from "@/config/paths";
+import { PermissionCode } from "@/lib/authorization";
 import { cn } from "@/lib/utils";
 import { Edit } from "lucide-react";
 import { useCallback, useMemo } from "react";
@@ -78,6 +79,7 @@ export const TenantTable = ({
                 label: t("tenants.actions.edit"),
                 value: "edit",
                 icon: <Edit className="h-4 w-4 text-foreground" />,
+                permission: PermissionCode.UPDATE_TENANTS,
               },
             ]}
             onAction={handleAction}

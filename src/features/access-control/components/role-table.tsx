@@ -1,40 +1,57 @@
-import { QuickActions } from "@/components/ui/quick-actions";
+import { QuickAction, QuickActions } from "@/components/ui/quick-actions";
 import { Table, TableColumn } from "@/components/ui/table";
 import { useQueryTable } from "@/components/ui/table/use-query-table";
-import { paths } from "@/config/paths";
 import { useDisclosure } from "@/hooks/use-disclosure";
-import { Edit, Key, Trash } from "lucide-react";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
 import { Role } from "../types";
 import { ConfirmRoleDelation } from "./confirm-role-delete";
+
+// -------------------------------
+// TYPES
+// -------------------------------
+
 interface RoleTableProps {
   roles: Role[];
   isLoading: boolean;
   table: ReturnType<typeof useQueryTable<Role>>;
+  actions: QuickAction[];
+  onAction?: (action: string, id: string) => void;
 }
-export const RoleTable = ({ roles, isLoading, table }: RoleTableProps) => {
+
+// -------------------------------
+// COMPONENT
+// -------------------------------
+export const RoleTable = ({
+  roles,
+  isLoading,
+  table,
+  actions,
+  onAction,
+}: RoleTableProps) => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const [id, setId] = useState<string>("");
   const { open, close, isOpen } = useDisclosure();
-  const handleAction = useCallback((action: string, id: string) => {
-    switch (action) {
-      case "manage_permissions":
-        navigate(paths.admin.rbac.roles.permissions.route(id));
-        break;
-      case "edit":
-        navigate(paths.admin.rbac.roles.edit.route(id));
-        break;
-      case "delete":
+
+  // -------------------------------
+  // ACTION HANDLER
+  // -------------------------------
+  const handleAction = useCallback(
+    (action: string, id: string) => {
+      if (action === "delete") {
         setId(id);
         open();
-        break;
-      default:
-        break;
-    }
-  }, []);
+        return;
+      }
+
+      onAction?.(action, id); // ← Correct call
+    },
+    [onAction, open]
+  );
+
+  // -------------------------------
+  // COLUMNS
+  // -------------------------------
   const columns = useMemo<TableColumn<Role>[]>(
     () => [
       {
@@ -44,10 +61,6 @@ export const RoleTable = ({ roles, isLoading, table }: RoleTableProps) => {
       {
         title: t("roles.columns.description"),
         field: "description",
-      },
-      {
-        title: t("roles.columns.scope"),
-        field: "scope",
       },
       {
         title: t("roles.columns.created_at"),
@@ -60,49 +73,37 @@ export const RoleTable = ({ roles, isLoading, table }: RoleTableProps) => {
       {
         title: "",
         field: "id",
-        Cell: ({ entry: { id } }) => (
+        Cell: ({ entry }) => (
           <QuickActions
-            id={id}
-            actions={[
-              {
-                label: t("roles.actions.manage_permissions"),
-                value: "manage_permissions",
-                icon: <Key className="h-4 w-4 text-foreground" />,
-              },
-              {
-                label: t("roles.actions.edit"),
-                value: "edit",
-                icon: <Edit className="h-4 w-4 text-foreground" />,
-              },
-              {
-                label: t("roles.actions.delete"),
-                value: "delete",
-                icon: <Trash className="h-4 w-4 text-foreground" />,
-              },
-            ]}
+            id={entry.id}
+            actions={actions}
             onAction={handleAction}
           />
         ),
       },
     ],
-    []
+    [actions, handleAction, t]
   );
+
+  // -------------------------------
+  // RENDER
+  // -------------------------------
   return (
     <>
       <Table<Role>
         data={roles}
         columns={columns}
         isLoading={isLoading}
-        /* ---- Selection ---- */
         selectedRows={table.selectedRows}
         onSelectRow={(id) => table.toggleRow(id)}
         onSelectAll={() => table.toggleAll(roles.map((r) => r.id!))}
         emptyMessage={t("roles.page.list_empty")}
       />
+
       <ConfirmRoleDelation
         roleID={id}
         open={isOpen}
-        onOpenChange={(open) => (open ? open : close())}
+        onOpenChange={(o) => (o ? open() : close())}
         onDeleted={() => setId("")}
       />
     </>

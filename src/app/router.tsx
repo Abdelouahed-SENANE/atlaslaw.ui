@@ -24,7 +24,7 @@ const convert = (queryClient: QueryClient) => (m: any) => {
 
 export const LoadingScreen = (
   <div className="flex h-screen w-screen items-center text-primary justify-center">
-    <Spinner />
+    <Spinner size="base" />
   </div>
 );
 
@@ -35,11 +35,17 @@ export const createAppRouter = (queryClient: QueryClient) => {
       path: "/",
       ErrorBoundary: GlobalError,
       children: [
+        // PUBLIC HOME
         {
           path: paths.home.root,
           lazy: () => import("./routes/home").then(convert(queryClient)),
           HydrateFallback: () => LoadingScreen,
         },
+
+        // ----------------------
+        // GUEST ROUTE GROUP
+        // ----------------------
+
         {
           path: paths.login.root,
           element: (
@@ -56,6 +62,7 @@ export const createAppRouter = (queryClient: QueryClient) => {
             </AuthLayout>
           ),
         },
+
         // Admin Routes
         {
           path: paths.admin.root,
@@ -122,29 +129,29 @@ export const createAppRouter = (queryClient: QueryClient) => {
                     {
                       index: true,
                       lazy: () =>
-                        import("./routes/scopes/system/rbac/list-roles").then(
-                          convert(queryClient)
-                        ),
+                        import(
+                          "./routes/scopes/system/access-control/list-roles"
+                        ).then(convert(queryClient)),
                     },
                     {
                       path: paths.admin.rbac.roles.new.root, // "new"
                       lazy: () =>
-                        import("./routes/scopes/system/rbac/new-role").then(
-                          convert(queryClient)
-                        ),
+                        import(
+                          "./routes/scopes/system/access-control/new-role"
+                        ).then(convert(queryClient)),
                     },
                     {
                       path: paths.admin.rbac.roles.edit.root, // "new"
                       lazy: () =>
-                        import("./routes/scopes/system/rbac/edit-role").then(
-                          convert(queryClient)
-                        ),
+                        import(
+                          "./routes/scopes/system/access-control/edit-role"
+                        ).then(convert(queryClient)),
                     },
                     {
                       path: paths.admin.rbac.roles.permissions.root, // "new"
                       lazy: () =>
                         import(
-                          "./routes/scopes/system/rbac/role-permissions"
+                          "./routes/scopes/system/access-control/role-permissions"
                         ).then(convert(queryClient)),
                     },
                   ],
@@ -205,6 +212,40 @@ export const createAppRouter = (queryClient: QueryClient) => {
                   lazy: () =>
                     import(
                       "./routes/scopes/tenant/employees/edit-employee"
+                    ).then(convert(queryClient)),
+                },
+              ],
+            },
+            {
+              path: paths.tenant.roles.root,
+              HydrateFallback: () => LoadingScreen,
+              children: [
+                {
+                  index: true, // instead of path: ""
+                  lazy: () =>
+                    import(
+                      "./routes/scopes/tenant/access-control/list-roles"
+                    ).then(convert(queryClient)),
+                },
+                {
+                  path: paths.tenant.roles.new.root, // "create"
+                  lazy: () =>
+                    import(
+                      "./routes/scopes/tenant/access-control/new-role"
+                    ).then(convert(queryClient)),
+                },
+                {
+                  path: paths.tenant.roles.edit.root, // "create"
+                  lazy: () =>
+                    import(
+                      "./routes/scopes/tenant/access-control/edit-role"
+                    ).then(convert(queryClient)),
+                },
+                {
+                  path: paths.tenant.roles.permissions.root, // "create"
+                  lazy: () =>
+                    import(
+                      "./routes/scopes/tenant/access-control/role-permissions"
                     ).then(convert(queryClient)),
                 },
               ],

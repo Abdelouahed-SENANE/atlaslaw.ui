@@ -1,7 +1,8 @@
 import { api$ } from "@/config/axios";
 import { QueryConfig } from "@/config/react-query";
-import { ApiResponse, Role } from "@/types/api";
+import { ApiResponse } from "@/types/api";
 import { useQuery } from "@tanstack/react-query";
+import { Role } from "../types";
 
 export const ROLE_KEY = "role";
 

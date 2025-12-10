@@ -8,13 +8,12 @@ import {
 import { toast } from "@/components/ui/toast/use-toast";
 import { LoginForm } from "@/features/auth/components/login-form";
 import { useTranslation } from "react-i18next";
-import { useNavigate, useSearchParams } from "react-router";
 
 const LoginPage = () => {
-  const [searchParams] = useSearchParams();
+  // const [searchParams] = useSearchParams();
   const { t } = useTranslation();
-  const redirectTo = searchParams.get("redirectTo");
-  const navigate = useNavigate();
+  // const redirectTo = searchParams.get("redirectTo");
+  // const navigate = useNavigate();
 
   return (
     <Card className=" min-w-sm">
@@ -41,7 +40,7 @@ const LoginPage = () => {
               description: t("login.authenticated"),
               type: "success",
             });
-            navigate(redirectTo ? redirectTo : "/");
+            // navigate(redirectTo ? redirectTo : "/");
           }}
         />
       </CardContent>

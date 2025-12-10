@@ -1,11 +1,11 @@
 import { DashLayout } from "@/components/layouts/_dash-layout";
 import { toast } from "@/components/ui/toast/use-toast";
 import { paths } from "@/config/paths";
-import { CreateRoleInputs } from "@/features/rbac/api/create-role";
-import { useRole } from "@/features/rbac/api/role-details";
-import { useUpdateRole } from "@/features/rbac/api/update-role";
-import { RoleForm } from "@/features/rbac/components/role-form";
-import { Role } from "@/features/rbac/types";
+import { CreateRoleInputs } from "@/features/access-control/api/create-role";
+import { useRole } from "@/features/access-control/api/role-details";
+import { useUpdateRole } from "@/features/access-control/api/update-role";
+import { RoleForm } from "@/features/access-control/components/role-form";
+import { Role } from "@/features/access-control/types";
 import { Logger } from "@/utils/logger";
 import React from "react";
 import { useTranslation } from "react-i18next";

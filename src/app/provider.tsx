@@ -7,8 +7,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import React from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import {GlobalError} from "./routes/errors/global-err";
-import { Spinner } from "@/components/ui/spinner";
+import { GlobalError } from "./routes/errors/global-err";
 
 interface ProviderProps {
   children: React.ReactNode;
@@ -30,11 +29,7 @@ export const Provider = ({ children }: ProviderProps) => {
             {isDev && <ReactQueryDevtools initialIsOpen={false} />}
             <AuthLoader
               renderError={() => <div>Something went wrong</div>}
-              renderLoading={() => (
-                <div className="w-screen h-screen">
-                  <Spinner size="sm" />
-                </div>
-              )}
+              renderLoading={() => <></>}
             >
               {children}
             </AuthLoader>

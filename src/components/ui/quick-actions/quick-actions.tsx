@@ -9,9 +9,15 @@ import { PermissionCode } from "@/lib/authorization";
 import { cn } from "@/lib/utils";
 import { MoreHorizontal } from "lucide-react";
 
+export type QuickActionValue =
+  | "view"
+  | "delete"
+  | "edit"
+  | "manage_permissions"
+  | "assign_roles";
 export type QuickAction = {
   label: string;
-  value: "view" | "delete" | "edit" | "manage_permissions";
+  value: QuickActionValue;
   icon?: React.ReactNode;
   permission: PermissionCode;
 };

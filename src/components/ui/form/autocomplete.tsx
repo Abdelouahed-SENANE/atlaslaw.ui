@@ -14,7 +14,7 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/components/ui/command";
+} from "@/components/ui/command/command";
 
 import i18n from "@/config/i18n";
 import { cn } from "@/lib/utils";

@@ -1,3 +1,5 @@
+import { cn } from "@/lib/utils";
+import { X } from "lucide-react";
 import * as React from "react";
 import { Button } from "../button";
 import {
@@ -6,9 +8,9 @@ import {
   DrawerContent,
   DrawerFooter,
   DrawerHeader,
-  DrawerTrigger,
   DrawerTitle,
-} from "../drawer";
+  DrawerTrigger,
+} from "../drawer/drawer";
 
 type FormDrawerProps = {
   open?: boolean;
@@ -54,21 +56,26 @@ export const FormDrawer = ({
   }, [isDone]);
 
   return (
-    <Drawer open={actualOpen} onOpenChange={handleOpenChange}>
+    <Drawer direction="right" open={actualOpen} onOpenChange={handleOpenChange}>
       {!isControlled && triggerButton && (
         <DrawerTrigger asChild>{triggerButton}</DrawerTrigger>
       )}
       <DrawerContent
-        aria-describedby="create-form"
-        className="flex min-w-[450px] bg-card flex-col justify-between "
+        aria-describedby="form-drawer"
+        className={cn(
+          "flex rounded-md  min-w-[420px] border border-border my-4    bg-card flex-col justify-between "
+        )}
       >
-        <div className="flex flex-col space-y-4 w-full h-full px-4 justify-center">
-          <DrawerHeader>
-            <DrawerTitle>{title}</DrawerTitle>
-          </DrawerHeader>
-          <div>{children}</div>
-        </div>
-        <DrawerFooter>
+        <DrawerHeader className="border-b flex items-center flex-row w-full justify-between">
+          <DrawerTitle>{title}</DrawerTitle>
+          <DrawerClose asChild>
+            <Button variant="plain">
+              <X className="h-4 w-4" />
+            </Button>
+          </DrawerClose>
+        </DrawerHeader>
+        <div className="w-full px-2">{children}</div>
+        <DrawerFooter className="flex items-center flex-row w-full ltr:justify-end rtl:justify-start">
           <DrawerClose asChild>
             <Button variant="outline">Close</Button>
           </DrawerClose>

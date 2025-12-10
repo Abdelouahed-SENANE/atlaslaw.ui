@@ -6,7 +6,6 @@ import Axios, {
 } from "axios";
 // import { useTokenStore } from "../store/token-store";
 import i18n from "./i18n";
-import { paths } from "./paths";
 
 function authRequestInterceptor(config: InternalAxiosRequestConfig) {
   // const accessToken = useTokenStore.getState().access_token;

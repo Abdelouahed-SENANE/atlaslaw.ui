@@ -23,7 +23,7 @@ type Props = {
   roleID: string;
 };
 
-const ACTIONS = ["create", "update", "list", "delete"] as const;
+const ACTIONS = ["create", "update", "list", "delete", "view"] as const;
 export const RolePermissionsMatrix = ({ groups, roleID }: Props) => {
   const { t } = useTranslation();
   const navigate = useNavigate();

@@ -103,5 +103,25 @@ export const paths = {
         route: (id: string) => `/employees/${id}/edit`,
       },
     },
+    roles: {
+      root: "roles",
+      route: () => "/roles",
+      list: {
+        root: "",
+        route: () => "/roles",
+      },
+      new: {
+        root: "new",
+        route: () => "/roles/new",
+      },
+      edit: {
+        root: ":id/edit",
+        route: (id: string) => `/roles/${id}/edit`,
+      },
+      permissions: {
+        root: ":id/permissions",
+        route: (id: string) => `/roles/${id}/permissions`,
+      },
+    },
   },
 };

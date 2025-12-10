@@ -7,8 +7,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { paths } from "@/config/paths";
-import { useRolePermissions } from "@/features/rbac/api/get-role-permissions";
-import { RolePermissionsMatrix } from "@/features/rbac/components/role-permissions-matrix";
+import { useRolePermissions } from "@/features/access-control/api/get-role-permissions";
+import { RolePermissionsMatrix } from "@/features/access-control/components/role-permissions-matrix";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
@@ -23,10 +23,10 @@ const RolePermissionsPage = () => {
   const { t } = useTranslation();
 
   console.log(groups);
-  
-  if(rolePerms.isLoading) return null;
 
-    const breadcrumbs = [
+  if (rolePerms.isLoading) return null;
+
+  const breadcrumbs = [
     {
       label: t("menu.dashboard"),
       url: paths.admin.dashboard.route(),
@@ -46,7 +46,7 @@ const RolePermissionsPage = () => {
 
   return (
     <DashLayout
-    breadcrumbs={breadcrumbs}
+      breadcrumbs={breadcrumbs}
       title={t("roles.page.permissions_title")}
       desc={t("roles.page.permissions_desc")}
     >
@@ -60,7 +60,7 @@ const RolePermissionsPage = () => {
           </CardDescription>
         </CardHeader>
         <CardContent className="p-0">
-          <RolePermissionsMatrix roleID={id}  groups={groups} />
+          <RolePermissionsMatrix roleID={id} groups={groups} />
         </CardContent>
       </Card>
     </DashLayout>

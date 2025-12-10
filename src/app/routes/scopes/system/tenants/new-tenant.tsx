@@ -6,6 +6,7 @@ import {
   useCreateTenant,
 } from "@/features/tenant/api/create-tenant";
 import { TenantForm } from "@/features/tenant/components/tenant-form";
+import { Authorization, PermissionCode } from "@/lib/authorization";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -63,13 +64,15 @@ const NewTenantPage = () => {
     createTenant.mutate({ payload });
   };
   return (
-    <DashLayout
-      breadcrumbs={breadcrumps}
-      title={t("tenants.pages.new.title")}
-      desc={t("tenants.pages.new.description")}
-    >
-      <TenantForm apiErrors={apiErrors} onSubmit={handleSubmit} />
-    </DashLayout>
+    <Authorization permission={PermissionCode.CREATE_TENANTS}>
+      <DashLayout
+        breadcrumbs={breadcrumps}
+        title={t("tenants.pages.new.title")}
+        desc={t("tenants.pages.new.description")}
+      >
+        <TenantForm apiErrors={apiErrors} onSubmit={handleSubmit} />
+      </DashLayout>
+    </Authorization>
   );
 };
 export default NewTenantPage;

@@ -1,10 +1,8 @@
-import { Scope } from "@/lib/authorization";
 import { Entity } from "@/types/api";
 
 export type Role = Entity<{
-  tenantID: string;
+  tenantID?: string;
   name: string;
-  scope: Scope;
   description: string;
 }>;
 
@@ -19,3 +17,4 @@ export type RolePermission = {
   role: Partial<Role>;
   groups: Record<string, Permission[]>;
 };
+

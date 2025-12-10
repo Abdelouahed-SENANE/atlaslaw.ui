@@ -12,3 +12,9 @@ export type User = Entity<{
   permissions: PermissionCode[];
   tenant?: Partial<Tenant>;
 }>;
+
+export type UserRole = {
+  id: string;
+  name: string;
+  assigned?: boolean;
+};

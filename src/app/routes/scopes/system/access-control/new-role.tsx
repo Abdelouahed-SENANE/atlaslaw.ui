@@ -2,28 +2,29 @@ import { DashLayout } from "@/components/layouts/_dash-layout";
 import { toast } from "@/components/ui/toast/use-toast";
 import { paths } from "@/config/paths";
 import {
-  CreateEmployeeInputs,
-  useCreateEmployee,
-} from "@/features/employee/api/create-employee";
-import { EmployeeForm } from "@/features/employee/components/employee-form";
+  CreateRoleInputs,
+  useCreateRole,
+} from "@/features/access-control/api/create-role";
+import { RoleForm } from "@/features/access-control/components/role-form";
+import { Role } from "@/features/access-control/types";
 import { Logger } from "@/utils/logger";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
-const NewEmployeePage = () => {
+const NewRolePage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [apiErrors, setApiErrors] = React.useState<
-    Partial<Record<keyof CreateEmployeeInputs, string[]>>
+    Partial<Record<keyof Role, string[]>>
   >({});
-  const createEmployee = useCreateEmployee({
+  const createRole = useCreateRole({
     mutationConfig: {
       onSuccess: () => {
         setApiErrors({});
         toast({
-          title: t("employees.toast.created_title"),
-          description: t("employees.toast.created_desc"),
+          title: t("roles.toast.created_title"),
+          description: t("roles.toast.created_desc"),
           type: "success",
         });
         navigate(-1);
@@ -41,33 +42,32 @@ const NewEmployeePage = () => {
       active: false,
     },
     {
-      label: t("menu.employees"),
-      url: paths.tenant.employees.list.route(),
+      label: t("menu.rbac"),
+      url: paths.admin.rbac.roles.list.route(),
       active: false,
     },
     {
-      label: t("employees.pages.new.title"),
+      label: t("roles.page.create_title"),
       url: "#",
       active: true,
     },
   ];
-  const handleOnsubmit = (values: CreateEmployeeInputs ) => {
-    createEmployee.mutate({ payload: values });
+  const handleOnsubmit = (values: CreateRoleInputs) => {
+    createRole.mutate({ payload: values });
   };
   return (
     <DashLayout
       breadcrumbs={breadcrumbs}
-      title={t("employees.pages.new.title")}
-      desc={t("employees.pages.new.description")}
+      title={t("roles.page.create_title")}
+      desc={t("roles.page.create_desc")}
     >
-      <EmployeeForm
-        mode="create"
+      <RoleForm
         onSubmit={handleOnsubmit}
-        isLoading={createEmployee.isPending}
+        isLoading={createRole.isPending}
         apiErrors={apiErrors}
       />
     </DashLayout>
   );
 };
 
-export default NewEmployeePage;
+export default NewRolePage;

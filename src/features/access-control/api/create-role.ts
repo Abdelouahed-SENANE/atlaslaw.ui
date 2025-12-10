@@ -7,7 +7,6 @@ import { ROLES_KEY } from "./list-roles";
 export const createRoleSchema = z.object({
   name: z.string().min(1, "roles.fields.name.errors.required"),
   description: z.string().min(10, "roles.fields.description.errors.required"),
-  scope: z.enum(["system", "tenant"], "roles.fields.scope.errors.required"),
 });
 
 export type CreateRoleInputs = z.infer<typeof createRoleSchema>;

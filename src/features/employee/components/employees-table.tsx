@@ -4,11 +4,13 @@ import { Table, TableColumn } from "@/components/ui/table";
 import { useQueryTable } from "@/components/ui/table/use-query-table";
 import i18n from "@/config/i18n";
 import { paths } from "@/config/paths";
+import { RoleAssignmentForm } from "@/features/user/components/role-assignement-form";
+import { useDisclosure } from "@/hooks/use-disclosure";
 import { PermissionCode, useAuthorization } from "@/lib/authorization";
 import { cn } from "@/lib/utils";
 import { Translation } from "@/types/api";
-import { Edit } from "lucide-react";
-import { useCallback, useMemo } from "react";
+import { Edit, Lock } from "lucide-react";
+import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { Employee } from "../types";
@@ -26,24 +28,37 @@ export const EmployeeTable = ({
   const lang: keyof Translation = i18n.language as keyof Translation;
   const navigate = useNavigate();
   const { hasPermission } = useAuthorization();
-  //   const [id, setId] = useState<string>("");
-  //   const { open, close, isOpen } = useDisclosure();
+  const [id, setId] = useState<string>("");
+  const { open, close, isOpen } = useDisclosure();
 
-  const handleAction = useCallback((action: string, id: string) => {
-    switch (action) {
-      case "edit":
-        navigate(paths.tenant.employees.edit.route(id));
-        break;
-      default:
-        break;
-    }
-  }, []);
+  const handleAction = useCallback(
+    (action: string, id: string, userID: string) => {
+      switch (action) {
+        case "edit":
+          navigate(paths.tenant.employees.edit.route(id));
+          break;
+        case "assign_roles":
+          setId(userID);
+          open();
+          break;
+        default:
+          break;
+      }
+    },
+    []
+  );
 
   const ACTIONS: QuickAction[] = [
     {
       label: t("employees.actions.edit"),
       value: "edit",
       icon: <Edit className="h-4 w-4 text-foreground" />,
+      permission: PermissionCode.UPDATE_EMPLOYEES,
+    },
+    {
+      label: t("employees.actions.assign_roles"),
+      value: "assign_roles",
+      icon: <Lock className="h-4 w-4 text-foreground" />,
       permission: PermissionCode.UPDATE_EMPLOYEES,
     },
   ];
@@ -99,11 +114,12 @@ export const EmployeeTable = ({
       {
         title: "",
         field: "id",
-        Cell: ({ entry: { id } }) => (
+
+        Cell: ({ entry: { id, user } }) => (
           <QuickActions
             id={id}
             actions={FILTER_ACTIONS}
-            onAction={handleAction}
+            onAction={(action, id) => handleAction(action, id, user?.id!)}
           />
         ),
       },
@@ -121,6 +137,16 @@ export const EmployeeTable = ({
         onSelectRow={(id) => table.toggleRow(id)}
         onSelectAll={() => table.toggleAll(employees.map((r) => r.id!))}
         emptyMessage={t("employees.pages.list.empty_msg")}
+      />
+
+      <RoleAssignmentForm
+        open={isOpen}
+        userID={id}
+        onOpenChange={(isOpen) => {
+          isOpen ? open() : close();
+        }}
+        isDone={false}
+        title={t("employees.drawer.assign_roles.title")}
       />
     </>
   );

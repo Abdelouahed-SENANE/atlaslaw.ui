@@ -1,21 +1,16 @@
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import { useNavigate } from "react-router";
 
 export const Redirect = ({ to }: { to: string }) => {
   const navigate = useNavigate();
+  console.warn("[Redirect] to:", to);
+  useLayoutEffect(() => {
+    const id = setTimeout(() => {
+      navigate(to, { replace: true });
+    }, 0);
 
-  console.log(
-    "%c🔁 Redirect() invoked → " + to,
-    "color:#ff9800; font-weight:bold"
-  );
-
-  useEffect(() => {
-    console.log(
-      "%c🔁 navigate() executing → " + to,
-      "color:#ff5722; font-weight:bold"
-    );
-    navigate(to, { replace: true });
-  }, [to, navigate]);
+    return () => clearTimeout(id);
+  }, [to]);
 
   return null;
 };

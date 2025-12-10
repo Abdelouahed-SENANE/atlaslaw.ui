@@ -83,8 +83,8 @@ export const InputCalendar: React.FC<InputCalenderProps> = ({
             id="date-picker"
             variant="ghost"
             className="absolute  top-1/2 right-0 p-1 size-6 -translate-y-1/2"
-            icon={<CalendarIcon className="size-4" />}
           >
+            <CalendarIcon className="size-4" />
             <span className="sr-only">Select date</span>
           </Button>
         </PopoverTrigger>

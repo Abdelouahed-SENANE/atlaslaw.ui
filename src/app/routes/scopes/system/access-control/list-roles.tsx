@@ -9,16 +9,21 @@ import {
 } from "@/components/ui/card";
 import { SearchInput } from "@/components/ui/form";
 import { RouterLink } from "@/components/ui/link";
+import { QuickAction } from "@/components/ui/quick-actions";
 import { TablePagination, useQueryTable } from "@/components/ui/table";
 import { paths } from "@/config/paths";
-import { useRoles } from "@/features/rbac/api/list-roles";
-import { RoleTable } from "@/features/rbac/components/role-table";
-import { Role } from "@/features/rbac/types";
-import { Plus } from "lucide-react";
+import { useRoles } from "@/features/access-control/api/list-roles";
+import { RoleTable } from "@/features/access-control/components/role-table";
+import { Role } from "@/features/access-control/types";
+import { PermissionCode } from "@/lib/authorization";
+import { Pen, Plus, Shield, Trash2 } from "lucide-react";
+import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 const ListRolesPage = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const table = useQueryTable<Role>();
   const rolesQuery = useRoles({
@@ -44,6 +49,44 @@ const ListRolesPage = () => {
       active: true,
     },
   ];
+
+  const handleAction = useCallback((action: string, id: string) => {
+    switch (action) {
+      case "edit":
+        navigate(paths.admin.rbac.roles.edit.route(id));
+        break;
+      case "manage_permissions":
+        navigate(paths.admin.rbac.roles.permissions.route(id));
+        break;
+      default:
+        break;
+    }
+  }, []);
+
+  const actions = useMemo<QuickAction[]>(
+    () =>
+      [
+        {
+          label: t("roles.actions.edit"),
+          value: "edit",
+          icon: <Pen className="h-4 w-4 text-foreground" />,
+          permission: PermissionCode.UPDATE_ROLES,
+        },
+        {
+          label: t("roles.actions.manage_permissions"),
+          value: "manage_permissions",
+          icon: <Shield className="h-4 w-4 text-foreground" />,
+          permission: PermissionCode.UPDATE_ROLES,
+        },
+        {
+          label: t("roles.actions.delete"),
+          value: "delete",
+          icon: <Trash2 className="h-4 w-4 text-foreground" />,
+          permission: PermissionCode.DELETE_ROLES,
+        },
+      ] as const,
+    [t]
+  );
 
   return (
     <DashLayout
@@ -83,6 +126,8 @@ const ListRolesPage = () => {
             roles={items}
             isLoading={rolesQuery.isLoading}
             table={table}
+            onAction={handleAction}
+            actions={actions}
           />
         </CardContent>
       </Card>

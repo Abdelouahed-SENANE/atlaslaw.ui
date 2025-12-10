@@ -1,5 +1,18 @@
 {
-  "loading": "Chargement...",
+  "global": {
+    "actions": {
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "create": "Créer",
+      "add": "Ajouter",
+      "search": "Rechercher",
+      "save": "Enregistrer",
+      "cancel": "Annuler",
+      "reset": "Réinitialiser",
+      "loading": "Chargement...",
+      "update_changes": "Enregistrer les modifications"
+    }
+  },
 
   "dashboard": {
     "page": {
@@ -289,6 +302,12 @@
         "empty_msg": "Aucun employé n’a encore été ajouté à votre équipe."
       }
     },
+    "drawer": {
+      "assign_roles": {
+        "title": "Assigner des roles",
+        "description": "Assignez des roles aux employés."
+      }
+    },
 
     "fields": {
       "email": {
@@ -352,9 +371,10 @@
       "update": "Enregistrer les modifications",
       "create": "Créer un nouvel employé",
       "add": "Ajouter un nouvel employé",
-      "search": "Rechercher un employé, un poste, un mot-clé..."
+      "search": "Rechercher un employé, un poste, un mot-clé...",
+      "assign_roles": "Assigner des roles"
     },
-    "toast" : {
+    "toast": {
       "created_title": "Employé ajouté.",
       "updated_title": "Employé mis à jour.",
       "deleted_title": "Employé supprimé.",
@@ -363,7 +383,6 @@
       "deleted_desc": "L'employé a été supprimé.",
       "no_changes_title": "Aucun changement.",
       "no_changes_desc": "Aucun changement n'a été effectué."
-
     }
   }
 }

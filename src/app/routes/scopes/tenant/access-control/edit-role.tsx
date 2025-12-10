@@ -1,30 +1,34 @@
 import { DashLayout } from "@/components/layouts/_dash-layout";
 import { toast } from "@/components/ui/toast/use-toast";
 import { paths } from "@/config/paths";
-import {
-  CreateRoleInputs,
-  useCreateRole,
-} from "@/features/rbac/api/create-role";
-import { RoleForm } from "@/features/rbac/components/role-form";
-import { Role } from "@/features/rbac/types";
+import { CreateRoleInputs } from "@/features/access-control/api/create-role";
+import { useRole } from "@/features/access-control/api/role-details";
+import { useUpdateRole } from "@/features/access-control/api/update-role";
+import { RoleForm } from "@/features/access-control/components/role-form";
+import { Role } from "@/features/access-control/types";
 import { Logger } from "@/utils/logger";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+const EditRolePage = () => {
+  const { id } = useParams();
+  const roleQuery = useRole({ id: id!, queryConfig: { enabled: !!id } });
 
-const NewRolePage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+
   const [apiErrors, setApiErrors] = React.useState<
     Partial<Record<keyof Role, string[]>>
   >({});
-  const createRole = useCreateRole({
+
+  const updateRole = useUpdateRole({
+    id: id!,
     mutationConfig: {
       onSuccess: () => {
         setApiErrors({});
         toast({
-          title: t("roles.toast.created_title"),
-          description: t("roles.toast.created_desc"),
+          title: t("roles.toast.updated_title"),
+          description: t("roles.toast.updated_desc"),
           type: "success",
         });
         navigate(-1);
@@ -35,6 +39,14 @@ const NewRolePage = () => {
       },
     },
   });
+
+  if (roleQuery.isLoading) return null;
+
+  const role = roleQuery.data?.data;
+
+  const handleOnsubmit = (values: CreateRoleInputs) => {
+    updateRole.mutate({ id: id!, payload: values });
+  };
   const breadcrumbs = [
     {
       label: t("menu.dashboard"),
@@ -47,27 +59,25 @@ const NewRolePage = () => {
       active: false,
     },
     {
-      label: t("roles.page.create_title"),
+      label: `${t("roles.page.update_title")} - ${role?.name}`,
       url: "#",
       active: true,
     },
   ];
-  const handleOnsubmit = (values: CreateRoleInputs) => {
-    createRole.mutate({ payload: values });
-  };
   return (
     <DashLayout
       breadcrumbs={breadcrumbs}
-      title={t("roles.page.create_title")}
-      desc={t("roles.page.create_desc")}
+      title={t("roles.page.update_title")}
+      desc={t("roles.page.update_desc")}
     >
       <RoleForm
+        defaultValues={role ?? undefined}
         onSubmit={handleOnsubmit}
-        isLoading={createRole.isPending}
+        isLoading={updateRole.isPending}
         apiErrors={apiErrors}
       />
     </DashLayout>
   );
 };
 
-export default NewRolePage;
+export default EditRolePage;

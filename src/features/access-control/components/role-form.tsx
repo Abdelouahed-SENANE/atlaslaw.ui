@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { Form, Input, InputError } from "@/components/ui/form";
-import { RadioInput } from "@/components/ui/form/radio-input";
+import { Form, Input } from "@/components/ui/form";
 import { Save } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -11,7 +10,7 @@ import { Role } from "../types";
 type RoleFormProps = {
   defaultValues?: Partial<Role>;
   onSubmit: (values: CreateRoleInputs) => void;
-  apiErrors: Partial<Record<keyof Role, string[]>>;
+  apiErrors: Partial<Record<keyof CreateRoleInputs, string[]>>;
   isLoading?: boolean;
 };
 
@@ -28,16 +27,17 @@ export const RoleForm = ({
       <CardContent className="p-0">
         <Form
           id="role-form"
-          options={{ defaultValues :{
-            name: defaultValues?.name ?? "",
-            description: defaultValues?.description ?? "",
-            scope: defaultValues?.scope ?? "tenant",
-          } }}
+          options={{
+            defaultValues: {
+              name: defaultValues?.name ?? "",
+              description: defaultValues?.description ?? "",
+            },
+          }}
           schema={createRoleSchema}
           onSubmit={onSubmit}
         >
           {({ register, formState }) => (
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-2 gap-2">
               <div>
                 <label htmlFor="name" className="text-sm font-bold">
                   {t("roles.fields.name.label")}{" "}
@@ -72,37 +72,6 @@ export const RoleForm = ({
                   registration={register("description")}
                   className="focus:ring-2 focus:ring-primary  focus:border-primary"
                 />
-              </div>
-              <div>
-                <label htmlFor="scope" className="text-sm font-bold mb-2">
-                  {t("roles.fields.scope.label")}
-                </label>
-                <div className="flex flex-col rounded-sm mt-1">
-                  <div className="flex gap-1  max-w-20">
-                    <RadioInput
-                      id="scope"
-                      value={"system"}
-                      label={t("roles.fields.scope.system")}
-                      registration={register("scope")}
-                      className="focus:ring-2 focus:ring-primary  focus:border-primary max-w-4"
-                    />
-                    <RadioInput
-                      id="scope"
-                      value={"tenant"}
-                      label={t("roles.fields.scope.tenant")}
-                      registration={register("scope")}
-                      className="focus:ring-2 focus:ring-primary  focus:border-primary"
-                    />
-                  </div>
-                  {formState.errors.scope && (
-                    <InputError
-                      errorMessage={
-                        t(`${formState.errors.scope.message}`) ||
-                        apiErrors.scope?.[0]!
-                      }
-                    />
-                  )}
-                </div>
               </div>
             </div>
           )}

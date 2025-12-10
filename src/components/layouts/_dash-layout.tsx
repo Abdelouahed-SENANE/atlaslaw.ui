@@ -16,22 +16,56 @@ import { RouterLink } from "../ui/link";
 import { Sidebar, useSidebar } from "../ui/sidebar";
 import { Topbar } from "../ui/topbar/topbar";
 
-export const DashLayout = ({
-  children,
-  title,
-  desc,
-  breadcrumbs = [],
-}: {
-  children: React.ReactNode;
-  title?: string;
-  desc?: string;
-  breadcrumbs?: { label: string; url: string; active?: boolean }[];
-}) => {
-  const { hasScope, hasPermission } = useAuthorization();
-  const { t } = useTranslation();
-  const { isCollapsed } = useSidebar();
+// ============================================================
+// 1) TYPES
+// ============================================================
+type MenuItemSublink = {
+  title: string;
+  to: string;
+  permission?: PermissionCode;
+};
 
-  const ADMIN_ROUTES = [
+type MenuItem = {
+  label: string;
+  url: string;
+  icon?: React.ReactNode;
+  permission?: PermissionCode;
+  sublinks?: MenuItemSublink[];
+};
+
+// ============================================================
+// 2) SHARED MENU FILTER UTILITY (works for any menu level)
+// ============================================================
+function filterMenu(
+  menu: MenuItem[],
+  hasPermission: (opts: { permission: PermissionCode }) => boolean
+): MenuItem[] {
+  return menu
+    .map((item) => {
+      if (item.permission && !hasPermission({ permission: item.permission })) {
+        return null;
+      }
+
+      if (item.sublinks) {
+        const allowed = item.sublinks.filter((sl) =>
+          sl.permission ? hasPermission({ permission: sl.permission }) : true
+        );
+
+        if (allowed.length === 0) return null;
+
+        return { ...item, sublinks: allowed };
+      }
+
+      return item;
+    })
+    .filter(Boolean) as MenuItem[];
+}
+
+// ============================================================
+// 3) ADMIN MENU CONFIG
+// ============================================================
+const ADMIN_MENU = (t: any) =>
+  [
     {
       label: t("menu.dashboard"),
       url: paths.admin.dashboard.route(),
@@ -57,14 +91,8 @@ export const DashLayout = ({
       url: paths.admin.users.root,
       icon: <Users2 className="size-4" />,
       sublinks: [
-        {
-          title: t("menu.list_users"),
-          to: paths.admin.users.list.route(),
-        },
-        {
-          title: t("menu.create_user"),
-          to: paths.admin.users.new.route(),
-        },
+        { title: t("menu.list_users"), to: paths.admin.users.list.route() },
+        { title: t("menu.create_user"), to: paths.admin.users.new.route() },
       ],
     },
     {
@@ -82,24 +110,13 @@ export const DashLayout = ({
         },
       ],
     },
-  ];
+  ] satisfies MenuItem[];
 
-  const EMPLOYEE_MENU = [
-    {
-      title: t("menu.list_employees"),
-      to: paths.tenant.employees.list.route(),
-      permission: PermissionCode.LIST_EMPLOYEES,
-    },
-    {
-      title: t("menu.create_employee"),
-      to: paths.tenant.employees.new.route(),
-      permission: PermissionCode.CREATE_EMPLOYEES,
-    },
-  ];
-  const employeeLinks = EMPLOYEE_MENU.filter((item) =>
-    hasPermission({ permission: item.permission })
-  );
-  const TENANT_ROUTES = [
+// ============================================================
+// 4) TENANT MENU CONFIG
+// ============================================================
+const TENANT_MENU = (t: any) =>
+  [
     {
       label: t("menu.dashboard"),
       url: paths.tenant.dashboard.route(),
@@ -109,12 +126,60 @@ export const DashLayout = ({
       label: t("menu.employees"),
       url: paths.tenant.employees.root,
       icon: <Users2 className="size-4" />,
-      sublinks: employeeLinks,
+      permission: PermissionCode.LIST_EMPLOYEES,
+      sublinks: [
+        {
+          title: t("menu.list_employees"),
+          to: paths.tenant.employees.list.route(),
+          permission: PermissionCode.LIST_EMPLOYEES,
+        },
+        {
+          title: t("menu.create_employee"),
+          to: paths.tenant.employees.new.route(),
+          permission: PermissionCode.CREATE_EMPLOYEES,
+        },
+      ],
     },
-  ];
-  const items = [
-    ...(hasScope({ scope: Scope.SYSTEM }) ? ADMIN_ROUTES : TENANT_ROUTES),
-  ];
+    {
+      label: t("menu.rbac"),
+      url: paths.tenant.roles.root,
+      icon: <Fingerprint className="size-4" />,
+      permission: PermissionCode.LIST_ROLES,
+      sublinks: [
+        {
+          title: t("menu.list_roles"),
+          to: paths.tenant.roles.list.route(),
+          permission: PermissionCode.LIST_ROLES,
+        },
+        {
+          title: t("menu.create_role"),
+          to: paths.tenant.roles.new.route(),
+          permission: PermissionCode.CREATE_ROLES,
+        },
+      ],
+    },
+  ] satisfies MenuItem[];
+
+export const DashLayout = ({
+  children,
+  title,
+  desc,
+  breadcrumbs = [],
+}: {
+  children: React.ReactNode;
+  title?: string;
+  desc?: string;
+  breadcrumbs?: { label: string; url: string; active?: boolean }[];
+}) => {
+  const { hasScope, hasPermission } = useAuthorization();
+  const { t } = useTranslation();
+  const { isCollapsed } = useSidebar();
+
+  const rawMenu = hasScope({ scope: Scope.SYSTEM })
+    ? ADMIN_MENU(t)
+    : TENANT_MENU(t);
+
+  const menu = filterMenu(rawMenu, hasPermission);
 
   return (
     <Fragment>
@@ -136,7 +201,7 @@ export const DashLayout = ({
             <Sidebar.Menu className="mb-4">
               <Sidebar.Label title={t("menu.navigation")} />
               <Sidebar.Item>
-                {items.map((item, index) => (
+                {menu.map((item, index) => (
                   <Sidebar.Link
                     className=" transition-colors"
                     key={index}

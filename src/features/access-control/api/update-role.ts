@@ -8,7 +8,6 @@ import { ROLE_KEY } from "./role-details";
 export const updateRoleSchema = z.object({
   name: z.string().min(1, "roles.fields.name.errors.required"),
   description: z.string().min(10, "roles.fields.description.errors.required"),
-  scope: z.enum(["system", "tenant"], "roles.fields.scope.errors.required"),
 });
 
 export type UpdateRoleInputs = z.infer<typeof updateRoleSchema>;

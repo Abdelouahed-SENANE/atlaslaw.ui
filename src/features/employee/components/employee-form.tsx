@@ -18,13 +18,21 @@ import {
 } from "../api/update-employee";
 import { Employee } from "../types";
 
-type EmployeeFormProps = {
-  defaultValues?: Partial<Employee>;
-  onSubmit: (values: CreateEmployeeInputs | UpdateEmployeeInputs) => void;
-  apiErrors: Partial<Record<keyof CreateEmployeeInputs, string[]>>;
-  isLoading?: boolean;
-  mode: "create" | "update";
-};
+type EmployeeFormProps =
+  | {
+      mode: "create";
+      defaultValues?: Partial<Employee>;
+      onSubmit: (values: CreateEmployeeInputs) => void;
+      apiErrors: Partial<Record<keyof CreateEmployeeInputs, string[]>>;
+      isLoading?: boolean;
+    }
+  | {
+      mode: "update";
+      defaultValues: Partial<Employee>;
+      onSubmit: (values: UpdateEmployeeInputs) => void;
+      apiErrors: Partial<Record<keyof UpdateEmployeeInputs, string[]>>;
+      isLoading?: boolean;
+    };
 
 export const EmployeeForm = ({
   defaultValues,
