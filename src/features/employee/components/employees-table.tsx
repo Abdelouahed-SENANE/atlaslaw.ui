@@ -145,7 +145,6 @@ export const EmployeeTable = ({
         onOpenChange={(isOpen) => {
           isOpen ? open() : close();
         }}
-        isDone={false}
         title={t("employees.drawer.assign_roles.title")}
       />
     </>

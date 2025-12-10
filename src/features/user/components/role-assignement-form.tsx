@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Form, Input, Switch } from "@/components/ui/form";
+import { Form, Switch } from "@/components/ui/form";
 import { FormDrawer } from "@/components/ui/form/form-drawer";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -10,23 +10,25 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { toast } from "@/components/ui/toast/use-toast";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { assignRolesSchema } from "../api/assign-roles";
+import {
+  assignRolesToUserSchema,
+  useAssignRoles,
+} from "../api/assign-roles-to-user";
 import { useAvailableRoles } from "../api/availables-roles";
 
 type Props = {
   userID: string;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
-  isDone: boolean;
   triggerButton?: React.ReactElement;
   title: string;
 };
 export const RoleAssignmentForm = ({
   open,
   onOpenChange,
-  isDone,
   triggerButton,
   title,
   userID,
@@ -37,10 +39,29 @@ export const RoleAssignmentForm = ({
     queryConfig: { enabled: open },
   });
 
+  const assignRole = useAssignRoles({
+    id: userID,
+    mutationConfig: {
+      onSuccess: () => {
+        toast({
+          title: t("roles.toast.updated_title"),
+          description: t("roles.toast.updated_desc"),
+          type: "success",
+        });
+      },
+      onError: () => {
+        toast({
+          title: t("roles.toast.error_title"),
+          description: t("roles.toast.error_desc"),
+          type: "error",
+        });
+      },
+    },
+  });
+
   const userRoles = data?.data;
   const assinged =
     userRoles?.filter((role) => role.assigned).map((role) => role.id) ?? [];
-    // if (isLoading) return <Skeleton />;
 
   return (
     <FormDrawer
@@ -48,9 +69,14 @@ export const RoleAssignmentForm = ({
       triggerButton={triggerButton}
       open={open}
       onOpenChange={onOpenChange}
-      isDone={isDone}
+      isDone={assignRole.isSuccess}
       submitButton={
-        <Button type="submit" form="assign-roles">
+        <Button
+          type="submit"
+          form="assign-roles"
+          disabled={assignRole.isPending}
+          isLoading={assignRole.isPending}
+        >
           {t("global.actions.update_changes")}
         </Button>
       }
@@ -61,27 +87,19 @@ export const RoleAssignmentForm = ({
         <Form
           key={userID}
           id="assign-roles"
-          schema={assignRolesSchema}
-          onSubmit={(values) => console.log(values)}
+          schema={assignRolesToUserSchema}
+          onSubmit={(values) =>
+            assignRole.mutate({ id: userID, payload: values })
+          }
           options={{
             defaultValues: {
-              roleIds: assinged,
-              userId: userID,
+              role_ids: assinged,
             },
           }}
         >
-          {({ register, formState, getValues, setValue }) => {
+          {({ getValues, setValue }) => {
             return (
               <>
-                <div className="grid grid-cols-2 gap-2">
-                  <Input
-                    type="hidden"
-                    id={userID}
-                    error={formState.errors.userId?.message}
-                    registration={register("userId")}
-                    value={userID}
-                  />
-                </div>
                 <TableElement>
                   <TableHeader>
                     <TableRow>
@@ -110,17 +128,17 @@ export const RoleAssignmentForm = ({
                                 id={`role-${role.id}`}
                                 defaultChecked={role.assigned}
                                 onCheckedChange={(checked) => {
-                                  const current = getValues("roleIds") || [];
+                                  const current = getValues("role_ids") || [];
                                   if (checked) {
                                     if (!current.includes(role.id)) {
-                                      setValue("roleIds", [
+                                      setValue("role_ids", [
                                         ...current,
                                         role.id,
                                       ]);
                                     }
                                   } else {
                                     setValue(
-                                      "roleIds",
+                                      "role_ids",
                                       current.filter((id) => id !== role.id)
                                     );
                                   }
