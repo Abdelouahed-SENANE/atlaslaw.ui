@@ -44,7 +44,7 @@ export const RoleTable = ({
         return;
       }
 
-      onAction?.(action, id); // ← Correct call
+      onAction?.(action, id);
     },
     [onAction, open]
   );

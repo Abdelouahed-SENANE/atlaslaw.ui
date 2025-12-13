@@ -16,16 +16,26 @@ export enum PermissionCode {
   CREATE_USERS = "create:users",
   DELETE_USERS = "delete:users",
 
-  // USERS
+  // EMPLOYEES
   LIST_EMPLOYEES = "list:employees",
+  VIEW_EMPLOYEES = "view:employees",
   UPDATE_EMPLOYEES = "update:employees",
   CREATE_EMPLOYEES = "create:employees",
   DELETE_EMPLOYEES = "delete:employees",
+
+  // CLIENTS TYPES
+  LIST_CLIENT_TYPES = "list:client-types",
+  VIEW_CLIENT_TYPES = "view:client-types",
+  UPDATE_CLIENT_TYPES = "update:client-types",
+  CREATE_CLIENT_TYPES = "create:client-types",
+  DELETE_CLIENT_TYPES = "delete:client-types",
+
   // ROLES
   LIST_ROLES = "list:roles",
   CREATE_ROLES = "create:roles",
   UPDATE_ROLES = "update:roles",
   DELETE_ROLES = "delete:roles",
+  VIEW_ROLES = "view:roles",
 
   // CASES (Law Firm)
   LIST_CASES = "list:cases",
@@ -37,10 +47,10 @@ export enum PermissionCode {
 
   // CLIENTS
   LIST_CLIENTS = "list:clients",
-  VIEW_CLIENT = "view:client",
-  CREATE_CLIENT = "create:client",
-  UPDATE_CLIENT = "update:client",
-  DELETE_CLIENT = "delete:client",
+  VIEW_CLIENTS = "view:clients",
+  CREATE_CLIENTS = "create:clients",
+  UPDATE_CLIENTS = "update:clients",
+  DELETE_CLIENTS = "delete:clients",
 
   // DOCUMENTS
   LIST_DOCUMENTS = "list:documents",

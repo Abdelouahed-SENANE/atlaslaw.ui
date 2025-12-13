@@ -15,7 +15,7 @@ import { paths } from "@/config/paths";
 import { useRoles } from "@/features/access-control/api/list-roles";
 import { RoleTable } from "@/features/access-control/components/role-table";
 import { Role } from "@/features/access-control/types";
-import { PermissionCode } from "@/lib/authorization";
+import { PermissionCode, useAuthorization } from "@/lib/authorization";
 import { Pen, Plus, Shield, Trash } from "lucide-react";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -24,6 +24,7 @@ import { useNavigate } from "react-router-dom";
 const ListRolesPage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { hasPermission } = useAuthorization();
 
   const table = useQueryTable<Role>();
   const rolesQuery = useRoles({
@@ -88,6 +89,10 @@ const ListRolesPage = () => {
     [t]
   );
 
+  const filteredActions = useMemo(() => {
+    return actions.filter((a) => hasPermission({ permission: a.permission }));
+  }, [actions, hasPermission]);
+
   return (
     <DashLayout
       breadcrumbs={breadcrumbs}
@@ -110,15 +115,17 @@ const ListRolesPage = () => {
               value={table.query}
               delay={600}
             />
-            <Button>
-              <RouterLink
-                className="text-primary-foreground flex items-center hover:no-underline hover:text-primary-foreground"
-                to={paths.tenant.roles.new.route()}
-              >
-                <Plus className="size-4" />
-                <span>{t("roles.page.add")}</span>
-              </RouterLink>
-            </Button>
+            {hasPermission({ permission: PermissionCode.CREATE_ROLES }) && (
+              <Button>
+                <RouterLink
+                  className="text-primary-foreground flex items-center hover:no-underline hover:text-primary-foreground"
+                  to={paths.tenant.roles.new.route()}
+                >
+                  <Plus className="size-4" />
+                  <span>{t("roles.page.add")}</span>
+                </RouterLink>
+              </Button>
+            )}
           </div>
         </CardHeader>
         <CardContent className="p-0">
@@ -126,7 +133,7 @@ const ListRolesPage = () => {
             roles={items}
             isLoading={rolesQuery.isLoading}
             table={table}
-            actions={actions}
+            actions={filteredActions}
             onAction={handleAction}
           />
         </CardContent>

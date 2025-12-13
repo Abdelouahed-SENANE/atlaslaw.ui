@@ -217,6 +217,40 @@ export const createAppRouter = (queryClient: QueryClient) => {
               ],
             },
             {
+              path: paths.tenant.clients.root,
+              HydrateFallback: () => LoadingScreen,
+              children: [
+                // {
+                //   index: true, // instead of path: ""
+                //   lazy: () =>
+                //     import(
+                //       "./routes/scopes/tenant/clients/list-clients"
+                //     ).then(convert(queryClient)),
+                // },
+                // {
+                //   path: paths.tenant.clients.new.root, // "create"
+                //   lazy: () =>
+                //     import(
+                //       "./routes/scopes/tenant/clients/new-employee"
+                //     ).then(convert(queryClient)),
+                // },
+                // {
+                //   path: paths.tenant.clients.edit.root, // "create"
+                //   lazy: () =>
+                //     import(
+                //       "./routes/scopes/tenant/clients/edit-employee"
+                //     ).then(convert(queryClient)),
+                // },
+                {
+                  path: paths.tenant.clients.types.root, // "create"
+                  lazy: () =>
+                    import(
+                      "./routes/scopes/tenant/clients/client-types.page"
+                    ).then(convert(queryClient)),
+                }
+              ],
+            },
+            {
               path: paths.tenant.roles.root,
               HydrateFallback: () => LoadingScreen,
               children: [

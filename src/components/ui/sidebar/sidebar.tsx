@@ -73,7 +73,7 @@ export const Label = React.forwardRef<
     <span
       ref={ref}
       className={cn(
-        "text-sm text-sidebar-foreground/60 uppercase mb-4 mt-3 tracking-wider w-full transition-all duration-200",
+        "text-xs text-sidebar-foreground/60 uppercase mb-2  tracking-wider w-full transition-all duration-200",
 
         // collapsed → hide, but recover on hover
         isCollapsed
@@ -189,7 +189,7 @@ const Menu = React.forwardRef<
   React.HTMLAttributes<HTMLUListElement>
 >(({ children, className, ...props }, ref) => {
   return (
-    <ul className={cn("mb-8", className)} ref={ref} role="list" {...props}>
+    <ul className={cn("", className)} ref={ref} role="list" {...props}>
       {children}
     </ul>
   );

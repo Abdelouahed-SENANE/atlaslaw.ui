@@ -91,7 +91,14 @@
     "users": "Utilisateurs",
     "tenants": "Locataires",
     "settings": "Paramètres",
-    "navigation": "Menu",
+    "groups": {
+      "overview": "Aperçu",
+      "home" : "Accueil",
+      "team" : "Equipe",
+      "security" : "Securité",
+      "crm" : "CRM"
+    },
+    "client_types": "Types de clients",
     "list_users": "Liste des utilisateurs",
     "list_tenants": "Liste des tenants",
     "create_user": "Créer un utilisateur",

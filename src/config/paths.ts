@@ -87,6 +87,26 @@ export const paths = {
       root: "dashboard",
       route: () => "/dashboard",
     },
+    clients: {
+      root: "clients",
+      route: () => "/clients",
+      types : {
+        root: "/clients/types",
+        route: () => "/clients/types",
+      },
+      list: {
+        root: "",
+        route: () => "/clients",
+      },
+      new: {
+        root: "new",
+        route: () => "/clients/new",
+      },
+      edit: {
+        root: ":id/edit",
+        route: (id: string) => `/clients/${id}/edit`,
+      },
+    },
     employees: {
       root: "employees",
       route: () => "/employees",
