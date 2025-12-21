@@ -6,7 +6,7 @@ import {
   UpdateEmployeeInputs,
   useUpdateEmployee,
 } from "@/features/employee/api/update-employee";
-import { EmployeeForm } from "@/features/employee/components/employee-form";
+import { EmployeeForm } from "@/features/employee/components/employee.form";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
@@ -50,13 +50,12 @@ const EditEmployeePage = () => {
     },
   });
 
-  // ❗ SAFE RETURNS — AFTER HOOKS
   if (!id) return <div>Invalid tenant ID</div>;
   if (empQuery.isLoading) return <div>Loading...</div>;
   if (!empQuery.data?.data) return <div>No tenant found</div>;
 
   const employee = empQuery.data?.data;
-console.log("hiring_date:", employee.hiring_date, typeof employee.hiring_date);
+
   const breadcrumbs = [
     {
       label: "Dashboard",

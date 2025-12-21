@@ -185,7 +185,7 @@ export const createAppRouter = (queryClient: QueryClient) => {
               HydrateFallback: () => LoadingScreen,
               path: paths.tenant.dashboard.root,
               lazy: () =>
-                import("./routes/scopes/tenant/dashboard").then(
+                import("./routes/scopes/tenant/dashboard.page").then(
                   convert(queryClient)
                 ),
             },
@@ -197,21 +197,34 @@ export const createAppRouter = (queryClient: QueryClient) => {
                   index: true, // instead of path: ""
                   lazy: () =>
                     import(
-                      "./routes/scopes/tenant/employees/list-employees"
+                      "./routes/scopes/tenant/employees/employees.page"
                     ).then(convert(queryClient)),
                 },
                 {
                   path: paths.tenant.employees.new.root, // "create"
                   lazy: () =>
                     import(
-                      "./routes/scopes/tenant/employees/new-employee"
+                      "./routes/scopes/tenant/employees/new-employee.page"
                     ).then(convert(queryClient)),
                 },
                 {
                   path: paths.tenant.employees.edit.root, // "create"
                   lazy: () =>
                     import(
-                      "./routes/scopes/tenant/employees/edit-employee"
+                      "./routes/scopes/tenant/employees/edit-employee.page"
+                    ).then(convert(queryClient)),
+                },
+              ],
+            },
+            {
+              path: paths.tenant.parties.root,
+              HydrateFallback: () => LoadingScreen,
+              children: [
+                {
+                  path: paths.tenant.parties.types.root, // "create"
+                  lazy: () =>
+                    import(
+                      "./routes/scopes/tenant/parties/party-types.page"
                     ).then(convert(queryClient)),
                 },
               ],
@@ -220,34 +233,26 @@ export const createAppRouter = (queryClient: QueryClient) => {
               path: paths.tenant.clients.root,
               HydrateFallback: () => LoadingScreen,
               children: [
-                // {
-                //   index: true, // instead of path: ""
-                //   lazy: () =>
-                //     import(
-                //       "./routes/scopes/tenant/clients/list-clients"
-                //     ).then(convert(queryClient)),
-                // },
-                // {
-                //   path: paths.tenant.clients.new.root, // "create"
-                //   lazy: () =>
-                //     import(
-                //       "./routes/scopes/tenant/clients/new-employee"
-                //     ).then(convert(queryClient)),
-                // },
-                // {
-                //   path: paths.tenant.clients.edit.root, // "create"
-                //   lazy: () =>
-                //     import(
-                //       "./routes/scopes/tenant/clients/edit-employee"
-                //     ).then(convert(queryClient)),
-                // },
                 {
-                  path: paths.tenant.clients.types.root, // "create"
+                  path: paths.tenant.clients.root,
+                  HydrateFallback: () => LoadingScreen,
+                  children: [
+                    {
+                      path: paths.tenant.clients.root, // "create"
+                      lazy: () =>
+                        import(
+                          "./routes/scopes/tenant/clients/clients.page"
+                        ).then(convert(queryClient)),
+                    },
+                  ],
+                },
+                {
+                  path: paths.tenant.clients.new.root, // "create"
                   lazy: () =>
                     import(
-                      "./routes/scopes/tenant/clients/client-types.page"
+                      "./routes/scopes/tenant/clients/new-client.page"
                     ).then(convert(queryClient)),
-                }
+                },
               ],
             },
             {

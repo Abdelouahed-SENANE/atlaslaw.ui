@@ -1,5 +1,7 @@
 {
   "global": {
+    "yes": "Oui",
+    "no": "Non",
     "actions": {
       "edit": "Modifier",
       "delete": "Supprimer",
@@ -91,14 +93,15 @@
     "users": "Utilisateurs",
     "tenants": "Locataires",
     "settings": "Paramètres",
+    "clients": "Clients",
     "groups": {
       "overview": "Aperçu",
-      "home" : "Accueil",
-      "team" : "Equipe",
-      "security" : "Securité",
-      "crm" : "CRM"
+      "home": "Accueil",
+      "team": "Equipe",
+      "security": "Securité",
+      "parties": "Parties"
     },
-    "client_types": "Types de clients",
+    "party_types": "Type juridique",
     "list_users": "Liste des utilisateurs",
     "list_tenants": "Liste des tenants",
     "create_user": "Créer un utilisateur",
@@ -108,7 +111,9 @@
     "create_role": "Créer un rôles",
     "employees": "Employés",
     "list_employees": "Liste des employés",
-    "create_employee": "Créer un employé"
+    "create_employee": "Créer un employé",
+    "create_client" : "Créer un client",
+    "list_clients" : "Liste des clients"
   },
   "roles": {
     "toast": {
@@ -280,6 +285,106 @@
     }
   },
 
+  "party_types": {
+    "pages": {
+      "new": {
+        "title": "Créer un type de client",
+        "description": "Ajoutez un nouveau type de client à votre espace de gestion."
+      },
+      "list": {
+        "title": "Liste des types de clients",
+        "desc": "Gérez et administrez l’ensemble des types de clients.",
+        "subtitle": "Gestion des types de clients",
+        "sub_desc": "Consultez, filtrez et organisez la liste des types de clients.",
+        "empty_msg": "Aucun type de client trouvé pour le moment."
+      }
+    },
+    "actions": {
+      "delete": "Supprimer le type de client",
+      "edit": "Modifier le type de client",
+      "update": "Mettre à jour le type de client",
+      "create": "Créer un type de client",
+      "add": "Ajouter un type de client",
+      "search": "Recherchez un type de client, un mot-clé..."
+    },
+    "columns": {
+      "name": "Nom du type de client",
+      "created_at": "Création",
+      "updated_at": "Mise à jour",
+      "is_active": "Actif",
+      "description": "Description du type de client"
+    },
+    "toast": {
+      "created_title": "Type de client créé.",
+      "updated_title": "Type de client mis à jour.",
+      "deleted_title": "Type de client supprimé.",
+      "error_create_title": "Erreur lors de la création du type de client.",
+      "error_update_title": "Erreur lors de la mise à jour du type de client.",
+      "error_delete_title": "Erreur lors de la suppression du type de client.",
+      "created_desc": "Le type de client a été ajouté.",
+      "updated_desc": "Le type de client a été mis à jour.",
+      "deleted_desc": "Le type de client a été supprimé."
+    },
+    "modal": {
+      "create_title": "Créer un type de client",
+      "update_title": "Modifier le type de client",
+      "delete_title": "Supprimer le type de client",
+      "delete_desc": "Etes-vous certains de vouloir supprimer ce type de client ?",
+      "delete_cancel": "Annuler",
+      "delete_submit": "Supprimer"
+    },
+    "fields": {
+      "name": {
+        "label": {
+          "ar": "Le nom du type de client (Ar)",
+          "fr": "Le nom du type de client (Fr)"
+        },
+        "placeholder": {
+          "ar": "Entrez le nom du type de client en arabe",
+          "fr": "Entrez le nom du type de client en français"
+        },
+        "errors": {
+          "ar": "Le nom du type de client en arabe est requis.",
+          "fr": "Le nom du type de client en français est requis."
+        }
+      },
+      "description": {
+        "label": {
+          "ar": "La description du type de client (Ar)",
+          "fr": "La description du type de client (Fr)"
+        },
+        "placeholder": {
+          "ar": "Entrez la description du type de client en arabe",
+          "fr": "Entrez la description du type de client en français"
+        },
+        "errors": {
+          "ar": "La description du type de client en arabe est requis.",
+          "fr": "La description du type de client en français est requis."
+        }
+      },
+      "is_active": {
+        "label": {
+          "ar": "Le type de client actif (Ar)",
+          "fr": "Le type de client actif (Fr)"
+        },
+        "placeholder": {
+          "ar": "Entrez le type de client actif en arabe",
+          "fr": "Entrez le type de client actif en français"
+        },
+        "errors": {
+          "ar": "Le type de client actif en arabe est requis.",
+          "fr": "Le type de client actif en français est requis."
+        }
+      },
+      "support_legal_identifiers": {
+        "label": "Ce type de client supporte les identificateurs juridiques ?",
+        "errors": {
+          "required": "Le type de client est requis."
+        }
+      }
+    }
+  },
+
   "users": {
     "pages": {
       "new": {
@@ -390,6 +495,25 @@
       "deleted_desc": "L'employé a été supprimé.",
       "no_changes_title": "Aucun changement.",
       "no_changes_desc": "Aucun changement n'a été effectué."
+    }
+  },
+  "clients": {
+    "pages": {
+      "list": {
+        "title": "Liste des clients",
+        "desc": "Gérez et administrez l’ensemble des clients.",
+        "subtitle": "Gestion des clients",
+        "sub_desc": "Consultez, filtrez et organisez la liste des clients.",
+        "empty_msg": "Aucun client rencontré pour le moment."
+      },
+      "new": {
+        "title": "Créer un client",
+        "description": "Ajoutez un nouveau client à votre espace de gestion."
+      },
+      "edit": {
+        "title": "Modifier le client",
+        "description": "Modifiez le client existant."
+      }
     }
   }
 }

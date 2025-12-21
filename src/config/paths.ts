@@ -87,10 +87,30 @@ export const paths = {
       root: "dashboard",
       route: () => "/dashboard",
     },
+    parties: {
+      root: "parties",
+      route: () => "/parties",
+      types: {
+        root: "/parties/types",
+        route: () => "/parties/types",
+      },
+      list: {
+        root: "",
+        route: () => "/parties",
+      },
+      new: {
+        root: "new",
+        route: () => "/parties/new",
+      },
+      edit: {
+        root: ":id/edit",
+        route: (id: string) => `/parties/${id}/edit`,
+      },
+    },
     clients: {
       root: "clients",
       route: () => "/clients",
-      types : {
+      types: {
         root: "/clients/types",
         route: () => "/clients/types",
       },

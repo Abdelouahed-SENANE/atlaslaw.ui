@@ -23,12 +23,12 @@ export enum PermissionCode {
   CREATE_EMPLOYEES = "create:employees",
   DELETE_EMPLOYEES = "delete:employees",
 
-  // CLIENTS TYPES
-  LIST_CLIENT_TYPES = "list:client-types",
-  VIEW_CLIENT_TYPES = "view:client-types",
-  UPDATE_CLIENT_TYPES = "update:client-types",
-  CREATE_CLIENT_TYPES = "create:client-types",
-  DELETE_CLIENT_TYPES = "delete:client-types",
+  // PARTY TYPES
+  LIST_PARTY_TYPES = "list:party-types",
+  VIEW_PARTY_TYPES = "view:party-types",
+  UPDATE_PARTY_TYPES = "update:party-types",
+  CREATE_PARTY_TYPES = "create:party-types",
+  DELETE_PARTY_TYPES = "delete:party-types",
 
   // ROLES
   LIST_ROLES = "list:roles",

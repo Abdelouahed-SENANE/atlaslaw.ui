@@ -4,7 +4,7 @@ import { ToastActionElement, ToastProps } from "./toast"
 import {  alertStyles } from "./toaster"
 
 const TOAST_LIMIT = 5
-const TOAST_REMOVE_DELAY = 2000000000
+const TOAST_REMOVE_DELAY = 1500
 
 type ToasterToast = Omit<ToastProps, "type"> & {
   id: string

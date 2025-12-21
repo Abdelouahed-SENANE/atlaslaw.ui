@@ -201,13 +201,13 @@ const TENANT_MENU = (t: any) =>
       ],
     },
     {
-      group: t("menu.groups.crm"),
+      group: t("menu.groups.parties"),
       items: [
         {
-          label: t("menu.client_types"),
-          url: paths.tenant.clients.types.root,
+          label: t("menu.party_types"),
+          url: paths.tenant.parties.types.root,
           icon: <Users2 className="size-4" />,
-          permission: PermissionCode.LIST_CLIENT_TYPES,
+          permission: PermissionCode.LIST_PARTY_TYPES,
 
         },
         {
@@ -223,7 +223,7 @@ const TENANT_MENU = (t: any) =>
               permission: PermissionCode.LIST_CLIENTS,
             },
             {
-              title: t("menu.create_employee"),
+              title: t("menu.create_client"),
               to: paths.tenant.clients.new.route(),
               permission: PermissionCode.CREATE_CLIENTS,
             },
@@ -327,10 +327,9 @@ export const DashLayout = ({
                   ))}
                 </BreadcrumbList>
               </Breadcrumb>
-
               <div>
                 <h1 className="text-3xl font-bold">{title}</h1>
-                <p className=" text-card-foreground/60 ">{desc}</p>
+                <p className="text-card-foreground/60">{desc}</p>
               </div>
             </div>
             {children}

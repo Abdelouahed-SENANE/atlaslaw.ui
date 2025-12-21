@@ -5,7 +5,7 @@ import { useDisclosure } from "@/hooks/use-disclosure";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Role } from "../types";
-import { ConfirmRoleDelation } from "./confirm-role-delete";
+import { ConfirmRoleDelation } from "./role.delete-dialog";
 
 // -------------------------------
 // TYPES

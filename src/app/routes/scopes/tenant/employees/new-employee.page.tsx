@@ -5,7 +5,7 @@ import {
   CreateEmployeeInputs,
   useCreateEmployee,
 } from "@/features/employee/api/create-employee";
-import { EmployeeForm } from "@/features/employee/components/employee-form";
+import { EmployeeForm } from "@/features/employee/components/employee.form";
 import { Logger } from "@/utils/logger";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -51,7 +51,7 @@ const NewEmployeePage = () => {
       active: true,
     },
   ];
-  const handleOnsubmit = (values: CreateEmployeeInputs ) => {
+  const handleOnsubmit = (values: CreateEmployeeInputs) => {
     createEmployee.mutate({ payload: values });
   };
   return (

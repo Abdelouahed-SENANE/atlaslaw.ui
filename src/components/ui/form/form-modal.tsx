@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
 import * as React from "react";
+import { useTranslation } from "react-i18next";
 import { Button } from "../button";
 import {
   Dialog,
@@ -33,6 +34,7 @@ export const FormModal = ({
   open,
   onOpenChange,
 }: FormModalProps) => {
+  const { t } = useTranslation();
   const [internalOpen, setInternalOpen] = React.useState(false);
 
   const isControlled = open !== undefined;
@@ -62,10 +64,9 @@ export const FormModal = ({
       )}
 
       <DialogContent
+        showCloseButton={false}
         aria-describedby="form-modal"
-        className={cn(
-          "sm:max-w-lg p-0 bg-card border border-border"
-        )}
+        className={cn("sm:max-w-2xl p-0 bg-card border border-border")}
       >
         <DialogHeader className="border-b flex flex-row items-center justify-between px-4 py-3">
           <DialogTitle>{title}</DialogTitle>
@@ -80,7 +81,7 @@ export const FormModal = ({
 
         <DialogFooter className="border-t flex flex-row items-center justify-end gap-2 px-4 py-3">
           <DialogClose asChild>
-            <Button variant="outline">Close</Button>
+            <Button variant="outline">{t("cancel")}</Button>
           </DialogClose>
           {submitButton}
         </DialogFooter>
