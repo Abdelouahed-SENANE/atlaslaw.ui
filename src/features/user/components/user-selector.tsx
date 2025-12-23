@@ -17,7 +17,7 @@ type Props = {
   val?: string;
   onChange?: (val?: string) => void;
 };
-export const UserSelect = ({
+export const UserSelector = ({
   error,
   placeholder,
   val,
@@ -38,7 +38,6 @@ export const UserSelect = ({
     limit: params.limit,
   });
 
-  console.log("intialUser", initialUser);
   return (
     <Autocomplete<UserOption>
       value={val}

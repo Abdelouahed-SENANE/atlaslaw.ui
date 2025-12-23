@@ -2,8 +2,8 @@ import * as React from "react";
 
 import { useUser } from "../auth/authentication";
 import { PermissionCode, Scope } from "./constants";
-import { Redirect } from "@/utils/redirect";
 import { paths } from "@/config/paths";
+import { Navigate } from "react-router-dom";
 
 // export const POLICIES = {
 //   "comment:delete": (user: User) => {
@@ -77,7 +77,7 @@ export const Authorization = ({
 }: AuthorizationProps) => {
   const { hasScope, hasPermission, unauthorized } = useAuthorization();
   if (unauthorized) {
-    return <Redirect to={paths.home.root} />;
+    return <Navigate to={paths.home.root} />;
   }
   let canAccess = false;
 

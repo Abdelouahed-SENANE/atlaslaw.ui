@@ -112,8 +112,8 @@
     "employees": "Employés",
     "list_employees": "Liste des employés",
     "create_employee": "Créer un employé",
-    "create_client" : "Créer un client",
-    "list_clients" : "Liste des clients"
+    "create_client": "Créer un client",
+    "list_clients": "Liste des clients"
   },
   "roles": {
     "toast": {
@@ -498,13 +498,160 @@
     }
   },
   "clients": {
+    "form": {
+      "cards": {
+        "base_info": "Informations de base du client",
+        "contact_info": "Contact du client",
+        "legal_info": "Les informations juridiques "
+      }
+    },
+    "actions": {
+      "delete": "Supprimer le client",
+      "edit": "Modifier le client",
+      "update": "Mettre à jour le client",
+      "create": "Créer un client",
+      "add": "Ajouter un client",
+      "search": "Recherchez un client, un mot-clé..."
+    },
+    "fields": {
+      "name": {
+        "label": {
+          "fr": "Nom du client (français)",
+          "ar": "Nom du client (arabic)"
+        },
+        "placeholder": {
+          "fr": "Saisissez le nom du client en français",
+          "ar": "Saisissez le nom du client en arabe"
+        },
+        "errors": {
+          "fr": "Le nom du client en français est requis.",
+          "ar": "Le nom du client en arabe est requis."
+        }
+      },
+      "note": {
+        "label": "Note",
+        "placeholder": "Saisissez une note"
+      },
+"parent_id": {
+  "label": "Société mère",
+  "placeholder": "Sélectionner la société mère",
+  "search_placeholder": "Rechercher une société par dénomination ou mot-clé"
+},
+
+      "is_subsidiary" : {
+        "label": "Le client est une filiale ?",
+        "placeholder": "Saisissez une note"
+      },
+      "party_type": {
+        "label": "Type de juridique du client",
+        "placeholder": "Sélectionnez le type de juridique",
+        "search_placeholder": "Recherchez un type de client, un mot-clé...",
+        "errors": {
+          "required": "Le type de juridique est requis."
+        }
+      },
+      "national_id": {
+        "label": "Identificateur national (CNI)",
+        "placeholder": "Saisissez l'identificateur national"
+      },
+      "contacts": {
+        "email": {
+          "label": "Email",
+          "placeholder": "Entrez email du client",
+          "errors": {
+            "required": "L'email est requis.",
+            "invalid": "Adresse email invalide."
+          }
+        },
+        "mobile": {
+          "label": "Téléphone",
+          "placeholder": "Entrez téléphone du client",
+          "errors": {
+            "required": "Le téléphone est requis.",
+            "invalid": "Téléphone invalide."
+          }
+        },
+        "landline": {
+          "label": "Téléphone fixe",
+          "placeholder": "Entrez téléphone fixe du client",
+          "errors": {
+            "invalid": "Téléphone fixe invalide."
+          }
+        },
+        "postal": {
+          "label": "Code postal",
+          "placeholder": "Entrez code postal du client",
+          "errors": {
+            "invalid": "Code postal invalide."
+          }
+        },
+        "address": {
+          "label": "Adresse",
+          "placeholder": "Entrez adresse du client",
+          "errors": {
+            "required": "L'adresse est requise."
+          }
+        }
+      },
+      "legal_profile": {
+        "business_register": {
+          "label": "Numéro de registre commercial",
+          "placeholder": "Saisissez le numérico de registre commercial",
+          "errors": {
+            "required": "Le numérico de registre commercial est requis."
+          }
+        },
+        "fiscal_id": {
+          "label": "Identifiant Fiscal",
+          "placeholder": "Saisissez le identifiant fiscal",
+          "errors": {
+            "required": "Le identifiant fiscal est requis."
+          }
+        },
+        "ice": {
+          "label": "ICE",
+          "placeholder": "Saisissez l'ICE",
+          "errors": {
+            "required": "L'ICE est requis."
+          }
+        },
+        "legal_status": {
+          "label": "Statut juridique",
+          "placeholder": "Sélectionnez le statut juridique",
+          "errors": {
+            "required": "Le statut juridique est requis."
+          },
+          "options": {
+            "sarl": "Société à Responsabilité Limitée",
+            "sarlu": "Société à Responsabilité Limitée à Associé Unique",
+            "ae": "Auto-Entrepreneur",
+            "ei": "Entreprise Individuelle",
+            "sa": "Société Anonyme",
+            "sas": "Société par Actions Simplifiée",
+            "sasu": "Société par Actions Simplifiée Unipersonnelle"
+          }
+        },
+        "legal_representative": {
+          "label": "Representant legal",
+          "placeholder": "Saisissez le representant legal",
+          "errors": {
+            "required": "Le representant legal est requis."
+          }
+        },
+        "legal_representative_phone": {
+          "label": "Téléphone du representant legal",
+          "placeholder": "Saisissez le téléphone du representant legal"
+        }
+      }
+    },
     "pages": {
       "list": {
         "title": "Liste des clients",
         "desc": "Gérez et administrez l’ensemble des clients.",
         "subtitle": "Gestion des clients",
         "sub_desc": "Consultez, filtrez et organisez la liste des clients.",
-        "empty_msg": "Aucun client rencontré pour le moment."
+        "empty_msg": "Aucun client rencontré pour le moment.",
+        "client_type_empty": "Aucun type de client rencontré pour le moment."
       },
       "new": {
         "title": "Créer un client",
@@ -513,6 +660,14 @@
       "edit": {
         "title": "Modifier le client",
         "description": "Modifiez le client existant."
+      }
+    }
+  },
+  "party_type": {
+    "pages": {
+      "list": {
+        "client_empty": "Aucun type de client trouvé pour le moment.",
+        "opponent_empty": "Aucun type de opponent trouvé pour le moment."
       }
     }
   }

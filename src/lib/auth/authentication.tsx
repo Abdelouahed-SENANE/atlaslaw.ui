@@ -29,11 +29,11 @@ export async function getMe(): Promise<User | null> {
     return data.data ?? null;
   } catch (e) {
     const err = e as AxiosError;
-    console.error(err);
+    console.error(err.message);
     if (err.response?.status === 401) {
       return null;
     }
-    throw e; // non-401 errors bubble
+    throw e;
   }
 }
 

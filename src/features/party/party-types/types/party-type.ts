@@ -1,4 +1,4 @@
-import { Entity, Translation } from "@/types/api";
+import { BaseOption, Entity, Translation } from "@/types/api";
 
 export type PartyType = Entity<{
   name: Translation;
@@ -6,3 +6,7 @@ export type PartyType = Entity<{
   is_active: boolean;
   support_legal_identifiers: boolean;
 }>;
+
+export type PartyTypeOption = BaseOption & {
+  support_legal_identifiers: boolean;
+};

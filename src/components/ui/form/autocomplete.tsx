@@ -9,17 +9,16 @@ import * as React from "react";
 
 import {
   Command,
-  CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
 } from "@/components/ui/command/command";
 
+import { ScrollArea } from "@/components/ui/scroll-area";
 import i18n from "@/config/i18n";
 import { cn } from "@/lib/utils";
 import { BaseOption, Lang } from "@/types/api";
-import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { CheckCheck, ChevronDown } from "lucide-react";
 import { Spinner } from "../spinner";
 import { FieldWrapper, FieldWrapperPassThroughProps } from "./field-wrapper";
@@ -35,6 +34,7 @@ export interface AutocompleteProps<T extends BaseOption>
   setTerm: (val: string) => void;
 
   placeholder?: string;
+  searchPlaceholder?: string;
   emptyMessage?: string;
   isLoading?: boolean;
   isFetchingNextPage?: boolean;
@@ -54,6 +54,7 @@ function AutocompleteComponent<T extends BaseOption>({
   term,
   setTerm,
   placeholder,
+  searchPlaceholder,
   emptyMessage,
   isLoading,
   isFetchingNextPage,
@@ -108,20 +109,72 @@ function AutocompleteComponent<T extends BaseOption>({
     },
     [onChange]
   );
+  const scrollRef = React.useRef<HTMLDivElement | null>(null);
+  const hasUserScrolledRef = React.useRef(false);
 
-  // Infinite scroll observer
   React.useEffect(() => {
-    if (!loadMoreRef.current || !hasNextPage) return;
+    if (!open) return;
 
-    const obs = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) onLoadMore?.();
+    const raf = requestAnimationFrame(() => {
+      const viewport = document.querySelector(
+        "[data-radix-scroll-area-viewport]"
+      ) as HTMLDivElement | null;
+
+      if (!viewport) return;
+
+      scrollRef.current = viewport;
+
+      const onScroll = () => {
+        hasUserScrolledRef.current = true;
+      };
+
+      viewport.addEventListener("scroll", onScroll);
+
+      return () => {
+        viewport.removeEventListener("scroll", onScroll);
+      };
     });
 
-    obs.observe(loadMoreRef.current);
-    return () => obs.disconnect();
-  }, [hasNextPage, onLoadMore]);
+    return () => cancelAnimationFrame(raf);
+  }, [open]);
 
-  // Memoized option list rendering
+  React.useEffect(() => {
+    if (!open) return;
+
+    const raf = requestAnimationFrame(() => {
+      if (!scrollRef.current || !loadMoreRef.current || !hasNextPage) return;
+
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (
+            entry.isIntersecting &&
+            hasUserScrolledRef.current &&
+            !isFetchingNextPage
+          ) {
+            onLoadMore?.();
+          }
+        },
+        {
+          root: scrollRef.current,
+          rootMargin: "0px 0px 40px 0px",
+          threshold: 1,
+        }
+      );
+
+      observer.observe(loadMoreRef.current);
+
+      return () => observer.disconnect();
+    });
+
+    return () => cancelAnimationFrame(raf);
+  }, [open, hasNextPage, isFetchingNextPage, onLoadMore]);
+
+  React.useEffect(() => {
+    if (!open) {
+      hasUserScrolledRef.current = false;
+    }
+  }, [open]);
+
   const optionList = React.useMemo(
     () =>
       items.map((opt) => (
@@ -170,7 +223,7 @@ function AutocompleteComponent<T extends BaseOption>({
                   : getLabel(selectedOption)}
               </span>
             ) : (
-              <span className="text-foreground/60">
+              <span className="text-foreground/50">
                 {placeholder ?? "Select..."}
               </span>
             )}
@@ -183,27 +236,32 @@ function AutocompleteComponent<T extends BaseOption>({
           <Command shouldFilter={false}>
             <CommandInput
               ref={searchInputRef}
-              placeholder="Search..."
+              placeholder={searchPlaceholder ?? "Search..."}
               value={term}
               autoFocus
-              onValueChange={setTerm} // this updates only the input, not full component
+              onValueChange={setTerm}
             />
 
             <CommandList>
-              <ScrollArea className="max-h-70 overflow-y-auto">
+              <ScrollArea className="h-70   overflow-y-auto ">
                 <CommandGroup>
-                  {isLoading && <Spinner size="sm" />}
-
-                  {optionList}
-
-                  {items.length === 0 && (
-                    <CommandEmpty>{emptyMessage}</CommandEmpty>
-                  )}
-
-                  <div ref={loadMoreRef} className="p-2 text-center">
-                    {isFetchingNextPage && <Spinner size="sm" />}
-                  </div>
+                  {isLoading ? <Spinner size="sm" /> : optionList}
                 </CommandGroup>
+                {items.length === 0 && !isLoading && (
+                  <div className="h-10 flex items-center justify-center">
+                    <span className="text-muted-foreground">{emptyMessage}</span>
+                  </div>
+                )}
+                <div
+                  ref={loadMoreRef}
+                  className="h-4 flex items-center justify-center"
+                >
+                  {isFetchingNextPage && (
+                    <span className="py-4">
+                      <Spinner size="sm" /> Loading...
+                    </span>
+                  )}
+                </div>
               </ScrollArea>
             </CommandList>
           </Command>

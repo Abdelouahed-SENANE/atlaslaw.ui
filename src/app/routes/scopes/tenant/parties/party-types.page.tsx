@@ -146,7 +146,7 @@ const PartyTypesPage = () => {
               page={pagination.page}
               total={pagination.total}
               limit={pagination.limit}
-              rootUrl="/partys/types"
+              rootUrl="/parties/types"
             />
           )}
         </div>

@@ -3,7 +3,7 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Form, Input } from "@/components/ui/form";
 import { DateInput } from "@/components/ui/form/date-input";
 import { RadioInput } from "@/components/ui/form/radio-input";
-import { UserSelect } from "@/features/user/components/user-selector";
+import {  UserSelector } from "@/features/user/components/user-selector";
 import { Save } from "lucide-react";
 import { Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -164,7 +164,7 @@ export const EmployeeForm = ({
                     name={"user_id" as any}
                     control={control}
                     render={({ field, fieldState }) => (
-                      <UserSelect
+                      <UserSelector
                         error={
                           (fieldState.error?.message &&
                             t(fieldState.error?.message)) ||

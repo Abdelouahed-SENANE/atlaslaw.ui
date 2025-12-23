@@ -1,4 +1,3 @@
-
 export type BaseEntity = {
   id: string;
   created_at?: number;
@@ -8,7 +7,6 @@ export type BaseEntity = {
 export type Entity<T> = {
   [K in keyof T]: T[K];
 } & BaseEntity;
-
 
 export type Lang = "ar" | "fr";
 export type Translation = Record<Lang, string>;
@@ -56,3 +54,21 @@ export type BaseOption = {
   value: string;
   [key: string]: any;
 };
+
+export type Contact = {
+  email?: string;
+  mobile?: string;
+  landline?: string;
+  address?: string;
+  postal?: string;
+};
+
+export type LegalProfile = {
+  business_register?: string;
+  fiscal_id?: string;
+  ice?: string;
+  legal_status?: string;
+  legal_representative?: string;
+  legal_representative_phone?: string;
+};
+
