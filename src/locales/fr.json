@@ -498,6 +498,14 @@
     }
   },
   "clients": {
+    "columns" : {
+      "name": "Nom du client",
+      "notes": "Notes",
+      "client_type": "Type de juridique",
+      "national_id": "Identificateur national",
+      "created_at": "Création",
+      "updated_at": "Mise à jour"
+    },
     "form": {
       "cards": {
         "base_info": "Informations de base du client",
@@ -532,17 +540,16 @@
         "label": "Note",
         "placeholder": "Saisissez une note"
       },
-"parent_id": {
-  "label": "Société mère",
-  "placeholder": "Sélectionner la société mère",
-  "search_placeholder": "Rechercher une société par dénomination ou mot-clé"
-},
-
-      "is_subsidiary" : {
-        "label": "Le client est une filiale ?",
-        "placeholder": "Saisissez une note"
+      "parent_id": {
+        "label": "Société mère",
+        "placeholder": "Sélectionner la société mère",
+        "search_placeholder": "Rechercher une société par dénomination ou mot-clé"
       },
-      "party_type": {
+
+      "is_subsidiary": {
+        "label": "Le client est une filiale ?"
+      },
+      "client_type": {
         "label": "Type de juridique du client",
         "placeholder": "Sélectionnez le type de juridique",
         "search_placeholder": "Recherchez un type de client, un mot-clé...",
@@ -552,7 +559,8 @@
       },
       "national_id": {
         "label": "Identificateur national (CNI)",
-        "placeholder": "Saisissez l'identificateur national"
+        "placeholder": "Saisissez l'identificateur national",
+        "individual_only_message" : "Seuls les individus peuvent avoir un identificateur national."
       },
       "contacts": {
         "email": {

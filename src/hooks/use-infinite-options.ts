@@ -11,15 +11,20 @@ export function useInfiniteOptions<TOptions extends BaseOption>({
   fetchFn,
   term,
   limit,
+  queryKey,
+  enabled = true,
 }: {
   fetchFn: FectchOptionFn<TOptions>;
   term?: string;
   limit?: number;
+  queryKey?: string;
+  enabled?: boolean;
 }) {
   const deboucedTerm = useDebouce(term, 500);
 
   const query = useInfiniteQuery({
-    queryKey: ["options", deboucedTerm],
+    queryKey: [queryKey || "options", deboucedTerm],
+    enabled,
     queryFn: ({ pageParam = 1 }) =>
       fetchFn({
         query: deboucedTerm || undefined,

@@ -13,6 +13,7 @@ import {
   Textarea,
 } from "@/components/ui/form";
 import { PartyTypeSelector } from "@/features/party/party-types/components/party-type.selector";
+import { cn } from "@/lib/utils";
 import { useLegalStatusOptions } from "@/utils/constants";
 import { Save } from "lucide-react";
 import React from "react";
@@ -20,20 +21,21 @@ import { Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { CreateClientInputs, createClientSchema } from "../api/create-client";
-import { Client } from "../types/client.type";
-import { cn } from "@/lib/utils";
+import { ClientEditView } from "../types/client.type";
+import { ClientSelector } from "./client.selector";
+import { updateClientSchema } from "../api/update-client";
 
 type ClientFormProps =
   | {
       mode: "create";
-      defaultValues?: Partial<Client>;
+      defaultValues?: Partial<ClientEditView>;
       onSubmit: (values: CreateClientInputs) => void;
       apiErrors: Partial<Record<keyof CreateClientInputs, string[]>>;
       isLoading?: boolean;
     }
   | {
       mode: "update";
-      defaultValues: Partial<Client>;
+      defaultValues: Partial<ClientEditView>;
       onSubmit: (values: CreateClientInputs) => void;
       apiErrors: Partial<Record<keyof CreateClientInputs, string[]>>;
       isLoading?: boolean;
@@ -48,11 +50,15 @@ export const ClientForm = ({
 }: ClientFormProps) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [supportLegalIdentifiers, setSupportLegalIdentifiers] = React.useState<
-    boolean | undefined
-  >(undefined);
-  const [isSubsidiary, setIsSubsidiary] = React.useState<boolean>(false);
-  const schema = mode === "update" ? createClientSchema : createClientSchema;
+  const [supportLegalIdentifiers, setSupportLegalIdentifiers] =
+    React.useState<boolean>(
+      !!defaultValues?.party_type?.support_legal_identifiers || false
+    );
+
+  const [isSubsidiary, setIsSubsidiary] = React.useState<boolean>(
+    !!defaultValues?.parent?.id || false
+  );
+  const schema = mode === "update" ? updateClientSchema : createClientSchema;
   const legalStatusOptions = useLegalStatusOptions();
   return (
     <Card className="rounded-sm p-2 mx-2">
@@ -64,7 +70,7 @@ export const ClientForm = ({
               name: defaultValues?.name,
               national_id: defaultValues?.national_id,
               notes: defaultValues?.notes,
-              party_type_id: defaultValues?.party_type?.id ?? "",
+              client_type_id: defaultValues?.party_type?.id ?? "",
               contact: {
                 email: defaultValues?.contact?.email,
                 mobile: defaultValues?.contact?.mobile,
@@ -88,7 +94,10 @@ export const ClientForm = ({
           schema={schema}
           onSubmit={onSubmit}
         >
-          {({ register, formState, control }) => (
+          {({ register, formState, control }) =>  {
+            console.log(formState.errors);
+            
+            return (
             <>
               {/* Base Informations */}
               <Card className="p-0 overflow-hidden gap-2">
@@ -133,46 +142,67 @@ export const ClientForm = ({
                     />
                   </div>
                   <div>
-                    <label htmlFor="national_id" className="text-sm font-bold">
+                    <label className="text-sm font-bold">
                       {t("clients.fields.national_id.label")}
                     </label>
-                    <Input
-                      disabled={supportLegalIdentifiers === true}
-                      id="national_id"
-                      type="text"
-                      placeholder={t("clients.fields.national_id.placeholder")}
-                      error={
-                        (formState.errors.national_id &&
-                          t(`${formState.errors?.national_id.message}`)) ||
-                        apiErrors.national_id?.[0]!
-                      }
-                      registration={register("national_id")}
-                      className="focus:ring-2 focus:ring-primary  focus:border-primary"
-                    />
+
+                    {supportLegalIdentifiers ? (
+                      <div className=" rounded-sm flex items-center border  bg-card h-9 mt-1 text-sm text-foreground/50">
+                        {t(
+                          "clients.fields.national_id.individual_only_message"
+                        )}
+                      </div>
+                    ) : (
+                      <Input
+                        id="national_id"
+                        type="text"
+                        placeholder={t(
+                          "clients.fields.national_id.placeholder"
+                        )}
+                        error={
+                          (formState.errors.national_id &&
+                            t(`${formState.errors?.national_id.message}`)) ||
+                          apiErrors.national_id?.[0]
+                        }
+                        registration={register("national_id")}
+                        className="focus:ring-2 focus:ring-primary focus:border-primary"
+                      />
+                    )}
                   </div>
+
                   <div>
-                    <label htmlFor="party_type" className="text-sm font-bold">
-                      {t("clients.fields.party_type.label")}
+                    <label
+                      htmlFor="client_type_id"
+                      className="text-sm font-bold"
+                    >
+                      {t("clients.fields.client_type.label")}
                     </label>
                     <Controller
-                      name="party_type_id"
+                      name="client_type_id"
                       control={control}
-                      defaultValue={defaultValues?.party_type?.id}
+                      defaultValue={defaultValues?.party_type?.id ?? ""}
                       render={({ field, fieldState }) => {
                         return (
                           <PartyTypeSelector
+                            val={field.value}
+                            initialPartyType={{
+                              id: defaultValues?.party_type?.id,
+                              name: defaultValues?.party_type?.name,
+                              support_legal_identifiers:
+                                defaultValues?.party_type
+                                  ?.support_legal_identifiers!,
+                            }}
                             searchPlaceholder={t(
-                              "clients.fields.party_type.search_placeholder"
+                              "clients.fields.client_type.search_placeholder"
                             )}
                             error={
                               (fieldState.error?.message &&
                                 t(fieldState.error?.message)) ||
-                              apiErrors.party_type_id?.[0] ||
+                              apiErrors.client_type_id?.[0] ||
                               undefined
                             }
-                            val={field.value}
                             placeholder={t(
-                              "clients.fields.party_type.placeholder"
+                              "clients.fields.client_type.placeholder"
                             )}
                             onChange={(val, option) => {
                               setSupportLegalIdentifiers(
@@ -198,34 +228,41 @@ export const ClientForm = ({
                       className="focus:ring-2 focus:ring-primary  focus:border-primary  "
                     />
                   </div>
-                  <div className={cn(isSubsidiary ? "opacity-100" : "opacity-0")}>
+                  <div
+                    className={cn(
+                      isSubsidiary
+                        ? "opacity-100 visible"
+                        : "opacity-0 invisible"
+                    )}
+                  >
                     <label htmlFor="parent_id" className="text-sm font-bold">
                       {t("clients.fields.parent_id.label")}
                     </label>
                     <Controller
                       name="parent_id"
                       control={control}
-                      defaultValue={defaultValues?.party_type?.id}
+                      defaultValue={defaultValues?.parent?.id}
                       render={({ field, fieldState }) => {
                         return (
-                          <PartyTypeSelector
+                          <ClientSelector
+                            val={field.value}
+                            initialClient={{
+                              id: defaultValues?.parent?.id,
+                              name: defaultValues?.parent?.name,
+                            }}
                             searchPlaceholder={t(
-                              "clients.fields.party_type.search_placeholder"
+                              "clients.fields.parent_id.search_placeholder"
                             )}
                             error={
                               (fieldState.error?.message &&
                                 t(fieldState.error?.message)) ||
-                              apiErrors.party_type_id?.[0] ||
+                              apiErrors.parent_id?.[0] ||
                               undefined
                             }
-                            val={field.value}
                             placeholder={t(
-                              "clients.fields.party_type.placeholder"
+                              "clients.fields.parent_id.placeholder"
                             )}
-                            onChange={(val, option) => {
-                              setSupportLegalIdentifiers(
-                                option?.support_legal_identifiers!
-                              );
+                            onChange={(val) => {
                               field.onChange(val);
                             }}
                           />
@@ -476,7 +513,7 @@ export const ClientForm = ({
                           )
                         }
                         registration={register(
-                          "legal_profile.legal_representative"
+                          "legal_profile.legal_representative_phone"
                         )}
                         className="focus:ring-2 focus:ring-primary  focus:border-primary"
                       />
@@ -497,7 +534,7 @@ export const ClientForm = ({
                         render={({ field, fieldState }) => {
                           return (
                             <SelectField
-                              value={field.value}
+                              value={field.value }
                               onChange={field.onChange}
                               className="focus:ring-2 focus:ring-primary  focus:border-primary"
                               placeholder={t(
@@ -514,7 +551,7 @@ export const ClientForm = ({
                 </Card>
               )}
             </>
-          )}
+          )}}
         </Form>
       </CardContent>
       <CardFooter className="flex justify-end gap-2 px-2 ">

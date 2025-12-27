@@ -1,13 +1,24 @@
-import { PartyType } from "@/features/party/party-types/types/party-type";
+import { PartyTypeOption } from "@/features/party/party-types/types/party-type";
 import { Contact, Entity, LegalProfile, Translation } from "@/types/api";
 
-export type Client = Entity<{
+export type ClientView = Entity<{
   name: Translation;
   national_id?: string;
   notes?: string;
   parent_id?: string;
-  party_type: PartyType;
+  client_type: Translation;
   contact?: Contact;
   legal_profile?: LegalProfile;
-  belongs_to?: Client;
+  belongs_to?: ClientView;
 }>;
+
+export type ClientEditView = {
+  id ?: string;
+  name: Translation;
+  national_id?: string;
+  notes?: string;
+  parent?: ClientView;
+  party_type: PartyTypeOption;
+  contact?: Contact;
+  legal_profile?: LegalProfile;
+};

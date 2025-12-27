@@ -110,10 +110,6 @@ export const paths = {
     clients: {
       root: "clients",
       route: () => "/clients",
-      types: {
-        root: "/clients/types",
-        route: () => "/clients/types",
-      },
       list: {
         root: "",
         route: () => "/clients",

@@ -14,7 +14,7 @@ type Props = {
   error?: FieldError | string;
   placeholder?: string;
   searchPlaceholder?: string;
-  initialPartyType?: PartyType;
+  initialPartyType?: Partial<PartyType>;
   val?: string;
   onChange?: (val?: string, option?: PartyTypeOption) => void;
 };
@@ -22,8 +22,8 @@ export const PartyTypeSelector = ({
   error,
   placeholder,
   searchPlaceholder,
-  val,
   onChange,
+  val,
   initialPartyType,
 }: Props) => {
   const lang = i18n.language;
@@ -38,14 +38,17 @@ export const PartyTypeSelector = ({
     fetchFn: getPartyTypeOptions,
     term: debouncedQury,
     limit: params.limit,
+    queryKey: "party-types:options",
   });
+
+
 
   return (
     <Autocomplete<PartyTypeOption>
       value={val}
-      onChange={(value , option) => onChange?.(value , option)}
+      onChange={(value, option) => onChange?.(value, option)}
       initialOption={{
-        label: initialPartyType?.name[lang as Lang]!,
+        label: initialPartyType?.name?.[lang as Lang]!,
         value: initialPartyType?.id!,
         support_legal_identifiers: initialPartyType?.support_legal_identifiers!,
       }}

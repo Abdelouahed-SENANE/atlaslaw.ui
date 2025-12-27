@@ -50,7 +50,6 @@ const EditEmployeePage = () => {
     },
   });
 
-  if (!id) return <div>Invalid tenant ID</div>;
   if (empQuery.isLoading) return <div>Loading...</div>;
   if (!empQuery.data?.data) return <div>No tenant found</div>;
 

@@ -234,23 +234,24 @@ export const createAppRouter = (queryClient: QueryClient) => {
               HydrateFallback: () => LoadingScreen,
               children: [
                 {
-                  path: paths.tenant.clients.root,
-                  HydrateFallback: () => LoadingScreen,
-                  children: [
-                    {
-                      path: paths.tenant.clients.root, // "create"
-                      lazy: () =>
-                        import(
-                          "./routes/scopes/tenant/clients/clients.page"
-                        ).then(convert(queryClient)),
-                    },
-                  ],
+                  index: true,
+                  lazy: () =>
+                    import("./routes/scopes/tenant/clients/clients.page").then(
+                      convert(queryClient)
+                    ),
                 },
                 {
                   path: paths.tenant.clients.new.root, // "create"
                   lazy: () =>
                     import(
                       "./routes/scopes/tenant/clients/new-client.page"
+                    ).then(convert(queryClient)),
+                },
+                {
+                  path: paths.tenant.clients.edit.root, // "create"
+                  lazy: () =>
+                    import(
+                      "./routes/scopes/tenant/clients/edit-client.page"
                     ).then(convert(queryClient)),
                 },
               ],

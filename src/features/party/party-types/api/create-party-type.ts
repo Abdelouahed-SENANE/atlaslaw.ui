@@ -34,6 +34,8 @@ export const useCreatePartyType = ({
     mutationFn: createPartyType,
     onSuccess: (...args) => {
       qc.invalidateQueries({ queryKey: [PARTY_TYPES_KEY], exact: false });
+      qc.invalidateQueries({ queryKey: ["party-types:options"], exact: false });
+
       onSuccess?.(...args);
     },
 

@@ -40,7 +40,6 @@ export interface AutocompleteProps<T extends BaseOption>
   isFetchingNextPage?: boolean;
   hasNextPage?: boolean;
   onLoadMore?: () => void;
-
   renderOption?: (o: T) => React.ReactNode;
 }
 
@@ -71,6 +70,11 @@ function AutocompleteComponent<T extends BaseOption>({
   const [internalSelected, setInternalSelected] = React.useState<T | undefined>(
     initialOption
   );
+  React.useEffect(() => {
+    if (!open) {
+      setTerm("");
+    }
+  }, [open]);
 
   React.useEffect(() => {
     if (!internalSelected && initialOption) {
@@ -87,7 +91,8 @@ function AutocompleteComponent<T extends BaseOption>({
     [lang]
   );
 
-  // Memoized selectedOption calculation
+
+  //Memoized selectedOption calculation
   const selectedOption = React.useMemo(() => {
     if (!value) return undefined;
 
@@ -99,6 +104,7 @@ function AutocompleteComponent<T extends BaseOption>({
 
     return undefined;
   }, [value, items, initialOption, internalSelected]);
+
 
   // Memoized select handler
   const handleSelect = React.useCallback(
@@ -249,7 +255,9 @@ function AutocompleteComponent<T extends BaseOption>({
                 </CommandGroup>
                 {items.length === 0 && !isLoading && (
                   <div className="h-10 flex items-center justify-center">
-                    <span className="text-muted-foreground">{emptyMessage}</span>
+                    <span className="text-muted-foreground">
+                      {emptyMessage}
+                    </span>
                   </div>
                 )}
                 <div

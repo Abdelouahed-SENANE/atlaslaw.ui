@@ -50,7 +50,7 @@ type Sorting = {
 };
 
 export type BaseOption = {
-  label: string;
+  label: string | Translation;
   value: string;
   [key: string]: any;
 };
