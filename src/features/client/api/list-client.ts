@@ -2,7 +2,7 @@ import { api$ } from "@/config/axios";
 import { QueryConfig } from "@/config/react-query";
 import { ApiResponse, Paginated } from "@/types/api";
 import { useQuery } from "@tanstack/react-query";
-import { Client } from "../types/client.type";
+import { ClientView } from "../types/client.type";
 
 export const CLIENTS_KEY = ["clients"];
 
@@ -10,7 +10,7 @@ export interface ClientParams {
   query?: string;
   page?: number;
   limit?: number;
-  sort?: keyof Client;
+  sort?: keyof ClientView;
   order?: "asc" | "desc";
 }
 export const defaultClientParams: Required<ClientParams> = {
@@ -30,10 +30,10 @@ export const normalizeClientParams = (params: ClientParams) => {
 
 const getClients = async (
   params: ClientParams
-): Promise<ApiResponse<Paginated<Client>>> => {
+): Promise<ApiResponse<Paginated<ClientView>>> => {
   const normalized = normalizeClientParams(params);
 
-  const response = await api$.get<ApiResponse<Paginated<Client>>>(
+  const response = await api$.get<ApiResponse<Paginated<ClientView>>>(
     "/clients",
     {
       params: {

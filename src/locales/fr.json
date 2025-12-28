@@ -498,13 +498,22 @@
     }
   },
   "clients": {
-    "columns" : {
+    "columns": {
       "name": "Nom du client",
       "notes": "Notes",
       "client_type": "Type de juridique",
       "national_id": "Identificateur national",
+      "contact": "Contact",
       "created_at": "Création",
       "updated_at": "Mise à jour"
+    },
+    "modal": {
+      "create_title": "Créer un client",
+      "update_title": "Modifier le client",
+      "delete_title": "Supprimer le client",
+      "delete_desc": "Etes-vous certains de vouloir supprimer ce client ?",
+      "delete_cancel": "Annuler",
+      "delete_submit": "Supprimer"
     },
     "form": {
       "cards": {
@@ -560,7 +569,7 @@
       "national_id": {
         "label": "Identificateur national (CNI)",
         "placeholder": "Saisissez l'identificateur national",
-        "individual_only_message" : "Seuls les individus peuvent avoir un identificateur national."
+        "individual_only_message": "Seuls les individus peuvent avoir un identificateur national."
       },
       "contacts": {
         "email": {

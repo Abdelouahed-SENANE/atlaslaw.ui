@@ -7,11 +7,12 @@ import { paths } from "@/config/paths";
 import { useDisclosure } from "@/hooks/use-disclosure";
 import { PermissionCode, useAuthorization } from "@/lib/authorization";
 import { Translation } from "@/types/api";
-import { Edit, Lock, Mail, Phone } from "lucide-react";
+import { Edit, Lock, Mail, Phone, Trash } from "lucide-react";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { ClientView } from "../types/client.type";
+import { ClientDeleteDialog } from "./client.delete-dialog";
 interface ClientTableProps {
   clients: ClientView[];
   isLoading: boolean;
@@ -48,13 +49,13 @@ export const ClientTable = ({
       label: t("clients.actions.edit"),
       value: "edit",
       icon: <Edit className="h-4 w-4 text-foreground" />,
-      permission: PermissionCode.UPDATE_EMPLOYEES,
+      permission: PermissionCode.UPDATE_CLIENTS,
     },
     {
-      label: t("clients.actions.assign_roles"),
-      value: "assign_roles",
-      icon: <Lock className="h-4 w-4 text-foreground" />,
-      permission: PermissionCode.UPDATE_EMPLOYEES,
+      label: t("clients.actions.delete"),
+      value: "delete",
+      icon: <Trash className="h-4 w-4 text-foreground" />,
+      permission: PermissionCode.DELETE_CLIENTS,
     },
   ];
   const FILTER_ACTIONS = ACTIONS.filter(({ permission }) =>
@@ -150,6 +151,12 @@ export const ClientTable = ({
         onSelectRow={(id) => table.toggleRow(id)}
         onSelectAll={() => table.toggleAll(clients.map((r) => r.id!))}
         emptyMessage={t("clients.pages.list.empty_msg")}
+      />
+      <ClientDeleteDialog
+        id={id}
+        open={isOpen}
+        onOpenChange={close}
+        onDeleted={() => setId("")}
       />
     </>
   );

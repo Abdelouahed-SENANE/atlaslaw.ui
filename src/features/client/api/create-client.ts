@@ -14,7 +14,7 @@ export const createClientSchema = z.object({
   national_id: z.string().optional(),
   notes: z.string().optional(),
   contact: createContactSchema,
-  legal_profile: createLegalProfileSchema,
+  legal_profile: createLegalProfileSchema.optional(),
 });
 
 export type CreateClientInputs = z.infer<typeof createClientSchema>;

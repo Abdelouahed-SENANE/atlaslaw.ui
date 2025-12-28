@@ -8,7 +8,6 @@ export const CLIENT_DETAILS_EDIT_KEY = "client-details-edit";
 
 const getClientForEdit = async (id: string): Promise<ApiResponse<ClientEditView>> => {
   const response = await api$.get<ApiResponse<ClientEditView>>(`/clients/${id}/edit`);
-
   return response.data;
 };
 

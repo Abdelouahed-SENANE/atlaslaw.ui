@@ -5,7 +5,7 @@ import { createTranslationSchema } from "@/lib/auth";
 import { createContactSchema, createLegalProfileSchema } from "@/types/schemas";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import z from "zod";
-import { CLIENT_KEY } from "./client-details";
+import { CLIENT_DETAILS_EDIT_KEY } from "./client-details-edit";
 import { CLIENTS_KEY } from "./list-client";
 
 export const updateClientSchema = z
@@ -56,7 +56,10 @@ export const useUpdateClient = ({
     onSuccess: (...args) => {
       qc.invalidateQueries({ queryKey: [CLIENTS_KEY], exact: false });
       qc.invalidateQueries({ queryKey: ["clients:options"], exact: false });
-      qc.invalidateQueries({ queryKey: [CLIENT_KEY, id], exact: true });
+      qc.invalidateQueries({
+        queryKey: [CLIENT_DETAILS_EDIT_KEY, id],
+        exact: true,
+      });
 
       onSuccess?.(...args);
     },
