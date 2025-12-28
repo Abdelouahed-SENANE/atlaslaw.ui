@@ -52,6 +52,13 @@ export enum PermissionCode {
   UPDATE_CLIENTS = "update:clients",
   DELETE_CLIENTS = "delete:clients",
 
+  // OPPONENTS
+  LIST_OPPONENTS = "list:opponents",
+  VIEW_OPPONENTS = "view:opponents",
+  CREATE_OPPONENTS = "create:opponents",
+  UPDATE_OPPONENTS = "update:opponents",
+  DELETE_OPPONENTS = "delete:opponents",
+
   // DOCUMENTS
   LIST_DOCUMENTS = "list:documents",
   UPLOAD_DOCUMENT = "upload:document",

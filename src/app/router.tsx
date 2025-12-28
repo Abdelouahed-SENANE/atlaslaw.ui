@@ -257,6 +257,33 @@ export const createAppRouter = (queryClient: QueryClient) => {
               ],
             },
             {
+              path: paths.tenant.opponents.root,
+              HydrateFallback: () => LoadingScreen,
+              children: [
+                {
+                  index: true,
+                  lazy: () =>
+                    import("./routes/scopes/tenant/opponents/opponents.page").then(
+                      convert(queryClient)
+                    ),
+                },
+                {
+                  path: paths.tenant.opponents.new.root, // "create"
+                  lazy: () =>
+                    import(
+                      "./routes/scopes/tenant/opponents/new-opponent.page"
+                    ).then(convert(queryClient)),
+                },
+                {
+                  path: paths.tenant.opponents.edit.root, // "create"
+                  lazy: () =>
+                    import(
+                      "./routes/scopes/tenant/opponents/edit-opponent.page"
+                    ).then(convert(queryClient)),
+                },
+              ],
+            },
+            {
               path: paths.tenant.roles.root,
               HydrateFallback: () => LoadingScreen,
               children: [

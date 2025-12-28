@@ -2,7 +2,7 @@ import { paths } from "@/config/paths";
 import { PermissionCode, Scope } from "@/lib/authorization";
 import { useAuthorization } from "@/lib/authorization/authorization";
 import { cn } from "@/lib/utils";
-import { Building, Fingerprint, Layout, Users2 } from "lucide-react";
+import { Briefcase, Building, Fingerprint, Layout, ListTree, Tag, Users2, UserX } from "lucide-react";
 import React, { Fragment } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -206,17 +206,15 @@ const TENANT_MENU = (t: any) =>
         {
           label: t("menu.party_types"),
           url: paths.tenant.parties.types.root,
-          icon: <Users2 className="size-4" />,
+          icon: <Tag className="size-4" />,
           permission: PermissionCode.LIST_PARTY_TYPES,
-
         },
         {
           label: t("menu.clients"),
           url: paths.tenant.clients.root,
-          icon: <Users2 className="size-4" />,
+          icon: <Briefcase className="size-4" />,
           permission: PermissionCode.LIST_CLIENTS,
           sublinks: [
-            
             {
               title: t("menu.list_clients"),
               to: paths.tenant.clients.list.route(),
@@ -226,6 +224,24 @@ const TENANT_MENU = (t: any) =>
               title: t("menu.create_client"),
               to: paths.tenant.clients.new.route(),
               permission: PermissionCode.CREATE_CLIENTS,
+            },
+          ],
+        },
+        {
+          label: t("menu.opponents"),
+          url: paths.tenant.opponents.root,
+          icon: <UserX className="size-4" />,
+          permission: PermissionCode.LIST_OPPONENTS,
+          sublinks: [
+            {
+              title: t("menu.list_opponents"),
+              to: paths.tenant.opponents.list.route(),
+              permission: PermissionCode.LIST_OPPONENTS,
+            },
+            {
+              title: t("menu.create_opponent"),
+              to: paths.tenant.opponents.new.route(),
+              permission: PermissionCode.CREATE_OPPONENTS,
             },
           ],
         },

@@ -123,6 +123,22 @@ export const paths = {
         route: (id: string) => `/clients/${id}/edit`,
       },
     },
+    opponents: {
+      root: "opponents",
+      route: () => "/opponents",
+      list: {
+        root: "",
+        route: () => "/opponents",
+      },
+      new: {
+        root: "new",
+        route: () => "/opponents/new",
+      },
+      edit: {
+        root: ":id/edit",
+        route: (id: string) => `/opponents/${id}/edit`,
+      },
+    },
     employees: {
       root: "employees",
       route: () => "/employees",
