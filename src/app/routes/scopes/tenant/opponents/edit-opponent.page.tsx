@@ -3,8 +3,13 @@ import { toast } from "@/components/ui/toast/use-toast";
 import { paths } from "@/config/paths";
 import { CreateOpponentInputs } from "@/features/opponent/api/create-opponent";
 import { useOpponentForEdit } from "@/features/opponent/api/opponent-details-edit";
-import { UpdateOpponentInputs, useUpdateOpponent } from "@/features/opponent/api/update-opponent";
+import {
+  UpdateOpponentInputs,
+  useUpdateOpponent,
+} from "@/features/opponent/api/update-opponent";
 import { OpponentForm } from "@/features/opponent/components/opponent.form";
+import { OpponentFormSkeleton } from "@/features/opponent/components/opponent.form-sekelton";
+import { OpponentEditView } from "@/features/opponent/types/opponent.type";
 
 import { Logger } from "@/utils/logger";
 import React from "react";
@@ -51,7 +56,6 @@ const EditOpponentPage = () => {
       },
     },
   });
-  if (!opponentQuery.data?.data) return <div>No opponent found</div>;
 
   const defaultValues = opponentQuery.data?.data;
   const breadcrumbs = [
@@ -71,22 +75,26 @@ const EditOpponentPage = () => {
       active: true,
     },
   ];
-    const handleOnsubmit = (values: UpdateOpponentInputs) => {
-      updateOpponent.mutate({ id: id!,payload: values });
-    };
+  const handleOnsubmit = (values: UpdateOpponentInputs) => {
+    updateOpponent.mutate({ id: id!, payload: values });
+  };
   return (
     <DashLayout
       breadcrumbs={breadcrumbs}
       title={t("opponents.pages.new.title")}
       desc={t("opponents.pages.new.description")}
     >
-      <OpponentForm
-        mode="update"
-        defaultValues={defaultValues}
-        onSubmit={handleOnsubmit}
-        isLoading={updateOpponent.isPending}
-        apiErrors={apiErrors}
-      />
+      {opponentQuery.isLoading ? (
+        <OpponentFormSkeleton />
+      ) : (
+        <OpponentForm
+          mode="update"
+          defaultValues={defaultValues as Partial<OpponentEditView>}
+          onSubmit={handleOnsubmit}
+          isLoading={updateOpponent.isPending}
+          apiErrors={apiErrors}
+        />
+      )}
     </DashLayout>
   );
 };

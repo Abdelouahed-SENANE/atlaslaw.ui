@@ -9,12 +9,26 @@ import { CLIENTS_KEY } from "./list-client";
 
 export const createClientSchema = z.object({
   name: createTranslationSchema("clients.fields.name.errors"),
-  client_type_id: z.string().min(1, "clients.fields.client_type.errors.required"),
-  parent_id: z.string().optional(),
-  national_id: z.string().optional(),
-  notes: z.string().optional(),
+  client_type_id: z
+    .string()
+    .min(1, "clients.fields.client_type.errors.required"),
+  parent_id: z
+    .string()
+    .transform((v) => (v.trim() === "" ? null : v))
+    .nullable()
+    .optional(),
+  national_id: z
+    .string()
+    .transform((v) => (v.trim() === "" ? null : v))
+    .nullable()
+    .optional(),
+  notes: z
+    .string()
+    .transform((v) => (v.trim() === "" ? null : v))
+    .nullable()
+    .optional(),
   contact: createContactSchema,
-  legal_profile: createLegalProfileSchema.optional(),
+  legal_profile: createLegalProfileSchema,
 });
 
 export type CreateClientInputs = z.infer<typeof createClientSchema>;

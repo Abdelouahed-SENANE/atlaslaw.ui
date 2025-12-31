@@ -13,7 +13,7 @@ export type ClientView = Entity<{
 }>;
 
 export type ClientEditView = {
-  id ?: string;
+  id?: string;
   name: Translation;
   national_id?: string;
   notes?: string;
@@ -22,3 +22,20 @@ export type ClientEditView = {
   contact?: Contact;
   legal_profile?: LegalProfile;
 };
+
+export type ClientDetails = {
+  id?: string;
+  name: Translation;
+  national_id?: string;
+  notes?: string;
+  parent?: CLientProjection;
+  children?: CLientProjection[];
+  client_type: Translation;
+  contact?: Contact;
+  legal_profile?: LegalProfile;
+};
+
+type CLientProjection = {
+  id?: string | null;
+  name?: Translation | null;
+}

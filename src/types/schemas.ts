@@ -47,7 +47,11 @@ export const createLegalProfileSchema = z.object({
     .transform((v) => (v.trim() === "" ? null : v))
     .nullable()
     .optional(),
-  legal_status: z.string().optional(),
+  legal_status: z
+    .string()
+    .transform((v) => (v.trim() === "" ? null : v))
+    .nullable()
+    .optional(),
   legal_representative: z
     .string()
     .transform((v) => (v.trim() === "" ? null : v))

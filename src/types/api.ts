@@ -56,19 +56,19 @@ export type BaseOption = {
 };
 
 export type Contact = {
-  email?: string;
-  mobile?: string;
-  landline?: string;
-  address?: string;
-  postal?: string;
+  email?: string | null;
+  mobile?: string | null;
+  landline?: string | null;
+  address?: string | null;
+  postal?: string | null;
 };
 
 export type LegalProfile = {
-  business_register?: string;
-  fiscal_id?: string;
-  ice?: string;
-  legal_status?: string;
-  legal_representative?: string;
-  legal_representative_phone?: string;
+  business_register?: string | null;
+  fiscal_id?: string | null;
+  ice?: string | null;
+  legal_status?: string | null;
+  legal_representative?: string | null;
+  legal_representative_phone?: string | null;
 };
 

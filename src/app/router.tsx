@@ -254,6 +254,13 @@ export const createAppRouter = (queryClient: QueryClient) => {
                       "./routes/scopes/tenant/clients/edit-client.page"
                     ).then(convert(queryClient)),
                 },
+                {
+                  path: paths.tenant.clients.view.root, // "create"
+                  lazy: () =>
+                    import(
+                      "./routes/scopes/tenant/clients/client-details.page"
+                    ).then(convert(queryClient)),
+                },
               ],
             },
             {
@@ -263,9 +270,9 @@ export const createAppRouter = (queryClient: QueryClient) => {
                 {
                   index: true,
                   lazy: () =>
-                    import("./routes/scopes/tenant/opponents/opponents.page").then(
-                      convert(queryClient)
-                    ),
+                    import(
+                      "./routes/scopes/tenant/opponents/opponents.page"
+                    ).then(convert(queryClient)),
                 },
                 {
                   path: paths.tenant.opponents.new.root, // "create"

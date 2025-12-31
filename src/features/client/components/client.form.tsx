@@ -240,7 +240,7 @@ export const ClientForm = ({
                           defaultValue={defaultValues?.parent?.id}
                           render={({ field, fieldState }) => (
                             <ClientSelector
-                              val={field.value}
+                              val={field.value ?? ""}
                               onChange={field.onChange}
                               error={
                                 (fieldState.error?.message &&

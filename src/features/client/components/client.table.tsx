@@ -7,7 +7,7 @@ import { paths } from "@/config/paths";
 import { useDisclosure } from "@/hooks/use-disclosure";
 import { PermissionCode, useAuthorization } from "@/lib/authorization";
 import { Translation } from "@/types/api";
-import { Edit, Mail, Phone, Trash } from "lucide-react";
+import { Edit, Eye, Mail, Phone, Trash } from "lucide-react";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -32,6 +32,9 @@ export const ClientTable = ({
 
   const handleAction = useCallback((action: string, id: string) => {
     switch (action) {
+      case "view":
+        navigate(paths.tenant.clients.view.route(id));
+        break;
       case "edit":
         navigate(paths.tenant.clients.edit.route(id));
         break;
@@ -45,6 +48,12 @@ export const ClientTable = ({
   }, []);
 
   const ACTIONS: QuickAction[] = [
+    {
+      label: t("clients.actions.view"),
+      value: "view",
+      icon: <Eye className="h-4 w-4 text-foreground" />,
+      permission: PermissionCode.VIEW_CLIENTS,
+    },
     {
       label: t("clients.actions.edit"),
       value: "edit",

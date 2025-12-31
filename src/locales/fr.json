@@ -528,6 +528,7 @@
       }
     },
     "actions": {
+      "view": "Voir le client",
       "delete": "Supprimer le client",
       "edit": "Modifier le client",
       "update": "Mettre à jour le client",
@@ -682,6 +683,34 @@
       "edit": {
         "title": "Modifier le client",
         "description": "Modifiez le client existant."
+      },
+      "view" : {
+        "title": "Voir le client",
+        "description": "Voir le details du client."
+      }
+    },
+    "cards" : {
+      "base_info": {
+        "client_type": "Type de client",
+        "title": "Informations generales",
+        "note" : "Note"
+      },
+      "contact_info": {
+        "title": "Coordonnées",
+        "email" : "Adresse email",
+        "mobile" : "Téléphone",
+        "landline" : "Téléphone fixe",
+        "postal" : "Code postal",
+        "address" : "Adresse"
+      },
+      "legal_info": {
+        "title" : "Les informations juridiques",
+        "business_register" : "Numéro de registre commercial",
+        "fiscal_id" : "Identifiant Fiscal",
+        "ice" : "ICE",
+        "legal_status" : "Statut juridique",
+        "legal_representative" : "Representant legal",
+        "legal_representative_phone" : "Tél. du representant"
       }
     }
   },

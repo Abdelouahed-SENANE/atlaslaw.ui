@@ -5,6 +5,8 @@ import { useClientForEdit } from "@/features/client/api/client-details-edit";
 import { CreateClientInputs } from "@/features/client/api/create-client";
 import { useUpdateClient } from "@/features/client/api/update-client";
 import { ClientForm } from "@/features/client/components/client.form";
+import { ClientFormSkeleton } from "@/features/client/components/client.form-sekelton";
+import { ClientEditView } from "@/features/client/types/client.type";
 import { Logger } from "@/utils/logger";
 import React from "react";
 // import {
@@ -55,7 +57,6 @@ const EditClientPage = () => {
       },
     },
   });
-  if (!clientQuery.data?.data) return <div>No client found</div>;
 
   const defaultValues = clientQuery.data?.data;
   const breadcrumbs = [
@@ -84,13 +85,17 @@ const EditClientPage = () => {
       title={t("clients.pages.new.title")}
       desc={t("clients.pages.new.description")}
     >
-      <ClientForm
+      {clientQuery.isLoading ? (
+        <ClientFormSkeleton />
+      ) : (
+              <ClientForm
         mode="update"
-        defaultValues={defaultValues}
+        defaultValues={defaultValues as Partial<ClientEditView>}
         onSubmit={handleOnsubmit}
         isLoading={false}
         apiErrors={apiErrors}
       />
+      )}
     </DashLayout>
   );
 };

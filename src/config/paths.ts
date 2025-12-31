@@ -122,6 +122,10 @@ export const paths = {
         root: ":id/edit",
         route: (id: string) => `/clients/${id}/edit`,
       },
+      view: {
+        root: ":id",
+        route: (id: string) => `/clients/${id}`,
+      },
     },
     opponents: {
       root: "opponents",
