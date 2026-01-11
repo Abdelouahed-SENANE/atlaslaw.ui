@@ -39,7 +39,7 @@ export const LoginForm = ({ onSuccess, onError }: LoginFormProps) => {
                 t(`${formState.errors["email"].message}`)
               }
               registration={register("email")}
-              className="focus:ring-2 focus:ring-primary  focus:border-primary"
+              className="focus:ring-2 focus:ring-primary focus:border-primary"
             />
           </div>
 

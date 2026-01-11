@@ -501,7 +501,37 @@
       "no_changes_desc": "Aucun changement n'a été effectué."
     }
   },
+  "files" : {
+    "toast" : {
+      "created_title": "Fichier ajouté.",
+      "updated_title": "Fichier mis à jour.",
+      "deleted_title": "Fichier supprimé.",
+      "created_desc": "Le fichier a été ajouté.",
+      "updated_desc": "Le fichier a été mis à jour.",
+      "deleted_desc": "Le fichier a été supprimé."
+    },
+    "modal" : {
+      "create_title": "Créer un fichier",
+      "update_title": "Modifier le fichier",
+      "delete_title": "Supprimer le fichier",
+      "delete_desc": "Etes-vous certains de vouloir supprimer ce fichier ?",
+      "delete_cancel": "Annuler",
+      "delete_submit": "Supprimer"
+    },
+    "actions" : {
+      "delete" : "Supprimer le fichier",
+      "edit" : "Modifier le fichier",
+      "update" : "Mettre à jour le fichier",
+      "create" : "Créer un fichier",
+      "add" : "Ajouter un fichier",
+      "search" : "Recherchez un fichier, un mot-clé..."
+    },
 
+    "form" : {
+      "title" : "Ajouter un nouveau fichier",
+      "upload" : "Uploader"
+    }
+  },
   "clients": {
     "columns": {
       "name": "Nom du client",
@@ -676,6 +706,7 @@
         "empty_msg": "Aucun client rencontré pour le moment.",
         "client_type_empty": "Aucun type de client rencontré pour le moment."
       },
+
       "new": {
         "title": "Créer un client",
         "description": "Ajoutez un nouveau client à votre espace de gestion."
@@ -684,33 +715,35 @@
         "title": "Modifier le client",
         "description": "Modifiez le client existant."
       },
-      "view" : {
+      "view": {
         "title": "Voir le client",
-        "description": "Voir le details du client."
+        "description": "Voir le details du client.",
+        "info": "Informations",
+        "attachments": "Piece jointes"
       }
     },
-    "cards" : {
+    "cards": {
       "base_info": {
         "client_type": "Type de client",
         "title": "Informations generales",
-        "note" : "Note"
+        "note": "Note"
       },
       "contact_info": {
         "title": "Coordonnées",
-        "email" : "Adresse email",
-        "mobile" : "Téléphone",
-        "landline" : "Téléphone fixe",
-        "postal" : "Code postal",
-        "address" : "Adresse"
+        "email": "Adresse email",
+        "mobile": "Téléphone",
+        "landline": "Téléphone fixe",
+        "postal": "Code postal",
+        "address": "Adresse"
       },
       "legal_info": {
-        "title" : "Les informations juridiques",
-        "business_register" : "Numéro de registre commercial",
-        "fiscal_id" : "Identifiant Fiscal",
-        "ice" : "ICE",
-        "legal_status" : "Statut juridique",
-        "legal_representative" : "Representant legal",
-        "legal_representative_phone" : "Tél. du representant"
+        "title": "Les informations juridiques",
+        "business_register": "Numéro de registre commercial",
+        "fiscal_id": "Identifiant Fiscal",
+        "ice": "ICE",
+        "legal_status": "Statut juridique",
+        "legal_representative": "Representant legal",
+        "legal_representative_phone": "Tél. du representant"
       }
     }
   },

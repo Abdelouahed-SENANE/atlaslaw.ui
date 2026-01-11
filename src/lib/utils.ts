@@ -39,8 +39,54 @@ export function diffObject<T extends Record<string, any>>(
 
   return result;
 }
-export const toDate = (value: string | Date | undefined | null): Date | undefined => {
+export const toDate = (
+  value: string | Date | undefined | null
+): Date | undefined => {
   if (!value) return undefined; // ⬅ safe
   const d = new Date(value);
   return isNaN(d.getTime()) ? undefined : d;
 };
+
+export function formatFileSize(bytes: number): string {
+  if (bytes === 0) return "0 B";
+
+  const k = 1024;
+  const sizes = ["B", "KB", "MB", "GB", "TB"];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+  const value = bytes / Math.pow(k, i);
+
+  return `${value.toFixed(value < 10 && i > 0 ? 1 : 0)} ${sizes[i]}`;
+}
+
+export function normalizeFilesErrors(error: any): string[] {
+  if (!error) return [];
+
+  const messages: string[] = [];
+
+  if (error.message) {
+    messages.push(String(error.message));
+  }
+
+  // 2️⃣ Multiple errors (criteriaMode: "all")
+  if (error.types) {
+    Object.values(error.types).forEach((value) => {
+      if (Array.isArray(value)) {
+        messages.push(...value.map(String));
+      } else {
+        messages.push(String(value));
+      }
+    });
+  }
+
+  if (Array.isArray(error)) {
+    error.forEach((item) => {
+      if (item?.message) {
+        messages.push(String(item.message));
+      }
+    });
+  }
+
+  return Array.from(new Set(messages));
+}
+

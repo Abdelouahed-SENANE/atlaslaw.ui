@@ -95,6 +95,8 @@ export const ClientForm = ({
           onSubmit={onSubmit}
         >
           {({ register, formState, control }) => {
+            console.log(formState.errors);
+            
             return (
               <>
                 {/* Base Informations */}

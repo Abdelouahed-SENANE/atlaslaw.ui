@@ -21,7 +21,7 @@ type Props = {
   details: ClientDetails;
 };
 
-export const ClientDetailsCards = ({ details }: Props) => {
+export const ClientDetailsTab = ({ details }: Props) => {
   const { t } = useTranslation();
   const lang = i18n.language;
 
@@ -43,7 +43,6 @@ export const ClientDetailsCards = ({ details }: Props) => {
       console.log("Copied Failed: ", error);
     }
   };
-  console.log();
 
   return (
     <div className="grid grid-cols-2 gap-3">

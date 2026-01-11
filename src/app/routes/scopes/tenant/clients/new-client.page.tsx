@@ -54,6 +54,8 @@ const NewClientPage = () => {
     },
   ];
     const handleOnsubmit = (values: CreateClientInputs) => {
+      console.log("clicked");
+      
       createClient.mutate({ payload: values });
     };
   return (

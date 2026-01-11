@@ -213,6 +213,7 @@ export const SelectField = React.forwardRef<HTMLInputElement, SelectFieldProps>(
     return (
       <FieldWrapper label={label} error={error}>
         <Select
+        
           onValueChange={onChange}
           value={value}
           {...registration}

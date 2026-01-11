@@ -28,7 +28,7 @@ export const createClientSchema = z.object({
     .nullable()
     .optional(),
   contact: createContactSchema,
-  legal_profile: createLegalProfileSchema,
+  legal_profile: createLegalProfileSchema.optional(),
 });
 
 export type CreateClientInputs = z.infer<typeof createClientSchema>;

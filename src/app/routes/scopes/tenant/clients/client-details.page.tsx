@@ -2,7 +2,9 @@ import { DashLayout } from "@/components/layouts/_dash-layout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { paths } from "@/config/paths";
 import { useClientDetails } from "@/features/client/api/client-details";
-import { ClientDetailsCards } from "@/features/client/components/client-details.cards";
+import { ClientDetailsTab } from "@/features/client/components/client-details.tab";
+import { ClientDocumentTab } from "@/features/client/components/client-document.tab";
+import { FileKey2, FileText, Info } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -47,19 +49,19 @@ const ClientDetailsPage = () => {
     >
       <Tabs defaultValue="info">
         <TabsList className="bg-card border border-border p-1 h-11">
-          <TabsTrigger value="info">Informations</TabsTrigger>
-          <TabsTrigger value="attachments">Fichiers</TabsTrigger>
+          <TabsTrigger  value="info"><Info className="size-4"/>{t("clients.pages.view.info")}</TabsTrigger>
+          <TabsTrigger value="attachments"><FileText className="size-4"/>{t("clients.pages.view.attachments")}</TabsTrigger>
         </TabsList>
         <TabsContent value="info">
           {clientQuery.isLoading ? (
             <div>Loading...</div>
           ) : (
-            <ClientDetailsCards details={details!}  />
+            <ClientDetailsTab details={details!}  />
           )
           }
         </TabsContent>
         <TabsContent value="attachments">
-          <div>Informations</div>
+         <ClientDocumentTab clientId={id!} />
         </TabsContent>
       </Tabs>
     </DashLayout>

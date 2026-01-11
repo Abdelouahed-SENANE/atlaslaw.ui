@@ -22,6 +22,7 @@ type FormModalProps = {
   title: string;
   children: React.ReactNode;
   onClose?: () => void;
+  className?: string;
 };
 
 export const FormModal = ({
@@ -33,6 +34,7 @@ export const FormModal = ({
   onClose,
   open,
   onOpenChange,
+  className,
 }: FormModalProps) => {
   const { t } = useTranslation();
   const [internalOpen, setInternalOpen] = React.useState(false);
@@ -66,7 +68,10 @@ export const FormModal = ({
       <DialogContent
         showCloseButton={false}
         aria-describedby="form-modal"
-        className={cn("sm:max-w-2xl p-0 bg-card border border-border")}
+        className={cn(
+          "sm:max-w-2xl p-0 bg-card border border-border ",
+          className
+        )}
       >
         <DialogHeader className="border-b flex flex-row items-center justify-between px-4 py-3">
           <DialogTitle>{title}</DialogTitle>
