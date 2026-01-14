@@ -27,7 +27,7 @@ export const createClientSchema = z.object({
     .transform((v) => (v.trim() === "" ? null : v))
     .nullable()
     .optional(),
-  contact: createContactSchema,
+  contact: createContactSchema.optional(),
   legal_profile: createLegalProfileSchema.optional(),
 });
 

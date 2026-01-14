@@ -2,7 +2,16 @@ import { paths } from "@/config/paths";
 import { PermissionCode, Scope } from "@/lib/authorization";
 import { useAuthorization } from "@/lib/authorization/authorization";
 import { cn } from "@/lib/utils";
-import { Briefcase, Building, Fingerprint, Layout, ListTree, Tag, Users2, UserX } from "lucide-react";
+import {
+  Briefcase,
+  Building,
+  Fingerprint,
+  Folder,
+  Layout,
+  Tag,
+  Users2,
+  UserX,
+} from "lucide-react";
 import React, { Fragment } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -201,7 +210,7 @@ const TENANT_MENU = (t: any) =>
       ],
     },
     {
-      group: t("menu.groups.parties"),
+      group: t("menu.groups.laws"),
       items: [
         {
           label: t("menu.party_types"),
@@ -242,6 +251,24 @@ const TENANT_MENU = (t: any) =>
               title: t("menu.create_opponent"),
               to: paths.tenant.opponents.new.route(),
               permission: PermissionCode.CREATE_OPPONENTS,
+            },
+          ],
+        },
+        {
+          label: t("menu.cases"),
+          url: paths.tenant.cases.root,
+          icon: <Folder className="size-4" />,
+          permission: PermissionCode.LIST_CASES,
+          sublinks: [
+            {
+              title: t("menu.list_cases"),
+              to: paths.tenant.cases.list.route(),
+              permission: PermissionCode.LIST_CASES,
+            },
+            {
+              title: t("menu.create_case"),
+              to: paths.tenant.cases.new.route(),
+              permission: PermissionCode.CREATE_CLIENTS,
             },
           ],
         },

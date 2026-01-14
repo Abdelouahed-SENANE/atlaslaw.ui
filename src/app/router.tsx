@@ -291,6 +291,33 @@ export const createAppRouter = (queryClient: QueryClient) => {
               ],
             },
             {
+              path: paths.tenant.cases.root,
+              HydrateFallback: () => LoadingScreen,
+              children: [
+                {
+                  index: true,
+                  lazy: () =>
+                    import(
+                      "./routes/scopes/tenant/cases/cases.page"
+                    ).then(convert(queryClient)),
+                },
+                {
+                  path: paths.tenant.cases.new.root, // "create"
+                  lazy: () =>
+                    import(
+                      "./routes/scopes/tenant/cases/new-case.page"
+                    ).then(convert(queryClient)),
+                },
+                {
+                  path: paths.tenant.cases.edit.root, // "create"
+                  lazy: () =>
+                    import(
+                      "./routes/scopes/tenant/cases/edit-case.page"
+                    ).then(convert(queryClient)),
+                },
+              ],
+            },
+            {
               path: paths.tenant.roles.root,
               HydrateFallback: () => LoadingScreen,
               children: [

@@ -1,7 +1,7 @@
 import { paths } from "@/config/paths";
 import { useUser } from "@/lib/auth";
 import { Scope } from "@/lib/authorization";
-import React, { useLayoutEffect } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { Spinner } from "../ui/spinner";
 export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
@@ -16,7 +16,7 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
     );
   }
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!user) return;
 
     const destination =
@@ -25,7 +25,7 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
         : paths.tenant.dashboard.route();
 
     navigate(destination);
-  }, [user, navigate]);
+  }, [user]);
 
   return (
     <div className="h-screen w-screen flex items-center justify-center">

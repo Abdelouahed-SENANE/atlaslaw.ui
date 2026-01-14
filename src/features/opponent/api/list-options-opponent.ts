@@ -2,16 +2,14 @@ import { api$ } from "@/config/axios";
 import { FectchOptionFn } from "@/hooks/use-infinite-options";
 import { ApiResponse , BaseOption } from "@/types/api";
 
-export const getClientOptions: FectchOptionFn<BaseOption> = async ({
+export const getOpponentOptions: FectchOptionFn<BaseOption> = async ({
   query,
-  limit,
 }) => {
   const response = await api$.get<ApiResponse<BaseOption>>(
-    `/clients/options`,
+    `/opponents/options`,
     {
       params: {
         query,
-        limit,
       },
     }
   );

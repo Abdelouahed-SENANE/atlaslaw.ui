@@ -7,39 +7,38 @@ import { useDebouce } from "@/hooks/use-debounce";
 import { useSearchOptions } from "@/hooks/use-search-options";
 import { t } from "i18next";
 import React from "react";
-import { getClientOptions } from "../api/list-options-client";
-import { ClientView } from "../types/client.type";
+import { OpponentView } from "../types/opponent.type";
+import { getOpponentOptions } from "../api/list-options-opponent";
+
 
 type Props = {
   error?: FieldError | string;
   placeholder?: string;
   searchPlaceholder?: string;
-  initialClient?: Partial<ClientView>;
+  initialOpponent?: Partial<OpponentView>;
   val?: string;
-  renderFooter?: () => React.ReactNode;
   onChange?: (val?: string) => void;
+  renderFooter?: () => React.ReactNode;
 };
-export const ClientSelector = ({
+export const OpponentSelector = ({
   error,
   placeholder,
   searchPlaceholder,
   onChange,
   val,
-  initialClient,
+  initialOpponent,
   renderFooter,
 }: Props) => {
   const lang = i18n.language;
   const [params, setParams] = React.useState({
     query: "",
-    limit: 10,
   });
   const debouncedQury = useDebouce(params.query, 600);
 
-  const clientItemQuery = useSearchOptions<BaseOption>({
-    fetchFn: getClientOptions,
+  const oppnentItemQuery = useSearchOptions<BaseOption>({
+    fetchFn: getOpponentOptions,
     term: debouncedQury,
-    limit: params.limit,
-    queryKey: "clients:options",
+    queryKey: "opponents:options",
   });
 
   return (
@@ -47,17 +46,17 @@ export const ClientSelector = ({
       value={val}
       onChange={(value) => onChange?.(value)}
       initialOption={{
-        label: initialClient?.name?.[lang as Lang]!,
-        value: initialClient?.id ?? "",
+        label: initialOpponent?.name?.[lang as Lang]!,
+        value: initialOpponent?.id ?? "",
       }}
       error={error}
-      items={clientItemQuery.items as BaseOption[]}
+      items={oppnentItemQuery.items as BaseOption[]}
       term={params.query}
       searchPlaceholder={searchPlaceholder}
       placeholder={placeholder}
-      emptyMessage={t("party_type.pages.list.client_empty")}
+      emptyMessage={t("party_type.pages.list.oppnent_empty")}
       setTerm={(q) => setParams((p) => ({ ...p, query: q }))}
-      isLoading={clientItemQuery.isLoading}
+      isLoading={oppnentItemQuery.isLoading}
       renderOption={(o) =>
         typeof o.label === "string" ? `${o.label}` : `${o.label[lang as Lang]}`
       }

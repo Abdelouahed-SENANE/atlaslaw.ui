@@ -56,7 +56,7 @@ export const FileList = ({ ownerId, ownerType }: Props) => {
           Array.from({ length: 9 }).map((_, i) => (
             <li
               key={i}
-              className="flex items-center gap-2 bg-background rounded-sm"
+              className="flex items-center gap-2 bg-background rounded-sm "
             >
               <Skeleton className="size-14 flex items-center justify-center bg-primary/10 text-primary rounded-sm"></Skeleton>
               <div className="flex-1 space-y-2">
@@ -76,9 +76,9 @@ export const FileList = ({ ownerId, ownerType }: Props) => {
           files.map((item, i) => (
             <li
               key={i}
-              className="flex items-center gap-2 bg-background rounded-sm relative"
+              className="flex items-center gap-2 bg-background rounded-sm border border-border"
             >
-              <span className="size-14 flex items-center justify-center bg-foreground/10 text-primary rounded-sm">
+              <span className="size-14 flex items-center justify-center bg-foreground/10 text-primary ">
                 <FileIcon type={item.type} />
               </span>
               <div className="flex-1">

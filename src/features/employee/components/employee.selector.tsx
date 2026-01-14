@@ -7,26 +7,25 @@ import { useDebouce } from "@/hooks/use-debounce";
 import { useSearchOptions } from "@/hooks/use-search-options";
 import { t } from "i18next";
 import React from "react";
-import { getClientOptions } from "../api/list-options-client";
-import { ClientView } from "../types/client.type";
+import { Employee } from "../types";
+import { getEmployeeOptions } from "../api/list-options-employee";
+
 
 type Props = {
   error?: FieldError | string;
   placeholder?: string;
   searchPlaceholder?: string;
-  initialClient?: Partial<ClientView>;
+  initialEmployee?: Partial<Employee>;
   val?: string;
-  renderFooter?: () => React.ReactNode;
   onChange?: (val?: string) => void;
 };
-export const ClientSelector = ({
+export const EmployeeSelector = ({
   error,
   placeholder,
   searchPlaceholder,
   onChange,
   val,
-  initialClient,
-  renderFooter,
+  initialEmployee,
 }: Props) => {
   const lang = i18n.language;
   const [params, setParams] = React.useState({
@@ -35,33 +34,33 @@ export const ClientSelector = ({
   });
   const debouncedQury = useDebouce(params.query, 600);
 
-  const clientItemQuery = useSearchOptions<BaseOption>({
-    fetchFn: getClientOptions,
+  const employeeItemQuery = useSearchOptions<BaseOption>({
+    fetchFn: getEmployeeOptions,
     term: debouncedQury,
     limit: params.limit,
-    queryKey: "clients:options",
+    queryKey: "employees:options",
   });
-
+  
+  
   return (
     <Autocomplete<BaseOption>
       value={val}
       onChange={(value) => onChange?.(value)}
       initialOption={{
-        label: initialClient?.name?.[lang as Lang]!,
-        value: initialClient?.id ?? "",
+        label: initialEmployee?.user?.name?.[lang as Lang]!,
+        value: initialEmployee?.id ?? "",
       }}
       error={error}
-      items={clientItemQuery.items as BaseOption[]}
+      items={employeeItemQuery.items as BaseOption[]}
       term={params.query}
       searchPlaceholder={searchPlaceholder}
       placeholder={placeholder}
-      emptyMessage={t("party_type.pages.list.client_empty")}
+      emptyMessage={t("party_type.pages.list.employee_empty")}
       setTerm={(q) => setParams((p) => ({ ...p, query: q }))}
-      isLoading={clientItemQuery.isLoading}
+      isLoading={employeeItemQuery.isLoading}
       renderOption={(o) =>
         typeof o.label === "string" ? `${o.label}` : `${o.label[lang as Lang]}`
       }
-      renderFooter={renderFooter}
     />
   );
 };

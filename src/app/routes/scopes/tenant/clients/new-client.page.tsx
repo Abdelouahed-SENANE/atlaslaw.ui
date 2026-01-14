@@ -5,11 +5,6 @@ import { CreateClientInputs, useCreateClient } from "@/features/client/api/creat
 import { ClientForm } from "@/features/client/components/client.form";
 import { Logger } from "@/utils/logger";
 import React from "react";
-// import {
-//   CreateClientInputs,
-//   useCreateClient,
-// } from "@/features/employee/api/create-employee";
-// import { ClientForm } from "@/features/employee/components/employee.form";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 

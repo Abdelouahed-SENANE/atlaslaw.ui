@@ -36,7 +36,7 @@ export const QuickActions = ({ id, actions, onAction }: EntityActionsProps) => {
         <Button
           variant="ghost"
           size="icon"
-          className="h-8 w-8 text-foreground hover:bg-primary! hover:text-primary-foreground"
+          className="h-8 w-8 text-foreground justify-center hover:bg-primary! hover:text-primary-foreground"
         >
           <MoreHorizontal className="h-4 w-4" />
         </Button>

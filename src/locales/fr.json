@@ -90,6 +90,7 @@
   },
   "menu": {
     "dashboard": "Tableau de bord",
+    "cases": "Affaires",
     "users": "Utilisateurs",
     "tenants": "Locataires",
     "settings": "Paramètres",
@@ -99,7 +100,7 @@
       "home": "Accueil",
       "team": "Equipe",
       "security": "Securité",
-      "parties": "Parties"
+      "laws": "Domaines juridiques"
     },
     "party_types": "Type juridique",
     "list_users": "Liste des utilisateurs",
@@ -116,7 +117,9 @@
     "list_clients": "Liste des clients",
     "opponents": "Adversaires",
     "create_opponent": "Créer un adversaire",
-    "list_opponents": "Liste des adversaires"
+    "list_opponents": "Liste des adversaires",
+    "create_case": "Créer une affaire",
+    "list_cases": "Liste des affaires"
   },
   "roles": {
     "toast": {
@@ -501,8 +504,8 @@
       "no_changes_desc": "Aucun changement n'a été effectué."
     }
   },
-  "files" : {
-    "toast" : {
+  "files": {
+    "toast": {
       "created_title": "Fichier ajouté.",
       "updated_title": "Fichier mis à jour.",
       "deleted_title": "Fichier supprimé.",
@@ -510,7 +513,7 @@
       "updated_desc": "Le fichier a été mis à jour.",
       "deleted_desc": "Le fichier a été supprimé."
     },
-    "modal" : {
+    "modal": {
       "create_title": "Créer un fichier",
       "update_title": "Modifier le fichier",
       "delete_title": "Supprimer le fichier",
@@ -518,18 +521,18 @@
       "delete_cancel": "Annuler",
       "delete_submit": "Supprimer"
     },
-    "actions" : {
-      "delete" : "Supprimer le fichier",
-      "edit" : "Modifier le fichier",
-      "update" : "Mettre à jour le fichier",
-      "create" : "Créer un fichier",
-      "add" : "Ajouter un fichier",
-      "search" : "Recherchez un fichier, un mot-clé..."
+    "actions": {
+      "delete": "Supprimer le fichier",
+      "edit": "Modifier le fichier",
+      "update": "Mettre à jour le fichier",
+      "create": "Créer un fichier",
+      "add": "Ajouter un fichier",
+      "search": "Recherchez un fichier, un mot-clé..."
     },
 
-    "form" : {
-      "title" : "Ajouter un nouveau fichier",
-      "upload" : "Uploader"
+    "form": {
+      "title": "Ajouter un nouveau fichier",
+      "upload": "Uploader"
     }
   },
   "clients": {
@@ -931,6 +934,108 @@
       "list": {
         "client_empty": "Aucun type de client trouvé pour le moment.",
         "opponent_empty": "Aucun type de opponent trouvé pour le moment."
+      }
+    }
+  },
+  "cases": {
+    "pages": {
+      "new": {
+        "title": "Créer une affaire",
+        "description": "Ajoutez une nouvelle affaire à votre espace de gestion."
+      },
+      "edit": {
+        "title": "Modifier l'affaire",
+        "description": "Modifiez l'affaire existante et rattachez-la à vos parties."
+      },
+      "list": {
+        "title": "Liste des affaires",
+        "desc": "Gérez et administrez l’ensemble des affaires.",
+        "subtitle": "Gestion des affaires",
+        "sub_desc": "Consultez, filtrez et organisez la liste des affaires.",
+        "empty_msg": "Aucune affaire trouvée pour le moment."
+      }
+    },
+    "actions": {
+      "delete": "Supprimer l'affaire",
+      "edit": "Modifier l'affaire",
+      "update": "Mettre à jour l'affaire",
+      "create": "Créer une affaire",
+      "add": "Ajouter une affaire",
+      "view": "Voir l'affaire",
+      "search": "Recherchez une affaire, un numéro d'affaire, un mot-clé..."
+    },
+    "columns": {
+      "case_ref": "Numéro d'affaire",
+      "client_name": "Client",
+      "opponent_name": "Adversaire",
+      "created_by": "Créé par",
+      "case_manager": "Gestionnaire",
+      "code_case": "Nature d'affaire",
+      "opening_date": "Date d'ouverture",
+      "note": "Note",
+      "created_at": "Création",
+      "updated_at": "Mise à jour"
+    },
+    "form": {
+      "title": "Formulaire d'affaire",
+      "description": "Renseignez les informations de l'affaire."
+    },
+    "modal" : {
+      "create_title": "Créer une affaire",
+      "update_title": "Modifier l'affaire",
+      "delete_title": "Supprimer l'affaire",
+      "delete_desc": "Etes-vous certains de vouloir supprimer cette affaire ?",
+      "delete_cancel": "Annuler",
+      "delete_submit": "Supprimer"
+    },
+
+    "fields": {
+      "client_id": {
+        "label": "Client",
+        "placeholder": "Sélectionnez le client",
+        "errors": {
+          "required": "Le client est requis."
+        }
+      },
+      "code_case_id": {
+        "label": "Nature d'affaire",
+        "placeholder": "Saisissez la nature d'affaire",
+        "errors": {
+          "required": "La nature de l'affaire est requis."
+        }
+      },
+      "case_ref": {
+        "label": "Numéro d'affaire",
+        "placeholder": "Saisissez le numéro d'affaire",
+        "errors": {
+          "required": "Le numéro d'affaire est requis."
+        }
+      },
+      "opening_date": {
+        "label": "Date d'ouverture",
+        "placeholder": "Sélectionnez la date d'ouverture",
+        "errors": {
+          "required": "La date d'ouverture est requise.",
+          "invalid": "La date d'ouverture est invalide."
+        }
+      },
+      "note": {
+        "label": "Note",
+        "placeholder": "Saisissez une note"
+      },
+      "opponent_id": {
+        "label": "Adversaire",
+        "placeholder": "Sélectionnez l'adversaire",
+        "errors": {
+          "required": "L'adversaire est requis."
+        }
+      },
+      "case_manager_id": {
+        "label": "Gestionnaire de l'affaire",
+        "placeholder": "Sélectionnez le gestionnaire de l'affaire",
+        "errors": {
+          "required": "Le gestionnaire de cas est requis."
+        }
       }
     }
   }

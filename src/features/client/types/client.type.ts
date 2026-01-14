@@ -28,14 +28,14 @@ export type ClientDetails = {
   name: Translation;
   national_id?: string;
   notes?: string;
-  parent?: CLientProjection;
-  children?: CLientProjection[];
+  parent?: ClientProjection;
+  children?: ClientProjection[];
   client_type: Translation;
   contact?: Contact;
   legal_profile?: LegalProfile;
 };
 
-type CLientProjection = {
+type ClientProjection = {
   id?: string | null;
   name?: Translation | null;
 }

@@ -107,6 +107,26 @@ export const paths = {
         route: (id: string) => `/parties/${id}/edit`,
       },
     },
+    cases: {
+      root: "cases",
+      route: () => "/cases",
+      list: {
+        root: "",
+        route: () => "/cases",
+      },
+      new: {
+        root: "new",
+        route: () => "/cases/new",
+      },
+      edit: {
+        root: ":id/edit",
+        route: (id: string) => `/cases/${id}/edit`,
+      },
+      view: {
+        root: ":id",
+        route: (id: string) => `/cases/${id}`,
+      },
+    },
     clients: {
       root: "clients",
       route: () => "/clients",

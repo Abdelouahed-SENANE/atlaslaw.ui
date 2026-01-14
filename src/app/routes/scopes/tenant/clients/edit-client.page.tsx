@@ -24,6 +24,7 @@ const EditClientPage = () => {
     Partial<Record<keyof CreateClientInputs, string[]>>
   >({});
   const { id } = useParams();
+  
   if (!id) {
     navigate(paths.tenant.clients.list.route());
   }

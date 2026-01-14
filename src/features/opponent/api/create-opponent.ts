@@ -9,10 +9,12 @@ import { OPPONENTS_KEY } from "./list-opponent";
 
 export const createOpponentSchema = z.object({
   name: createTranslationSchema("opponents.fields.name.errors"),
-  opponent_type_id: z.string().min(1, "opponents.fields.opponent_type.errors.required"),
+  opponent_type_id: z
+    .string()
+    .min(1, "opponents.fields.opponent_type.errors.required"),
   national_id: z.string().optional(),
   notes: z.string().optional(),
-  contact: createContactSchema,
+  contact: createContactSchema.optional(),
   legal_profile: createLegalProfileSchema.optional(),
 });
 
@@ -23,7 +25,6 @@ const createOpponent = ({ payload }: { payload: CreateOpponentInputs }) => {
 };
 
 export const useCreateOpponent = ({
-
   mutationConfig,
 }: {
   mutationConfig?: MutationConfig<typeof createOpponent>;
@@ -35,6 +36,8 @@ export const useCreateOpponent = ({
     mutationFn: createOpponent,
     onSuccess: (...args) => {
       qc.invalidateQueries({ queryKey: [OPPONENTS_KEY], exact: false });
+      qc.invalidateQueries({ queryKey: ["opponents:options"], exact: false });
+
       onSuccess?.(...args);
     },
 

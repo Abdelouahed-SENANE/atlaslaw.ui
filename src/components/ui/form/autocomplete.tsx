@@ -19,7 +19,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import i18n from "@/config/i18n";
 import { cn } from "@/lib/utils";
 import { BaseOption, Lang } from "@/types/api";
-import { CheckCheck, ChevronDown } from "lucide-react";
+import { Check, ChevronDown } from "lucide-react";
 import { Spinner } from "../spinner";
 import { FieldWrapper, FieldWrapperPassThroughProps } from "./field-wrapper";
 
@@ -37,10 +37,9 @@ export interface AutocompleteProps<T extends BaseOption>
   searchPlaceholder?: string;
   emptyMessage?: string;
   isLoading?: boolean;
-  isFetchingNextPage?: boolean;
-  hasNextPage?: boolean;
-  onLoadMore?: () => void;
+
   renderOption?: (o: T) => React.ReactNode;
+  renderFooter?: () => React.ReactNode;
 }
 
 function AutocompleteComponent<T extends BaseOption>({
@@ -56,15 +55,12 @@ function AutocompleteComponent<T extends BaseOption>({
   searchPlaceholder,
   emptyMessage,
   isLoading,
-  isFetchingNextPage,
-  hasNextPage,
-  onLoadMore,
+
   renderOption,
+  renderFooter,
 }: AutocompleteProps<T>) {
   const [open, setOpen] = React.useState(false);
   const lang = i18n.language;
-
-  const loadMoreRef = React.useRef<HTMLDivElement | null>(null);
 
   // Cache selected value
   const [internalSelected, setInternalSelected] = React.useState<T | undefined>(
@@ -91,7 +87,6 @@ function AutocompleteComponent<T extends BaseOption>({
     [lang]
   );
 
-
   //Memoized selectedOption calculation
   const selectedOption = React.useMemo(() => {
     if (!value) return undefined;
@@ -104,7 +99,6 @@ function AutocompleteComponent<T extends BaseOption>({
 
     return undefined;
   }, [value, items, initialOption, internalSelected]);
-
 
   // Memoized select handler
   const handleSelect = React.useCallback(
@@ -145,37 +139,6 @@ function AutocompleteComponent<T extends BaseOption>({
   }, [open]);
 
   React.useEffect(() => {
-    if (!open) return;
-
-    const raf = requestAnimationFrame(() => {
-      if (!scrollRef.current || !loadMoreRef.current || !hasNextPage) return;
-
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          if (
-            entry.isIntersecting &&
-            hasUserScrolledRef.current &&
-            !isFetchingNextPage
-          ) {
-            onLoadMore?.();
-          }
-        },
-        {
-          root: scrollRef.current,
-          rootMargin: "0px 0px 40px 0px",
-          threshold: 1,
-        }
-      );
-
-      observer.observe(loadMoreRef.current);
-
-      return () => observer.disconnect();
-    });
-
-    return () => cancelAnimationFrame(raf);
-  }, [open, hasNextPage, isFetchingNextPage, onLoadMore]);
-
-  React.useEffect(() => {
     if (!open) {
       hasUserScrolledRef.current = false;
     }
@@ -190,7 +153,7 @@ function AutocompleteComponent<T extends BaseOption>({
           onSelect={() => handleSelect(opt)}
         >
           {renderOption ? renderOption(opt) : getLabel(opt)}
-          <CheckCheck
+          <Check
             className={`ml-auto h-4 w-4 ${
               selectedOption?.value === opt.value ? "opacity-100" : "opacity-0"
             }`}
@@ -242,14 +205,16 @@ function AutocompleteComponent<T extends BaseOption>({
           <Command shouldFilter={false}>
             <CommandInput
               ref={searchInputRef}
-              placeholder={searchPlaceholder ?? "Search..."}
+              placeholder={
+                searchPlaceholder ?? "Type to search more results..."
+              }
               value={term}
               autoFocus
               onValueChange={setTerm}
             />
 
             <CommandList>
-              <ScrollArea className="h-70   overflow-y-auto ">
+              <ScrollArea className=" min-h-10  overflow-y-auto ">
                 <CommandGroup>
                   {isLoading ? <Spinner size="sm" /> : optionList}
                 </CommandGroup>
@@ -260,17 +225,10 @@ function AutocompleteComponent<T extends BaseOption>({
                     </span>
                   </div>
                 )}
-                <div
-                  ref={loadMoreRef}
-                  className="h-4 flex items-center justify-center"
-                >
-                  {isFetchingNextPage && (
-                    <span className="py-4">
-                      <Spinner size="sm" /> Loading...
-                    </span>
-                  )}
-                </div>
               </ScrollArea>
+              {renderFooter && (
+                <div className="border-t px-2 py-2">{renderFooter()}</div>
+              )}
             </CommandList>
           </Command>
         </PopoverContent>

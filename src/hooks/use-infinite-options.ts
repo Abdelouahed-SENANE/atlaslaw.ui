@@ -1,12 +1,11 @@
-import { ApiResponse, BaseOption, Paginated } from "@/types/api";
+import { ApiResponse, BaseOption } from "@/types/api";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useDebouce } from "./use-debounce";
 
 export type FectchOptionFn<TOptions extends BaseOption> = (params: {
   query?: string;
-  page: number;
   limit: number;
-}) => Promise<ApiResponse<Paginated<TOptions>>>;
+}) => Promise<ApiResponse<TOptions>>;
 export function useInfiniteOptions<TOptions extends BaseOption>({
   fetchFn,
   term,
@@ -28,7 +27,6 @@ export function useInfiniteOptions<TOptions extends BaseOption>({
     queryFn: ({ pageParam = 1 }) =>
       fetchFn({
         query: deboucedTerm || undefined,
-        page: pageParam,
         limit: limit || 10,
       }),
     initialPageParam: 1,
