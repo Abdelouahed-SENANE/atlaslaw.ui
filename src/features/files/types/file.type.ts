@@ -7,7 +7,7 @@ export type FileView = Entity<{
   size: number;
 }>;
 
-export const FILE_OWNER_TYPES = ["client", "opponent", "party", "user"] as const;
+export const FILE_OWNER_TYPES = ["client", "opponent", "party", "user" , "case"] as const;
 export type FileOwnerType = typeof FILE_OWNER_TYPES[number];
 
 

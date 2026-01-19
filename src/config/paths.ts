@@ -127,6 +127,7 @@ export const paths = {
         route: (id: string) => `/cases/${id}`,
       },
     },
+
     clients: {
       root: "clients",
       route: () => "/clients",

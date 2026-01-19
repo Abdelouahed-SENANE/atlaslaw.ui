@@ -2,9 +2,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Form, Input, Textarea } from "@/components/ui/form";
 import { DateInput } from "@/components/ui/form/date-input";
+import { CategorySelector } from "@/features/catalog/components/categories.selector";
 import { ClientModalForm } from "@/features/client/components/client.modal-form";
 import { ClientSelector } from "@/features/client/components/client.selector";
-import { CodeCaseSelector } from "@/features/code-case/components/code-case.selector";
 import { EmployeeSelector } from "@/features/employee/components/employee.selector";
 import { OpponentModalForm } from "@/features/opponent/components/opponent.form-modal";
 import { OpponentSelector } from "@/features/opponent/components/opponent.selector";
@@ -60,7 +60,7 @@ export const CaseForm = ({
               case_ref: defaultValues?.case_ref,
               client_id: defaultValues?.client_id,
               opponent_id: defaultValues?.opponent_id,
-              code_case_id: defaultValues?.code_case_id,
+              category_id: defaultValues?.category_id,
               case_manager_id: defaultValues?.case_manager_id,
               note: defaultValues?.note,
               opening_date: defaultValues?.opening_date,
@@ -82,7 +82,9 @@ export const CaseForm = ({
               if (part3) result += `/${part3}`;
 
               return result;
-            };            
+            };
+;
+            
             return (
               <>
                 <div>
@@ -246,35 +248,36 @@ export const CaseForm = ({
                     </div>
                     <div>
                       <label
-                        htmlFor="code_case_id"
+                        htmlFor="category_id"
                         className="text-sm font-bold"
                       >
-                        {t("cases.fields.code_case_id.label")}
+                        {t("cases.fields.category_id.label")}
                         <span className="text-error">*</span>
                       </label>
                       <Controller
-                        name="code_case_id"
+                        name="category_id"
                         control={control}
-                        defaultValue={defaultValues?.code_case_id ?? ""}
+                        defaultValue={defaultValues?.category_id ?? ""}
                         render={({ field, fieldState }) => {
                           return (
-                            <CodeCaseSelector
+                            <CategorySelector
                               val={field.value}
                               searchPlaceholder={t(
                                 "cases.fields.client.search_placeholder"
                               )}
-                              initialCodeCase={{
-                                id: defaultValues?.code_case_id,
-                                label: defaultValues?.code_case_name,
+                              
+                              initialCategory={{
+                                prefix: defaultValues?.category_id,
+                                label: defaultValues?.category_name,
                               }}
                               error={
                                 (fieldState.error?.message &&
                                   t(fieldState.error?.message)) ||
-                                apiErrors.code_case_id?.[0] ||
+                                apiErrors.category_id?.[0] ||
                                 undefined
                               }
                               placeholder={t(
-                                "cases.fields.code_case_id.placeholder"
+                                "cases.fields.category_id.placeholder"
                               )}
                               onChange={(val) => field.onChange(val)}
                             />

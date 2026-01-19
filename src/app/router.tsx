@@ -297,22 +297,29 @@ export const createAppRouter = (queryClient: QueryClient) => {
                 {
                   index: true,
                   lazy: () =>
-                    import(
-                      "./routes/scopes/tenant/cases/cases.page"
-                    ).then(convert(queryClient)),
+                    import("./routes/scopes/tenant/cases/cases.page").then(
+                      convert(queryClient)
+                    ),
                 },
                 {
                   path: paths.tenant.cases.new.root, // "create"
                   lazy: () =>
-                    import(
-                      "./routes/scopes/tenant/cases/new-case.page"
-                    ).then(convert(queryClient)),
+                    import("./routes/scopes/tenant/cases/new-case.page").then(
+                      convert(queryClient)
+                    ),
                 },
                 {
                   path: paths.tenant.cases.edit.root, // "create"
                   lazy: () =>
+                    import("./routes/scopes/tenant/cases/edit-case.page").then(
+                      convert(queryClient)
+                    ),
+                },
+                {
+                  path: paths.tenant.cases.view.root, // "create"
+                  lazy: () =>
                     import(
-                      "./routes/scopes/tenant/cases/edit-case.page"
+                      "./routes/scopes/tenant/cases/details-case.page"
                     ).then(convert(queryClient)),
                 },
               ],

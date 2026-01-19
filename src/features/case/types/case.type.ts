@@ -8,8 +8,8 @@ export type CaseDetails = Entity<{
   opponent_name: Translation;
   case_manager_id: string;
   case_manager_name: Translation;
-  code_case_id: string;
-  code_case_name: Translation;
+  category_id: string;
+  category_name: Translation;
   note?: string;
   case_ref: string;
 }>;
@@ -20,7 +20,18 @@ export type CaseView = Entity<{
   opponent_name: Translation;
   created_by: Translation;
   case_manager: Translation;
-  code_case: Translation;
+  category: Translation;
   note?: string;
   case_ref: string;
+}>;
+
+export type ProcedureView = Entity<{
+  number: number;
+  code: number;
+  year: number;
+  procedure_date: Date;
+  criteria: "plaintiff" | "defendant";
+  court_id: string;
+  court_name: string;
+  note?: string;
 }>;

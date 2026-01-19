@@ -97,11 +97,9 @@ export const CaseTable = ({ cases, isLoading, table }: CaseTableProps) => {
       },
       {
         title: t("cases.columns.code_case"),
-        field: "code_case",
-        Cell: ({ entry: { code_case } }) => (
-          <Badge className="bg-primary/20 text-primary">
-            {code_case[lang]}
-          </Badge>
+        field: "category",
+        Cell: ({ entry: { category } }) => (
+          <Badge className="bg-primary/20 text-primary">{category[lang]}</Badge>
         ),
       },
       {
@@ -138,14 +136,6 @@ export const CaseTable = ({ cases, isLoading, table }: CaseTableProps) => {
             </p>
           );
         },
-      },
-      {
-        title: t("cases.columns.created_at"),
-        field: "created_at",
-      },
-      {
-        title: t("cases.columns.updated_at"),
-        field: "updated_at",
       },
       {
         title: "",

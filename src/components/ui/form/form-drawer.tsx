@@ -21,12 +21,14 @@ type FormDrawerProps = {
   title: string;
   children: React.ReactNode;
   onClose?: () => void;
+  className?: string;
 };
 
 export const FormDrawer = ({
   title,
   children,
   isDone,
+  className,
   triggerButton,
   submitButton,
   onClose,
@@ -63,7 +65,8 @@ export const FormDrawer = ({
       <DrawerContent
         aria-describedby="form-drawer"
         className={cn(
-          "flex rounded-md  min-w-[420px] border border-border my-4    bg-card flex-col justify-between "
+          "flex rounded-md   border border-border my-4  flex-col justify-between ",
+          className
         )}
       >
         <DrawerHeader className="border-b flex items-center flex-row w-full justify-between">
@@ -74,7 +77,7 @@ export const FormDrawer = ({
             </Button>
           </DrawerClose>
         </DrawerHeader>
-        <div className="w-full px-2">{children}</div>
+        <div className="w-full px-4">{children}</div>
         <DrawerFooter className="flex items-center flex-row w-full ltr:justify-end rtl:justify-start">
           <DrawerClose asChild>
             <Button variant="outline">Close</Button>

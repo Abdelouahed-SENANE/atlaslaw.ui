@@ -70,6 +70,7 @@ export const RoleAssignmentForm = ({
       open={open}
       onOpenChange={onOpenChange}
       isDone={assignRole.isSuccess}
+      className="data-[vaul-drawer-direction=right]:w-xl"
       submitButton={
         <Button
           type="submit"
@@ -85,6 +86,7 @@ export const RoleAssignmentForm = ({
         <Skeleton />
       ) : (
         <Form
+        className="my-4"
           key={userID}
           id="assign-roles"
           schema={assignRolesToUserSchema}

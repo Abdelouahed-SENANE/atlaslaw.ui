@@ -8,7 +8,7 @@ export const createCaseSchema = z.object({
   case_ref: z.string().min(1, "cases.fields.case_ref.errors.required"),
   client_id: z.string().min(1, "cases.fields.client_id.errors.required"),
   opponent_id: z.string().min(1, "cases.fields.opponent_id.errors.required"),
-  code_case_id: z.string().min(1, "cases.fields.code_case_id.errors.required"),
+  category_id: z.string().min(1, "cases.fields.category_id.errors.required"),
   opening_date: z.coerce.date({
     error: "cases.fields.opening_date.errors.invalid",
   }),

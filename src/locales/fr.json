@@ -953,6 +953,28 @@
         "subtitle": "Gestion des affaires",
         "sub_desc": "Consultez, filtrez et organisez la liste des affaires.",
         "empty_msg": "Aucune affaire trouvée pour le moment."
+      },
+      "view": {
+        "title": "Detail de l'affaire",
+        "description": "Voir les détails de l'affaire.",
+        "case_ref": "Reference d'affaire",
+        "info": "Informations de l'affaire",
+        "attachments": "Piece jointes",
+        "procedures": "Les procedures",
+        "title_parties": "Parties Impliquées",
+        "desc_parties": "Les parties impliquées dans l'affaire.",
+        "title_client": "Client/Plaintiff",
+        "title_opponent": "Opposant/Défendeur",
+        "title_type_case": "Information du Dossier",
+        "classification": "Classification",
+        "type_case": "Type de Dossier",
+        "opening_date": "Date d'ouverture",
+        "case_manager": "Responsable du Dossier",
+        "title_audit": "Historique de l'affaire",
+        "desc_audit": "Timeline",
+        "note": "Note de l'affaire",
+        "created_at": "Création",
+        "updated_at": "Mise à jour"
       }
     },
     "actions": {
@@ -980,7 +1002,7 @@
       "title": "Formulaire d'affaire",
       "description": "Renseignez les informations de l'affaire."
     },
-    "modal" : {
+    "modal": {
       "create_title": "Créer une affaire",
       "update_title": "Modifier l'affaire",
       "delete_title": "Supprimer l'affaire",
@@ -997,7 +1019,7 @@
           "required": "Le client est requis."
         }
       },
-      "code_case_id": {
+      "category_id": {
         "label": "Nature d'affaire",
         "placeholder": "Saisissez la nature d'affaire",
         "errors": {
@@ -1035,6 +1057,86 @@
         "placeholder": "Sélectionnez le gestionnaire de l'affaire",
         "errors": {
           "required": "Le gestionnaire de cas est requis."
+        }
+      }
+    }
+  },
+  "procedures": {
+    "form": {
+      "create": "Créer une procédure"
+    },
+    "dropdown": {
+      "codes": {
+        "empty": "Aucun symbole trouvé."
+      },
+      "appeal_courts": {
+        "empty": "Aucun cour d'appel trouver."
+      },
+      "primary_courts": {
+        "empty": "Aucun Cour de primière instance trouver."
+      }
+    },
+    "fields": {
+      "object": {
+        "label": "Objet de la procédure",
+        "placeholder": "Selon le symbole sélectionné"
+      },
+      "is_primary": {
+        "label": "S’agit-il d’une procédure devant un tribunal de première instance ?"
+      },
+
+      "court_appeal": {
+        "label": "Cour d’appel",
+        "placeholder": "Sélectionnez la cour d’appel",
+        "errors": {
+          "required": "La cour d’appel est requise."
+        }
+      },
+      "court_primary": {
+        "label": "Tribunal de première instance",
+        "placeholder": "Sélectionnez le tribunal de première instance",
+        "errors": {
+          "required": "Le tribunal de première instance est requis."
+        }
+      },
+      "criteria": {
+        "label": "Critère (Plaintiff/Defendant)",
+        "placeholder": "Selectionnez le critère"
+      },
+      "note": {
+        "label": "Note",
+        "placeholder": "Saisissez une note"
+      },
+      "procedure_date": {
+        "label": "Date de la procédure",
+        "placeholder": "Sélectionnez la date de la procédure",
+        "errors": {
+          "required": "La date de la procédure est requise.",
+          "invalid": "La date de la procédure est invalide."
+        }
+      },
+      "number": {
+        "label": "Numéro",
+        "placeholder": "Saisissez le numéro",
+        "errors": {
+          "required": "Le numéro  est requis.",
+          "invalid": "Le numéro  est invalide."
+        }
+      },
+      "code": {
+        "label": "Symbol",
+        "placeholder": "Saisissez le symbol",
+        "errors": {
+          "required": "Le symbol  est requis.",
+          "invalid": "Le symbol  est invalide."
+        }
+      },
+      "year": {
+        "label": "Annee",
+        "placeholder": "Saisissez l'annee",
+        "errors": {
+          "required": "Annee  est requis.",
+          "invalid": "Le symbol de la procédure est invalide."
         }
       }
     }

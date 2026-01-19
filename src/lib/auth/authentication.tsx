@@ -29,7 +29,7 @@ export async function getMe(): Promise<User | null> {
     return data.data ?? null;
   } catch (e) {
     const err = e as AxiosError;
-    console.error(err.message);
+    console.error(err.message.toString());
     if (err.response?.status === 401) {
       return null;
     }
@@ -69,13 +69,13 @@ export const registerSchema = z.object({
     .transform((value) => normalizeToE164(value || "", "+212"))
     .refine(
       (value) => !value || /^\+[1-9]\d{7,14}$/.test(value),
-      "user.phone.errors.invalid"
+      "user.phone.errors.invalid",
     ),
 });
 
 export type RegisterInputs = z.infer<typeof registerSchema>;
 export const register = (
-  payload: RegisterInputs
+  payload: RegisterInputs,
 ): Promise<ApiResponse<User>> => {
   return api$.post("/register", payload);
 };

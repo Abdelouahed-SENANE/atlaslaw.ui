@@ -6,39 +6,45 @@ import { FieldError } from "react-hook-form";
 import { useDebouce } from "@/hooks/use-debounce";
 import { t } from "i18next";
 import React, { useMemo } from "react";
-import { useCodeCases } from "../api/code-case.list";
-import { CodeCase } from "../types/code-case.type";
+import { useCodes } from "../api/code.list";
+import { Code } from "../types/catalog.type";
 
 type Props = {
   error?: FieldError | string;
   placeholder?: string;
   searchPlaceholder?: string;
-  initialCodeCase?: Partial<CodeCase>;
+  initialCode?: Partial<Code>;
   val?: string;
-  onChange?: (val?: string) => void;
+  onChange?: (code?: string) => void;
+  prefix: string;
+  setCode?: (code: Code) => void;
 };
-export const CodeCaseSelector = ({
+export const CodeSelector = ({
   error,
   placeholder,
   searchPlaceholder,
   onChange,
   val,
-  initialCodeCase,
+  initialCode,
+  prefix,
+  setCode,
 }: Props) => {
   const lang = i18n.language;
   const [query, setQuery] = React.useState("");
 
   const debouncedQuery = useDebouce(query, 300);
 
-  const codeCaseQuery = useCodeCases({}); 
+  const codeCaseQuery = useCodes({ prefix });
+
+  const codes = codeCaseQuery.data?.data ?? [];
 
   const indexedItems = useMemo(() => {
-    return (codeCaseQuery.data?.data ?? []).map((o) => ({
-      value: o.id,
-      label: o.label,
-      search:`${o.label.fr ?? ""} ${o.label.ar ?? ""}`.toLowerCase(),
+    return codes.map((o) => ({
+      value: o.code,
+      label: o.code,
+      search: o.code,
     }));
-  }, [codeCaseQuery.data]);
+  }, [codes]);
 
   const options = useMemo(() => {
     if (!debouncedQuery) {
@@ -53,10 +59,16 @@ export const CodeCaseSelector = ({
   return (
     <Autocomplete<BaseOption>
       value={val}
-      onChange={(value) => onChange?.(value)}
+      onChange={(value) => {
+        onChange?.(value);
+        const selected = codes.find((c) => c.code === value);
+        if (selected) {
+          setCode?.(selected);
+        }
+      }}
       initialOption={{
-        label: initialCodeCase?.label?.[lang as Lang]!,
-        value: initialCodeCase?.id ?? "",
+        label: initialCode?.code!,
+        value: initialCode?.code ?? "",
       }}
       error={error}
       items={options}
@@ -64,12 +76,10 @@ export const CodeCaseSelector = ({
       setTerm={setQuery}
       searchPlaceholder={searchPlaceholder}
       placeholder={placeholder}
-      emptyMessage={t("party_type.pages.list.client_empty")}
+      emptyMessage={t("procedures.dropdown.codes.empty")}
       isLoading={codeCaseQuery.isLoading}
       renderOption={(o) =>
-        typeof o.label === "string"
-          ? o.label
-          : o.label[lang as Lang]
+        typeof o.label === "string" ? o.label : o.label[lang as Lang]
       }
     />
   );
