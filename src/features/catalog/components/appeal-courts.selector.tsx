@@ -13,7 +13,6 @@ type Props = {
   error?: FieldError | string;
   placeholder?: string;
   searchPlaceholder?: string;
-  initialAppealCourts?: Partial<Court>;
   val?: string;
   onChange?: (val?: string) => void;
   type: string;
@@ -25,7 +24,6 @@ export const AppealCourtsSelector = ({
   searchPlaceholder,
   onChange,
   val,
-  initialAppealCourts,
   type,
   setAppeal,
 }: Props) => {
@@ -39,9 +37,8 @@ export const AppealCourtsSelector = ({
     level: "APPEAL",
     queryConfig: {
       enabled: !!type,
-    }
-  }
-  );
+    },
+  });
 
   const appeals = codeCaseQuery.data?.data ?? [];
 
@@ -63,19 +60,28 @@ export const AppealCourtsSelector = ({
       .slice(0, 50);
   }, [indexedItems, debouncedQuery]);
 
+  React.useEffect(() => {
+    if (!val) return;
+    if (!appeals.length) return;
+
+    const selected = appeals.find((c) => String(c.code) === String(val));
+
+    if (selected) {
+      setAppeal?.(selected);
+    }
+  }, [val, appeals, setAppeal]);
+
   return (
     <Autocomplete<BaseOption>
       value={val}
       onChange={(value) => {
         onChange?.(value);
-        const selected = appeals.find((c) => c.code === value);
+        const selected = appeals.find(
+          (c) => String(c.code) === String(value)
+        );
         if (selected) {
           setAppeal?.(selected);
         }
-      }}
-      initialOption={{
-        label: initialAppealCourts?.code!,
-        value: initialAppealCourts?.code ?? "",
       }}
       error={error}
       items={options}

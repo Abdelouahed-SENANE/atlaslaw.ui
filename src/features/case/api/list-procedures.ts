@@ -4,7 +4,7 @@ import { ApiResponse, Paginated } from "@/types/api";
 import { useQuery } from "@tanstack/react-query";
 import { ProcedureView } from "../types/case.type";
 
-export const PROCEDURES_KEY = ["cases"];
+export const PROCEDURES_KEY = ["procedures"];
 
 export interface ProcedureParams {
   query?: string;

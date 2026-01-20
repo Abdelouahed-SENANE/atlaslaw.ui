@@ -2,7 +2,7 @@ import { api$ } from "@/config/axios";
 import { MutationConfig } from "@/config/react-query";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import z from "zod";
-import { CASES_KEY } from "./list-case";
+import { PROCEDURES_KEY } from "./list-procedures";
 
 export const createProcedureSchema = z.object({
   number: z.coerce
@@ -25,10 +25,17 @@ export const createProcedureSchema = z.object({
     .min(2010, "procedures.fields.year.errors.range")
     .max(new Date().getFullYear(), "procedures.fields.year.errors.range"),
 
-  procedure_date: z.coerce.date({
-    error: "procedures.fields.procedure_date.errors.invalid",
-  }),
-
+  procedure_date: z.preprocess(
+    (val) => {
+      if (val instanceof Date) {
+        return val.toISOString().slice(0, 10); // YYYY-MM-DD
+      }
+      return val;
+    },
+    z.string().regex(/^\d{4}-\d{2}-\d{2}$/, {
+      message: "procedures.fields.procedure_date.errors.invalid",
+    }),
+  ),
   criteria: z.enum(["plaintiff", "defendant"], {
     error: "procedures.fields.criteria.errors.required",
   }),
@@ -45,8 +52,10 @@ export const createProcedureSchema = z.object({
 });
 
 export type CreateProcedureInputs = z.infer<typeof createProcedureSchema>;
+export const updateProcedureSchema = createProcedureSchema.partial();
+export type UpdateProcedureInputs = z.infer<typeof updateProcedureSchema>;
 
-const createProcedure = ({
+export const createProcedure = ({
   caseId,
   payload,
 }: {
@@ -67,7 +76,7 @@ export const useCreateProcedure = ({
   return useMutation({
     mutationFn: createProcedure,
     onSuccess: (...args) => {
-      // qc.invalidateQueries({ queryKey: [CASES_KEY], exact: false });
+      qc.invalidateQueries({ queryKey: [PROCEDURES_KEY], exact: false });
       onSuccess?.(...args);
     },
 

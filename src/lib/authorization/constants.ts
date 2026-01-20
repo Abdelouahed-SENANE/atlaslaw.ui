@@ -39,11 +39,10 @@ export enum PermissionCode {
 
   // CASES (Law Firm)
   LIST_CASES = "list:cases",
-  VIEW_CASE = "view:case",
-  CREATE_CASE = "create:case",
-  UPDATE_CASE = "update:case",
-  DELETE_CASE = "delete:case",
-  CLOSE_CASE = "close:case",
+  VIEW_CASE = "view:cases",
+  CREATE_CASE = "create:cases",
+  UPDATE_CASE = "update:cases",
+  DELETE_CASE = "delete:cases",
 
   // CLIENTS
   LIST_CLIENTS = "list:clients",

@@ -32,6 +32,19 @@ export type ProcedureView = Entity<{
   procedure_date: Date;
   criteria: "plaintiff" | "defendant";
   court_id: string;
-  court_name: string;
+  court_name: Translation;
+  code_parent?: string;
   note?: string;
 }>;
+
+export type ProcedureFormView = {
+  number: number;
+  code: number;
+  year: number;
+  procedure_date: Date;
+  criteria: "plaintiff" | "defendant";
+  note?: string;
+
+  court_appeal: string;
+  court_primary?: string;
+};

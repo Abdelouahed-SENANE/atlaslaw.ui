@@ -1065,6 +1065,47 @@
     "form": {
       "create": "Créer une procédure"
     },
+    "toast" : {
+      "created_title": "Procédure ajoutée.",
+      "updated_title": "Procédure mise à jour.",
+      "deleted_title": "Procédure supprimée.",
+      "created_desc": "La procédure a été ajoutée.",
+      "updated_desc": "La procédure a été mise à jour.",
+      "deleted_desc": "La procédure a été supprimée."
+    },
+    "pages": {
+      "list": {
+        "title": "Liste des procédures",
+        "desc": "Gérez et administrez l’ensemble des procédures.",
+        "subtitle": "Gestion des procédures",
+        "sub_desc": "Consultez, filtrez et organisez la liste des procédures.",
+        "empty_msg": "Aucune procédure en cours."
+      }
+    },
+    "columns" : {
+      "procedure_number": "Numéro de procédure",
+      "criteria": "Critère",
+      "court": "Cour",
+      "procedure_date": "Date de procédure",
+      "created_at": "Création",
+      "updated_at": "Mise à jour"
+    },
+    "actions" : {
+      "delete": "Supprimer la procédure",
+      "edit": "Modifier la procédure",
+      "update": "Mettre à jour la procédure",
+      "create": "Créer une procédure",
+      "add": "Ajouter une procédure",
+      "search": "Recherchez une procédure, un numéro de procédure, un mot-clé..."
+    },
+    "modal": {
+      "create_title": "Créer une procédure",
+      "update_title": "Modifier la procédure",
+      "delete_title": "Supprimer la procédure",
+      "delete_desc": "Etes-vous certains de vouloir supprimer cette procédure ?",
+      "delete_cancel": "Annuler",
+      "delete_submit": "Supprimer"
+    },
     "dropdown": {
       "codes": {
         "empty": "Aucun symbole trouvé."

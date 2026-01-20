@@ -56,6 +56,12 @@ export const CodeSelector = ({
       .slice(0, 50);
   }, [indexedItems, debouncedQuery]);
 
+  React.useEffect(() => {
+    if (!val || !codes.length) return;
+    const selected = codes.find((c) => String(c.code) === String(val));
+    if (selected) setCode?.(selected);
+  }, [val, codes, setCode]);
+  
   return (
     <Autocomplete<BaseOption>
       value={val}

@@ -14,19 +14,27 @@ import { CodeSelector } from "@/features/catalog/components/codes.selector";
 import { PrimaryCourtsSelector } from "@/features/catalog/components/primary-court.selector";
 import { Code, Court } from "@/features/catalog/types/catalog.type";
 import { Lang } from "@/types/api";
-import React from "react";
+import React, { useEffect } from "react";
 import { Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import z from "zod";
 import { createProcedureSchema } from "../api/create-procedure";
+import { updateCaseSchema } from "../api/update-case";
+import { ProcedureFormView } from "../types/case.type";
+
+export type ProcedureFormInputs = z.infer<
+  typeof createProcedureSchema | typeof updateCaseSchema
+>;
 
 type Props = {
-  defaultValues?: Partial<any>;
+  mode: "create" | "update";
+  defaultValues?: Partial<ProcedureFormView>;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
   triggerButton?: React.ReactElement;
   title: string;
   prefix: string;
-  onSubmit: (values: any) => void;
+  onSubmit: (values: ProcedureFormInputs) => void;
   isDone: boolean;
   isLoading?: boolean;
 };
@@ -40,6 +48,7 @@ export const ProcedureForm = ({
   onSubmit,
   isDone,
   isLoading,
+  mode,
 }: Props) => {
   const { t } = useTranslation();
   const [code, setCode] = React.useState<Code | null>(null);
@@ -50,6 +59,7 @@ export const ProcedureForm = ({
   const handleSubmit = (values: any) => {
     const payload = {
       ...values,
+      procedure_date: new Date(values.procedure_date).toISOString(),
       court_id: values.court_primary ?? values.court_appeal,
     };
 
@@ -58,6 +68,13 @@ export const ProcedureForm = ({
 
     onSubmit(payload);
   };
+
+  useEffect(() => {
+    if (mode === "update" && defaultValues) {
+      setIsPrimary(!!defaultValues.court_primary);
+    }
+  }, [mode, defaultValues]);
+
   return (
     <FormDrawer
       title={title}
@@ -83,11 +100,18 @@ export const ProcedureForm = ({
         onSubmit={handleSubmit}
         options={{
           defaultValues: {
-            ...defaultValues,
+            procedure_date: defaultValues?.procedure_date,
+            number: defaultValues?.number,
+            code: defaultValues?.code,
+            year: defaultValues?.year,
+            criteria: defaultValues?.criteria,
+            court_appeal: defaultValues?.court_appeal,
+            court_primary: defaultValues?.court_primary,
+            note: defaultValues?.note,
           },
         }}
       >
-        {({ control, register, formState }) => {
+        {({ control, register, formState, setValue }) => {
           return (
             <div className="flex flex-col gap-4  justify-center min-h-200">
               <div>
@@ -174,7 +198,7 @@ export const ProcedureForm = ({
                               t(fieldState.error?.message)) ||
                             undefined
                           }
-                          val={field.value}
+                          val={String(field.value)}
                           onChange={(val) => field.onChange(val)}
                           setCode={(code: Code) => setCode(code)}
                         />
@@ -219,7 +243,7 @@ export const ProcedureForm = ({
                   <Input
                     id="object"
                     placeholder={t("procedures.fields.object.placeholder")}
-                    value={code?.label[lang as Lang]}
+                    value={code?.label[lang as Lang] ?? ""}
                     readOnly
                     tabIndex={-1}
                     className=" select-none cursor-default focus:ring-0 focus:border-transparent"
@@ -292,8 +316,11 @@ export const ProcedureForm = ({
                             t(fieldState.error?.message)) ||
                           undefined
                         }
-                        val={field.value}
-                        onChange={(val) => field.onChange(val)}
+                        val={String(field.value)}
+                        onChange={(val) => {
+                          field.onChange(val);
+                          setValue("court_primary", undefined);
+                        }}
                         setAppeal={(court: Court) => setAppeal(court)}
                       />
                     );
@@ -330,6 +357,7 @@ export const ProcedureForm = ({
                     render={({ field, fieldState }) => {
                       return (
                         <PrimaryCourtsSelector
+                          key={appeal?.code}
                           searchPlaceholder={t(
                             "procedures.fields.court_primary.placeholder",
                           )}

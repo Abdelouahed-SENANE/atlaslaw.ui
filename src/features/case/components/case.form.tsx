@@ -19,7 +19,7 @@ import { createCaseSchema } from "../api/create-case";
 import { updateCaseSchema } from "../api/update-case";
 import { CaseDetails } from "../types/case.type";
 
-export type CaseFormInputs = z.infer<typeof createCaseSchema>;
+export type CaseFormInputs = z.infer<typeof createCaseSchema | typeof updateCaseSchema>;
 type CaseFormProps = {
   mode: "create" | "update";
   defaultValues?: Partial<CaseDetails>;
