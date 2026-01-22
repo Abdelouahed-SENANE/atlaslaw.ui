@@ -1,4 +1,4 @@
-import { Entity, Translation } from "@/types/api";
+import { BaseOption, Entity, Translation } from "@/types/api";
 
 export type CaseDetails = Entity<{
   opening_date: Date;
@@ -48,3 +48,17 @@ export type ProcedureFormView = {
   court_appeal: string;
   court_primary?: string;
 };
+
+export interface CaseOption extends BaseOption {
+  id: string;
+  case_ref: string;
+  client_name: Translation;
+  opponent_name: Translation;
+}
+
+export interface ProcedureOption extends BaseOption {
+  id: string;
+  number: string;
+  code: string;
+  year: string;
+}

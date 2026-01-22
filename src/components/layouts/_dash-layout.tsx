@@ -51,7 +51,7 @@ type MenuItem = {
 // ============================================================
 function filterMenu(
   groups: GroupMenu[],
-  hasPermission: (opts: { permission: PermissionCode }) => boolean
+  hasPermission: (opts: { permission: PermissionCode }) => boolean,
 ): GroupMenu[] {
   return groups
     .map((group) => {
@@ -70,7 +70,7 @@ function filterMenu(
             const allowed = item.sublinks.filter((sl) =>
               sl.permission
                 ? hasPermission({ permission: sl.permission })
-                : true
+                : true,
             );
 
             // If no sublinks allowed → drop the item
@@ -270,6 +270,11 @@ const TENANT_MENU = (t: any) =>
               to: paths.tenant.cases.new.route(),
               permission: PermissionCode.CREATE_CLIENTS,
             },
+            {
+              title: t("menu.list_hearings"),
+              to: paths.tenant.hearings.list.route(),
+              permission: PermissionCode.LIST_HEARINGS,
+            },
           ],
         },
       ],
@@ -305,7 +310,7 @@ export const DashLayout = ({
             "transition-[transform,width] duration-200 ease-in-out",
             isCollapsed
               ? "w-(--sidebar-collapsed-width)"
-              : "w-(--sidebar-width)"
+              : "w-(--sidebar-width)",
           )}
         >
           <Sidebar.Brand
@@ -342,7 +347,7 @@ export const DashLayout = ({
               "ms-auto transition-[width] h-[calc(100%-var(--topbar-height))] duration-300 flex flex-col w-full mt-(--topbar-height) p-2",
               isCollapsed
                 ? "w-[calc(100%-var(--sidebar-collapsed))]"
-                : "w-[calc(100%-var(--sidebar-expended))]"
+                : "w-[calc(100%-var(--sidebar-expended))]",
             )}
           >
             <div className="mb-8 mt-4 space-y-1">
@@ -355,7 +360,7 @@ export const DashLayout = ({
                           <RouterLink
                             className={cn(
                               "hover:no-underline text-foreground hover:text-primary text-sm font-bold",
-                              item.active && "text-primary"
+                              item.active && "text-primary",
                             )}
                             to={item.active ? "#" : item.url}
                           >

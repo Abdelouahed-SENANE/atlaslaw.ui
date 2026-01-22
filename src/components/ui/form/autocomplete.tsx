@@ -64,7 +64,7 @@ function AutocompleteComponent<T extends BaseOption>({
 
   // Cache selected value
   const [internalSelected, setInternalSelected] = React.useState<T | undefined>(
-    initialOption
+    initialOption,
   );
   React.useEffect(() => {
     if (!open) {
@@ -84,7 +84,7 @@ function AutocompleteComponent<T extends BaseOption>({
       if (typeof opt.label === "string") return opt.label;
       return opt.label[lang as Lang] ?? opt.label["fr"];
     },
-    [lang]
+    [lang],
   );
 
   //Memoized selectedOption calculation
@@ -107,7 +107,7 @@ function AutocompleteComponent<T extends BaseOption>({
       onChange(opt.value, opt);
       setOpen(false);
     },
-    [onChange]
+    [onChange],
   );
   const scrollRef = React.useRef<HTMLDivElement | null>(null);
   const hasUserScrolledRef = React.useRef(false);
@@ -117,7 +117,7 @@ function AutocompleteComponent<T extends BaseOption>({
 
     const raf = requestAnimationFrame(() => {
       const viewport = document.querySelector(
-        "[data-radix-scroll-area-viewport]"
+        "[data-radix-scroll-area-viewport]",
       ) as HTMLDivElement | null;
 
       if (!viewport) return;
@@ -160,7 +160,7 @@ function AutocompleteComponent<T extends BaseOption>({
           />
         </CommandItem>
       )),
-    [items, handleSelect, getLabel, renderOption, selectedOption]
+    [items, handleSelect, getLabel, renderOption, selectedOption],
   );
 
   const searchInputRef = React.useRef<HTMLInputElement | null>(null);
@@ -182,11 +182,11 @@ function AutocompleteComponent<T extends BaseOption>({
               "peer cursor-pointer relative flex items-center justify-between h-9 w-full rounded-sm border border-border bg-transparent px-2 py-1 text-sm",
               "transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:border-primary focus-visible:ring-primary/50",
               "data-[state=open]:border-primary data-[state=open]:ring-2 data-[state=open]:ring-primary/50",
-              error && "border-error/80 ring-3 ring-error/40"
+              error && "border-error/80 ring-3 ring-error/40",
             )}
           >
             {selectedOption ? (
-              <span>
+              <span className="text-card-foreground">
                 {renderOption
                   ? renderOption(selectedOption)
                   : getLabel(selectedOption)}
@@ -201,8 +201,11 @@ function AutocompleteComponent<T extends BaseOption>({
           </button>
         </PopoverTrigger>
 
-        <PopoverContent className="p-0 w-(--radix-popover-trigger-width)">
-          <Command shouldFilter={false}>
+        <PopoverContent
+          className="p-0 w-(--radix-popover-trigger-width)"
+          onWheel={(e) => e.stopPropagation()}
+        >
+          <Command shouldFilter={false} className="bg-card">
             <CommandInput
               ref={searchInputRef}
               placeholder={
@@ -238,5 +241,5 @@ function AutocompleteComponent<T extends BaseOption>({
 }
 
 export const Autocomplete = React.memo(
-  AutocompleteComponent
+  AutocompleteComponent,
 ) as typeof AutocompleteComponent;

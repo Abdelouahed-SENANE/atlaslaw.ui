@@ -5,7 +5,7 @@ import {
   CreateCaseInputs,
   useCreateCase,
 } from "@/features/case/api/create-case";
-import { CaseForm } from "@/features/case/components/case.form";
+import { CaseForm, CaseFormInputs } from "@/features/case/components/case.form";
 import { Logger } from "@/utils/logger";
 import React from "react";
 // import { CreateCaseInputs, useCreateCase } from "@/features/client/api/create-client";
@@ -63,7 +63,7 @@ const NewCasePage = () => {
       active: true,
     },
   ];
-  const handleOnsubmit = (values: CreateCaseInputs) => {
+  const handleOnsubmit = (values: CaseFormInputs) => {
     if (!values) return;
     createCase.mutate({ payload: values });
   };

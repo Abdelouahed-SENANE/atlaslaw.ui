@@ -1,13 +1,17 @@
 import { api$ } from "@/config/axios";
-import { FectchOptionFn } from "@/hooks/use-infinite-options";
-import { ApiResponse , BaseOption } from "@/types/api";
+import { ApiResponse, BaseOption } from "@/types/api";
 
-export const getClientOptions: FectchOptionFn<BaseOption> = async ({
+type ClientOption = BaseOption;
+
+export const getClientOptions = async ({
   query,
   limit,
-}) => {
-  const response = await api$.get<ApiResponse<BaseOption>>(
-    `/clients/options`,
+}: {
+  query?: string;
+  limit: number;
+}): Promise<ApiResponse<ClientOption>> => {
+  const response = await api$.get<ApiResponse<ClientOption>>(
+    "/clients/options",
     {
       params: {
         query,
@@ -15,5 +19,6 @@ export const getClientOptions: FectchOptionFn<BaseOption> = async ({
       },
     }
   );
+
   return response.data;
 };

@@ -119,7 +119,9 @@
     "create_opponent": "Créer un adversaire",
     "list_opponents": "Liste des adversaires",
     "create_case": "Créer une affaire",
-    "list_cases": "Liste des affaires"
+    "list_cases": "Liste des affaires",
+    "list_hearings": "Liste des audiences",
+    "create_hearing": "Créer une audience"
   },
   "roles": {
     "toast": {
@@ -1065,8 +1067,9 @@
     "form": {
       "create": "Créer une procédure"
     },
-    "toast" : {
+    "toast": {
       "created_title": "Procédure ajoutée.",
+      "conflict_title": "Procédure en conflit.",
       "updated_title": "Procédure mise à jour.",
       "deleted_title": "Procédure supprimée.",
       "created_desc": "La procédure a été ajoutée.",
@@ -1082,7 +1085,7 @@
         "empty_msg": "Aucune procédure en cours."
       }
     },
-    "columns" : {
+    "columns": {
       "procedure_number": "Numéro de procédure",
       "criteria": "Critère",
       "court": "Cour",
@@ -1090,7 +1093,7 @@
       "created_at": "Création",
       "updated_at": "Mise à jour"
     },
-    "actions" : {
+    "actions": {
       "delete": "Supprimer la procédure",
       "edit": "Modifier la procédure",
       "update": "Mettre à jour la procédure",
@@ -1179,6 +1182,80 @@
           "required": "Annee  est requis.",
           "invalid": "Le symbol de la procédure est invalide."
         }
+      }
+    }
+  },
+  "hearings": {
+    "pages": {
+      "list": {
+        "title": "Liste des audiences",
+        "desc": "Gérez et administrez l’ensemble des audiences judiciaires.",
+        "subtitle": "Gestion des audiences",
+        "sub_desc": "Consultez, filtrez et organisez les audiences par affaire et procédure.",
+        "empty_msg": "Aucune audience trouvée pour le moment."
+      }
+    },
+    "form": {
+      "create_title": "Créer une audience",
+      "update_title": "Modifier l’audience",
+      "delete_title": "Supprimer l’audience",
+      "delete_cancel": "Annuler",
+      "delete_submit": "Supprimer"
+    },
+    "actions": {
+      "delete": "Supprimer l’audience",
+      "edit": "Modifier l’audience",
+      "update": "Mettre à jour l’audience",
+      "create": "Créer une audience",
+      "add": "Ajouter une audience",
+      "search": "Rechercher une audience, une affaire ou un mot-clé..."
+    },
+    "fields": {
+      "case": {
+        "label": "Affaire",
+        "placeholder": "Sélectionnez l’affaire concernée"
+      },
+      "procedure": {
+        "label": "Procédure",
+        "placeholder": "Sélectionnez la procédure associée",
+        "errors": {
+          "required": "La procédure est obligatoire."
+        }
+      },
+      "hearing_date": {
+        "label": "Date de l’audience",
+        "placeholder": "Sélectionnez la date de l’audience",
+        "errors": {
+          "required": "La date de l’audience est obligatoire.",
+          "invalid": "Le format de la date de l’audience est invalide."
+        }
+      },
+      "next_hearing_at": {
+        "label": "Date et heure de la prochaine audience",
+        "placeholder": "Sélectionnez la date de la prochaine audience",
+        "errors": {
+          "required": "La date de la prochaine audience est obligatoire.",
+          "invalid": "Le format de la date de la prochaine audience est invalide."
+        }
+      },
+      "judge_name": {
+        "label": "Nom du magistrat",
+        "placeholder": "Saisissez le nom du magistrat"
+      },
+      "room_number": {
+        "label": "Salle d’audience",
+        "placeholder": "Saisissez le numéro de la salle"
+      },
+      "hearing_type": {
+        "label": "Type d’audience",
+        "placeholder": "Sélectionnez le type d’audience",
+        "errors": {
+          "required": "Le type d’audience est obligatoire."
+        }
+      },
+      "note": {
+        "label": "Observations",
+        "placeholder": "Saisissez des observations ou remarques"
       }
     }
   }

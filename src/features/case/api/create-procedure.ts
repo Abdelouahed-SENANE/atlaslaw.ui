@@ -2,6 +2,7 @@ import { api$ } from "@/config/axios";
 import { MutationConfig } from "@/config/react-query";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import z from "zod";
+import { requiredDate } from "./create-hearing";
 import { PROCEDURES_KEY } from "./list-procedures";
 
 export const createProcedureSchema = z.object({
@@ -25,17 +26,11 @@ export const createProcedureSchema = z.object({
     .min(2010, "procedures.fields.year.errors.range")
     .max(new Date().getFullYear(), "procedures.fields.year.errors.range"),
 
-  procedure_date: z.preprocess(
-    (val) => {
-      if (val instanceof Date) {
-        return val.toISOString().slice(0, 10); // YYYY-MM-DD
-      }
-      return val;
-    },
-    z.string().regex(/^\d{4}-\d{2}-\d{2}$/, {
-      message: "procedures.fields.procedure_date.errors.invalid",
-    }),
+  procedure_date: requiredDate(
+    "procedures.fields.procedure_date.errors.required",
+    "procedures.fields.procedure_date.errors.invalid",
   ),
+
   criteria: z.enum(["plaintiff", "defendant"], {
     error: "procedures.fields.criteria.errors.required",
   }),

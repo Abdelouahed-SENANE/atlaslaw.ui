@@ -48,12 +48,12 @@ export const CodeSelector = ({
 
   const options = useMemo(() => {
     if (!debouncedQuery) {
-      return indexedItems.slice(0, 50);
+      return indexedItems.slice(0, 30);
     }
 
     return indexedItems
       .filter((o) => o.search.includes(debouncedQuery.toLowerCase()))
-      .slice(0, 50);
+      .slice(0, 30);
   }, [indexedItems, debouncedQuery]);
 
   React.useEffect(() => {

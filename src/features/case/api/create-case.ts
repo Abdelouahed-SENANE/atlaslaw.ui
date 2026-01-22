@@ -3,6 +3,7 @@ import { MutationConfig } from "@/config/react-query";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import z from "zod";
 import { CASES_KEY } from "./list-case";
+import { CaseFormInputs } from "../components/case.form";
 
 export const createCaseSchema = z.object({
   case_ref: z.string().min(1, "cases.fields.case_ref.errors.required"),
@@ -24,7 +25,7 @@ export const createCaseSchema = z.object({
 
 export type CreateCaseInputs = z.infer<typeof createCaseSchema>;
 
-const createCase = ({ payload }: { payload: CreateCaseInputs }) => {
+const createCase = ({ payload }: { payload: CaseFormInputs }) => {
   return api$.post("/cases", payload);
 };
 

@@ -9,7 +9,6 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-  DrawerTrigger,
 } from "../drawer/drawer";
 
 type FormDrawerProps = {
@@ -22,6 +21,7 @@ type FormDrawerProps = {
   children: React.ReactNode;
   onClose?: () => void;
   className?: string;
+
 };
 
 export const FormDrawer = ({
@@ -56,28 +56,36 @@ export const FormDrawer = ({
       handleOpenChange(false);
     }
   }, [isDone]);
+  const handleOpen = () => {
+    requestAnimationFrame(() => {
+      handleOpenChange(true);
+    });
+  };
 
   return (
     <Drawer direction="right" open={actualOpen} onOpenChange={handleOpenChange}>
       {!isControlled && triggerButton && (
-        <DrawerTrigger asChild>{triggerButton}</DrawerTrigger>
+        <div onClick={handleOpen}>{triggerButton}</div>
       )}
       <DrawerContent
         aria-describedby="form-drawer"
         className={cn(
           "flex rounded-md   border border-border my-4  flex-col justify-between ",
-          className
+          className,
         )}
       >
-        <DrawerHeader className="border-b flex items-center flex-row w-full justify-between">
-          <DrawerTitle>{title}</DrawerTitle>
+        <DrawerHeader className="border-b flex items-center flex-row w-full justify-between ">
+          <DrawerTitle className="text-card-foreground">{title}</DrawerTitle>
           <DrawerClose asChild>
             <Button variant="plain">
               <X className="h-4 w-4" />
             </Button>
           </DrawerClose>
         </DrawerHeader>
-        <div className="w-full px-4">{children}</div>
+        {actualOpen && (
+          <div className="px-4 h-full overflow-y-auto">{children}</div>
+        )}
+
         <DrawerFooter className="flex items-center flex-row w-full ltr:justify-end rtl:justify-start">
           <DrawerClose asChild>
             <Button variant="outline">Close</Button>

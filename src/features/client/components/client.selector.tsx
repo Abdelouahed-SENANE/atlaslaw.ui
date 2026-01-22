@@ -39,7 +39,7 @@ export const ClientSelector = ({
     fetchFn: getClientOptions,
     term: debouncedQury,
     limit: params.limit,
-    queryKey: "clients:options",
+    queryKey:["clients:options"],
   });
 
   return (

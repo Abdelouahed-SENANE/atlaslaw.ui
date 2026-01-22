@@ -13,17 +13,20 @@ import { AppealCourtsSelector } from "@/features/catalog/components/appeal-court
 import { CodeSelector } from "@/features/catalog/components/codes.selector";
 import { PrimaryCourtsSelector } from "@/features/catalog/components/primary-court.selector";
 import { Code, Court } from "@/features/catalog/types/catalog.type";
+import { toDateOnly } from "@/lib/utils";
 import { Lang } from "@/types/api";
 import React, { useEffect } from "react";
 import { Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import z from "zod";
-import { createProcedureSchema } from "../api/create-procedure";
-import { updateCaseSchema } from "../api/update-case";
+import {
+  createProcedureSchema,
+  updateProcedureSchema,
+} from "../api/create-procedure";
 import { ProcedureFormView } from "../types/case.type";
 
 export type ProcedureFormInputs = z.infer<
-  typeof createProcedureSchema | typeof updateCaseSchema
+  typeof createProcedureSchema | typeof updateProcedureSchema
 >;
 
 type Props = {
@@ -59,7 +62,7 @@ export const ProcedureForm = ({
   const handleSubmit = (values: any) => {
     const payload = {
       ...values,
-      procedure_date: new Date(values.procedure_date).toISOString(),
+      procedure_date: toDateOnly(values.procedure_date),
       court_id: values.court_primary ?? values.court_appeal,
     };
 

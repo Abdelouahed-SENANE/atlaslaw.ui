@@ -127,7 +127,14 @@ export const paths = {
         route: (id: string) => `/cases/${id}`,
       },
     },
-
+    hearings: {
+      root: "hearings",
+      route: () => "/hearings",
+      list: {
+        root: "",
+        route: () => "/hearings",
+      }
+    },
     clients: {
       root: "clients",
       route: () => "/clients",

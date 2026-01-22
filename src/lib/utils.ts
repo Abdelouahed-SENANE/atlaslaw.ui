@@ -27,7 +27,7 @@ export const normalizeToE164 = (value: string, defaultCountryCode = "+212") => {
 
 export function diffObject<T extends Record<string, any>>(
   oldObj: T,
-  newObj: Partial<T>
+  newObj: Partial<T>,
 ): Partial<T> {
   const result: Partial<T> = {};
 
@@ -40,7 +40,7 @@ export function diffObject<T extends Record<string, any>>(
   return result;
 }
 export const toDate = (
-  value: string | Date | undefined | null
+  value: string | Date | undefined | null,
 ): Date | undefined => {
   if (!value) return undefined; // ⬅ safe
   const d = new Date(value);
@@ -90,3 +90,10 @@ export function normalizeFilesErrors(error: any): string[] {
   return Array.from(new Set(messages));
 }
 
+export function toDateOnly(value: Date | string) {
+  const d = new Date(value);
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}

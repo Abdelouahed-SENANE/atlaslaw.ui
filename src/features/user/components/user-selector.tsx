@@ -54,9 +54,6 @@ export const UserSelector = ({
       emptyMessage={t("users.pages.list.empty_msg")}
       setTerm={(q) => setParams((p) => ({ ...p, query: q }))}
       isLoading={usersOptionsQuery.isLoading}
-      isFetchingNextPage={usersOptionsQuery.isFetchingNextPage}
-      hasNextPage={usersOptionsQuery.hasNextPage}
-      onLoadMore={usersOptionsQuery.fetchNextPage}
       renderOption={(o) =>
         typeof o.label === "string"
           ? `${o.label} - ${o.email}`

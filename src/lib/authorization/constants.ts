@@ -58,9 +58,23 @@ export enum PermissionCode {
   UPDATE_OPPONENTS = "update:opponents",
   DELETE_OPPONENTS = "delete:opponents",
 
-  // DOCUMENTS
-  LIST_DOCUMENTS = "list:documents",
-  UPLOAD_DOCUMENT = "upload:document",
-  DELETE_DOCUMENT = "delete:document",
-  DOWNLOAD_DOCUMENT = "download:document",
+  // FILES
+  LIST_FILES = "list:files",
+  UPLOAD_FILES = "upload:files",
+  DELETE_FILES = "delete:files",
+  DOWNLOAD_FILES = "download:files",
+
+  // PROCEDURES
+  LIST_PROCEDURES = "list:procedures",
+  VIEW_PROCEDURES = "view:procedures",
+  CREATE_PROCEDURES = "create:procedures",
+  UPDATE_PROCEDURES = "update:procedures",
+  DELETE_PROCEDURES = "delete:procedures",
+
+  // HEARINGS
+  LIST_HEARINGS = "list:hearings",
+  VIEW_HEARINGS = "view:hearings",
+  CREATE_HEARINGS = "create:hearings",
+  UPDATE_HEARINGS = "update:hearings",
+  DELETE_HEARINGS = "delete:hearings",
 }

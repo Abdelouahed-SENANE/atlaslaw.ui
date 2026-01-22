@@ -15,6 +15,7 @@ import { useProcedures } from "../api/list-procedures";
 import { ProcedureView } from "../types/case.type";
 import { ProcedureForm } from "./procedure.form";
 import { ProcedureTable } from "./procedure.table";
+import { Plus } from "lucide-react";
 type Props = {
   prefix: string;
   caseId: string;
@@ -52,6 +53,7 @@ export const CaseProceduresTab = ({ prefix, caseId }: Props) => {
   });
 
   const handleOnsubmit = (values: any) => {
+
     createProcedure.mutate({
       caseId,
       payload: values,
@@ -89,7 +91,7 @@ export const CaseProceduresTab = ({ prefix, caseId }: Props) => {
                 onSubmit={handleOnsubmit}
                 prefix={prefix}
                 title={t("procedures.form.create")}
-                triggerButton={<Button>{t("procedures.actions.add")}</Button>}
+                triggerButton={<Button> <Plus className="mr-1" />{t("procedures.actions.add")}</Button>}
               />
             )}
           </div>

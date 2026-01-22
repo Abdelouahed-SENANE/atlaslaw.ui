@@ -31,6 +31,15 @@ export const ProcedureDeleteDialog = ({
         onOpenChange(false);
         onDeleted?.();
       },
+      onError: (err: any) => {
+        if (err.response.status === 409) {
+          toast({
+            title: t("procedures.toast.conflict_title"),
+            description: err.response.data.message,
+            type: "error",
+          });
+        }
+      },
     },
   });
   const [internalOpen, setInternalOpen] = useState(open);

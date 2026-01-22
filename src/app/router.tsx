@@ -89,7 +89,7 @@ export const createAppRouter = (queryClient: QueryClient) => {
               path: paths.admin.dashboard.root,
               lazy: () =>
                 import("./routes/scopes/system/dashboard").then(
-                  convert(queryClient)
+                  convert(queryClient),
                 ),
             },
             {
@@ -100,21 +100,21 @@ export const createAppRouter = (queryClient: QueryClient) => {
                   index: true, // instead of path: ""
                   lazy: () =>
                     import("./routes/scopes/system/tenants/list-tenants").then(
-                      convert(queryClient)
+                      convert(queryClient),
                     ),
                 },
                 {
                   path: paths.admin.tenants.new.root, // "create"
                   lazy: () =>
                     import("./routes/scopes/system/tenants/new-tenant").then(
-                      convert(queryClient)
+                      convert(queryClient),
                     ),
                 },
                 {
                   path: paths.admin.tenants.edit.root, // "create"
                   lazy: () =>
                     import("./routes/scopes/system/tenants/edit-tenant").then(
-                      convert(queryClient)
+                      convert(queryClient),
                     ),
                 },
               ],
@@ -186,7 +186,7 @@ export const createAppRouter = (queryClient: QueryClient) => {
               path: paths.tenant.dashboard.root,
               lazy: () =>
                 import("./routes/scopes/tenant/dashboard.page").then(
-                  convert(queryClient)
+                  convert(queryClient),
                 ),
             },
             {
@@ -237,7 +237,7 @@ export const createAppRouter = (queryClient: QueryClient) => {
                   index: true,
                   lazy: () =>
                     import("./routes/scopes/tenant/clients/clients.page").then(
-                      convert(queryClient)
+                      convert(queryClient),
                     ),
                 },
                 {
@@ -298,21 +298,21 @@ export const createAppRouter = (queryClient: QueryClient) => {
                   index: true,
                   lazy: () =>
                     import("./routes/scopes/tenant/cases/cases.page").then(
-                      convert(queryClient)
+                      convert(queryClient),
                     ),
                 },
                 {
                   path: paths.tenant.cases.new.root, // "create"
                   lazy: () =>
                     import("./routes/scopes/tenant/cases/new-case.page").then(
-                      convert(queryClient)
+                      convert(queryClient),
                     ),
                 },
                 {
                   path: paths.tenant.cases.edit.root, // "create"
                   lazy: () =>
                     import("./routes/scopes/tenant/cases/edit-case.page").then(
-                      convert(queryClient)
+                      convert(queryClient),
                     ),
                 },
                 {
@@ -321,6 +321,19 @@ export const createAppRouter = (queryClient: QueryClient) => {
                     import(
                       "./routes/scopes/tenant/cases/details-case.page"
                     ).then(convert(queryClient)),
+                },
+              ],
+            },
+            {
+              path: paths.tenant.hearings.root,
+              HydrateFallback: () => LoadingScreen,
+              children: [
+                {
+                  index: true,
+                  lazy: () =>
+                    import("./routes/scopes/tenant/cases/hearings.page").then(
+                      convert(queryClient),
+                    ),
                 },
               ],
             },
