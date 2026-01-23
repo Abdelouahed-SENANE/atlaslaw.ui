@@ -62,3 +62,21 @@ export interface ProcedureOption extends BaseOption {
   code: string;
   year: string;
 }
+
+export type HearingView = Entity<{
+  hearing_date: Date;
+  next_hearing_at: Date;
+  hearing_type: string;
+  judge_name?: string;
+  room_number?: string;
+  note?: string;
+  case_id: string;
+  procedure_id: string;
+  procedure_number: number;
+  procedure_code: number;
+  procedure_year: number;
+  court_name: Translation;
+  category_name: Translation;
+  client_name: Translation;
+  case_ref?: string;
+}>;

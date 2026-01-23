@@ -18,7 +18,7 @@ type Props = {
 };
 export const CaseSelector = ({ error, placeholder, val, onChange }: Props) => {
   const lang = i18n.language;
-
+  const [value, setVal] = React.useState(val);
   const [params, setParams] = React.useState({
     query: "",
   });
@@ -30,6 +30,7 @@ export const CaseSelector = ({ error, placeholder, val, onChange }: Props) => {
     limit: 10,
     queryKey: ["cases:options"],
   });
+
   const items = React.useMemo(() => {
     return casesOptionsQuery.items.map((o: CaseOption) => ({
       label: `${o.case_ref} - ${o.client_name[lang as Lang]}`,
@@ -37,9 +38,17 @@ export const CaseSelector = ({ error, placeholder, val, onChange }: Props) => {
     }));
   }, [casesOptionsQuery.items, lang]);
 
+  React.useEffect(() => {
+    if (!val || !items.length) return;
+    const selected = items.find(
+      (c: CaseOption) => String(c.value) === String(val),
+    );
+    if (selected) setVal(selected.value);
+  }, [val, items]);
+
   return (
     <Autocomplete<CaseOption>
-      value={val}
+      value={value}
       onChange={(value) => onChange?.(value)}
       // initialOption={{
       //   label: initialUser?.name[lang as Lang]!,

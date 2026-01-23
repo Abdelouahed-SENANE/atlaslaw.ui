@@ -12,21 +12,23 @@ import { TablePagination, useQueryTable } from "@/components/ui/table";
 import { toast } from "@/components/ui/toast/use-toast";
 import { paths } from "@/config/paths";
 import { useCreateHearing } from "@/features/case/api/create-hearing";
-import { useCases } from "@/features/case/api/list-case";
-import { CaseTable } from "@/features/case/components/ case.table";
-import { HearingForm, HearingFormInputs } from "@/features/case/components/hearing.form";
-import { CaseView } from "@/features/case/types/case.type";
+import { useHearings } from "@/features/case/api/list-hearings";
+import {
+  HearingForm,
+  HearingFormInputs,
+} from "@/features/case/components/hearing.form";
+import { HearingTable } from "@/features/case/components/hearing.table";
+import { HearingView } from "@/features/case/types/case.type";
 import { PermissionCode, useAuthorization } from "@/lib/authorization";
 import { Plus } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { create } from "zustand";
 
 const HearingsPage = () => {
   const { t } = useTranslation();
   const { hasPermission } = useAuthorization();
 
-  const table = useQueryTable<CaseView>();
-  const hearingsQuery = useCases({
+  const table = useQueryTable<HearingView>();
+  const hearingsQuery = useHearings({
     params: {
       page: table.page,
       query: table.query,
@@ -34,7 +36,7 @@ const HearingsPage = () => {
     },
   });
 
-  const items = hearingsQuery.data?.data?.items ?? [];
+const items = hearingsQuery.data?.data?.items ?? [];
   const pagination = hearingsQuery.data?.data?.pagination;
 
   const breadcrumbs = [
@@ -59,8 +61,8 @@ const HearingsPage = () => {
           type: "success",
         });
       },
-      onError: (err : any) => {
-        if (err.response.status  !== 422) {
+      onError: (err: any) => {
+        if (err.response.status !== 422) {
           toast({
             title: t("hearings.toast.error_create_title"),
             description: err.response.data.message,
@@ -75,7 +77,7 @@ const HearingsPage = () => {
     createHearing.mutate({
       payload: values,
     });
-  }
+  };
   return (
     <DashLayout
       breadcrumbs={breadcrumbs}
@@ -107,7 +109,6 @@ const HearingsPage = () => {
               }) && (
                 <HearingForm
                   mode="create"
-                  title={t("hearings.actions.create")}
                   triggerButton={
                     <Button>
                       <Plus className="size-4" />
@@ -116,7 +117,7 @@ const HearingsPage = () => {
                   }
                   isDone={createHearing.isSuccess}
                   isLoading={createHearing.isPending}
-                  onSubmit={(values) => {                    
+                  onSubmit={(values) => {
                     handleSubmit(values);
                   }}
                 />
@@ -125,8 +126,8 @@ const HearingsPage = () => {
           </CardHeader>
 
           <CardContent className="p-0 space-y-2">
-            <CaseTable
-              cases={items}
+            <HearingTable
+              hearings={items}
               table={table}
               isLoading={hearingsQuery.isLoading}
             />

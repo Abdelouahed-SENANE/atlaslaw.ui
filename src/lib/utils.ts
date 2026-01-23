@@ -97,3 +97,56 @@ export function toDateOnly(value: Date | string) {
   const day = String(d.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
 }
+export function toDateTime(value: Date | string) {
+  const d = new Date(value);
+  return d.toISOString(); 
+}
+
+
+export function formatDateOnly(date: string | Date, locale: "fr" | "ar") {
+  const d = new Date(date);
+
+  if (locale === "fr") {
+    return d.toLocaleDateString("fr-FR", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    });
+  }
+
+  if (locale === "ar") {
+    return d.toLocaleDateString("ar-MA", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    });
+  }
+
+  return d.toISOString().slice(0, 10);
+}
+
+export function formatDateTime(date: string | Date, locale: "fr" | "ar") {
+  const d = new Date(date);
+
+  if (locale === "fr") {
+    return d.toLocaleString("fr-FR", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  }
+
+  if (locale === "ar") {
+    return d.toLocaleString("ar-MA", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  }
+
+  return d.toISOString();
+}

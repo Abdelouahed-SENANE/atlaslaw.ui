@@ -1195,6 +1195,25 @@
         "empty_msg": "Aucune audience trouvée pour le moment."
       }
     },
+    "columns": {
+      "procedure_number": "Numéro de procédure",
+      "case_ref": "Reference d'affaire",
+      "hearing_date": "Date de l'audience",
+    "next_hearing_at": "Prochaine audience",
+      "category_name": "Nature d'affaire",
+      "client_name": "Client",
+      "court": "Cour",
+      "judge_name" : "Juge",
+      "room_number" : "Salle"
+    },
+    "modal" : {
+      "create_title": "Créer une audience",
+      "update_title": "Modifier l’audience",
+      "delete_title": "Supprimer l’audience",
+      "delete_desc": "Etes-vous certains de vouloir supprimer cette audience ?",
+      "delete_cancel": "Annuler",
+      "delete_submit": "Supprimer"
+    },
     "form": {
       "create_title": "Créer une audience",
       "update_title": "Modifier l’audience",
@@ -1257,6 +1276,16 @@
         "label": "Observations",
         "placeholder": "Saisissez des observations ou remarques"
       }
+    },
+    "toast" : {
+      "created_title" : "Audience créee.",
+      "updated_title" : "Audience mise a jour.",
+      "deleted_title" : "Audience supprimee.",
+      "created_desc" : "L'audience a ete creee.",
+      "updated_desc" : "L'audience a ete mise a jour.",
+      "deleted_desc" : "L'audience a ete supprimee.",
+      "no_changes_title" : "Aucune modification.",
+      "no_changes_desc" : "Aucun changement n'a ete effectue."
     }
   }
 }

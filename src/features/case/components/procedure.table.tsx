@@ -63,13 +63,13 @@ export const ProcedureTable = ({
         label: t("procedures.actions.edit"),
         value: "edit",
         icon: <Edit className="h-4 w-4 text-foreground" />,
-        permission: PermissionCode.UPDATE_CASE,
+        permission: PermissionCode.UPDATE_PROCEDURES,
       },
       {
         label: t("procedures.actions.delete"),
         value: "delete",
         icon: <Trash className="h-4 w-4 text-foreground" />,
-        permission: PermissionCode.DELETE_CASE,
+        permission: PermissionCode.DELETE_PROCEDURES,
       },
     ],
     [t],
@@ -124,7 +124,7 @@ export const ProcedureTable = ({
         title: t("procedures.columns.procedure_date"),
         field: "procedure_date",
         Cell: ({ entry: { procedure_date } }) => (
-          <div>{new Date(procedure_date).toLocaleDateString()}</div>
+          <div>{new Date(procedure_date).toString()}</div>
         ),
       },
       {

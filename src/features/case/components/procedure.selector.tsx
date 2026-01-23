@@ -24,7 +24,6 @@ export const ProcedureSelector = ({
   onChange,
   caseId,
 }: Props) => {
-  const lang = i18n.language;
 
   const [query, setQuery] = React.useState("");
   const debouncedQuery = useDebouce(query, 600);

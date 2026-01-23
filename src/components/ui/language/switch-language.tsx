@@ -52,7 +52,7 @@ export function SwitchLanguage() {
       <DropdownMenuTrigger asChild>
         <Button
           variant="plain"
-          className="size-9 rounded-full cursor-pointer overflow-hidden"
+          className="size-9 rounded-full cursor-pointer overflow-hidden flex items-center justify-center"
         >
           <Avatar className="size-9 flex items-center justify-center">
             <AvatarImage src={selected.flag} className="size-5" />
