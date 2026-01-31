@@ -30,6 +30,7 @@ export const HearingTable = ({
   const lang: keyof Translation = i18n.language as keyof Translation;
   const { hasPermission } = useAuthorization();
   const [selected, setSelected] = useState<HearingView | undefined>(undefined);
+
   const { open: openDel, close: closeDel, isOpen: isOpenDel } = useDisclosure();
   const {
     open: updateOpen,
@@ -203,9 +204,7 @@ export const HearingTable = ({
         onOpenChange={(open) => (open ? openDel() : closeDel())}
         onDeleted={() => setSelected(undefined)}
       />
-      {!selected ? (
-        null
-      ) : (
+      {!selected ? null : (
         <HearingForm
           mode="update"
           caseId={selected?.case_id as string}

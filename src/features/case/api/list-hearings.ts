@@ -3,6 +3,7 @@ import { QueryConfig } from "@/config/react-query";
 import { ApiResponse, Paginated } from "@/types/api";
 import { useQuery } from "@tanstack/react-query";
 import { HearingView } from "../types/case.type";
+import { toDateOnly, toDateTime } from "@/lib/utils";
 
 export const HEARINGS_KEY = ["hearings"];
 
@@ -29,17 +30,21 @@ export const normalizeHearingParams = (params: HearingParams) => {
 };
 
 const getHearings = async (
-  params: HearingParams,
+  params: any,
 ): Promise<ApiResponse<Paginated<HearingView>>> => {
   const normalized = normalizeHearingParams(params);
-
   const response = await api$.get<ApiResponse<Paginated<HearingView>>>(
     `/hearings`,
     {
       params: {
         ...normalized,
         ...(normalized.query && { query: normalized.query }),
+        hearing_date : toDateOnly(params.hearing_date),
+        next_hearing_at : toDateTime(params.next_hearing_at),
       },
+      paramsSerializer : {
+        indexes: null
+      }
     },
   );
 

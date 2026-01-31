@@ -141,6 +141,7 @@
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
   --text-size-sm: 15px;
+  --text-size-xs: 14px;
   --text-size-base: 15px;
   --text-size-lg: 17px;
   --sidebar-collapsed: 70px;

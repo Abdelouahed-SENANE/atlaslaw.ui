@@ -7,36 +7,49 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { SearchInput } from "@/components/ui/form";
 import { TablePagination, useQueryTable } from "@/components/ui/table";
 import { toast } from "@/components/ui/toast/use-toast";
+import i18n from "@/config/i18n";
 import { paths } from "@/config/paths";
 import { useCreateHearing } from "@/features/case/api/create-hearing";
 import { useHearings } from "@/features/case/api/list-hearings";
+import { ExportHearing } from "@/features/case/components/export-hearing";
+import { HearingActiveFilters } from "@/features/case/components/hearing-active.filter";
+import { HearingFilter } from "@/features/case/components/hearing.filter";
 import {
   HearingForm,
   HearingFormInputs,
 } from "@/features/case/components/hearing.form";
 import { HearingTable } from "@/features/case/components/hearing.table";
-import { HearingView } from "@/features/case/types/case.type";
+import { HearingCriteria, HearingView } from "@/features/case/types/case.type";
 import { PermissionCode, useAuthorization } from "@/lib/authorization";
+import { Lang } from "@/types/api";
 import { Plus } from "lucide-react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 const HearingsPage = () => {
   const { t } = useTranslation();
+  const lang = i18n.language;
   const { hasPermission } = useAuthorization();
-
+  const [hearingFilter, setHearingFilter] = useState<HearingCriteria>({
+    hearing_date: undefined,
+    next_hearing_at: undefined,
+    category_id: undefined,
+    court_ids: undefined,
+  });
   const table = useQueryTable<HearingView>();
   const hearingsQuery = useHearings({
     params: {
       page: table.page,
       query: table.query,
       limit: table.limit,
+      ...hearingFilter,
     },
   });
 
-const items = hearingsQuery.data?.data?.items ?? [];
+
+  const items = hearingsQuery.data?.data?.items ?? [];
   const pagination = hearingsQuery.data?.data?.pagination;
 
   const breadcrumbs = [
@@ -78,6 +91,7 @@ const items = hearingsQuery.data?.data?.items ?? [];
       payload: values,
     });
   };
+
   return (
     <DashLayout
       breadcrumbs={breadcrumbs}
@@ -97,12 +111,10 @@ const items = hearingsQuery.data?.data?.items ?? [];
               data-slot="filters "
               className="flex items-center justify-between gap-2"
             >
-              <SearchInput
-                className="min-w-90"
-                placeholder={t("hearings.actions.search")}
-                onChange={(val) => table.setQuery(val)}
-                value={table.query}
-                delay={600}
+              <ExportHearing hearingFilter={hearingFilter} />
+              <HearingFilter
+                criteria={hearingFilter}
+                onCriteriaChange={setHearingFilter}
               />
               {hasPermission({
                 permission: PermissionCode.CREATE_HEARINGS,
@@ -124,6 +136,12 @@ const items = hearingsQuery.data?.data?.items ?? [];
               )}
             </div>
           </CardHeader>
+          <HearingActiveFilters
+            criteria={hearingFilter}
+            lang={lang as Lang}
+            t={t}
+            onChange={setHearingFilter}
+          />
 
           <CardContent className="p-0 space-y-2">
             <HearingTable

@@ -173,7 +173,7 @@ function AutocompleteComponent<T extends BaseOption>({
 
   return (
     <FieldWrapper label={label} error={error}>
-      <Popover open={open} onOpenChange={setOpen}>
+      <Popover modal={false} open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <button
             type="button"

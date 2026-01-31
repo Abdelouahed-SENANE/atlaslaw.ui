@@ -39,7 +39,7 @@ export const DateInput = ({
 
   return (
     <FieldWrapper label={label} error={error}>
-      <Popover open={open} onOpenChange={setOpen}>
+      <Popover modal={false} open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
             variant="plain"

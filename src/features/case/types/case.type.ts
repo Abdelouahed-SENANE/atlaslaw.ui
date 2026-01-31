@@ -80,3 +80,25 @@ export type HearingView = Entity<{
   client_name: Translation;
   case_ref?: string;
 }>;
+
+export type HearingCriteria = {
+  hearing_date?: any  
+  next_hearing_at?: any
+  category_id?: string
+  court_ids?: string[]
+}
+
+export interface HearingExportRow {
+  court: string;
+  date: string;        // ISO string (from backend)
+  category: string;
+  code: string;
+  number: string;
+  year: string;
+  client: string;
+  opponent: string;
+  time: string;
+  judgeName: string;
+  room: string;
+  action: string;
+}

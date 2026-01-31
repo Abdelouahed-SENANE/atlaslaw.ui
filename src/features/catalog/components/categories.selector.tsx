@@ -40,7 +40,6 @@ export const CategorySelector = ({
     }));
   }, [categoriesQuery.data]);
 
-  console.log(categoriesQuery.data?.data);
   
   const options = useMemo(() => {
     if (!debouncedQuery) {

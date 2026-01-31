@@ -10,6 +10,7 @@ const HomePage: React.FC = () => {
   const navigate = useNavigate();
   const logout = useLogout();
   
+  
   return (
     <div>
       Home Page

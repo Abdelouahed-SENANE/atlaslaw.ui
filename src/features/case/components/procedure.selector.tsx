@@ -1,5 +1,4 @@
 import { Autocomplete } from "@/components/ui/form/autocomplete";
-import i18n from "@/config/i18n";
 import { FieldError } from "react-hook-form";
 
 import { useDebouce } from "@/hooks/use-debounce";
@@ -8,7 +7,6 @@ import { t } from "i18next";
 import React, { useMemo } from "react";
 import { getProcedureOptions } from "../api/procedure.options";
 import { ProcedureOption } from "../types/case.type";
-import { se } from "date-fns/locale";
 
 type Props = {
   error?: FieldError | string;
@@ -24,7 +22,6 @@ export const ProcedureSelector = ({
   onChange,
   caseId,
 }: Props) => {
-
   const [query, setQuery] = React.useState("");
   const debouncedQuery = useDebouce(query, 600);
 
@@ -43,7 +40,7 @@ export const ProcedureSelector = ({
     return procedures.map((o: ProcedureOption) => ({
       label: `${o.number}/${o.code}/${o.year}`,
       value: o.id,
-      search : `${o.number}/${o.code}/${o.year}`,
+      search: `${o.number}/${o.code}/${o.year}`,
     }));
   }, [procedures]);
 
@@ -55,7 +52,7 @@ export const ProcedureSelector = ({
     return items.filter((o: ProcedureOption) =>
       o.search.toLowerCase().includes(debouncedQuery.toLowerCase()),
     );
-  }, [procedures , debouncedQuery] );
+  }, [procedures, debouncedQuery]);
 
   const handleChange = React.useCallback(
     (value?: string) => onChange?.(value),
@@ -66,7 +63,7 @@ export const ProcedureSelector = ({
     (o: ProcedureOption) => `${o.label}`,
     [],
   );
-  
+
   return (
     <Autocomplete<ProcedureOption>
       value={val}

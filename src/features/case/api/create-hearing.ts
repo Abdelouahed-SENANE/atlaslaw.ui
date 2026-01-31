@@ -53,7 +53,6 @@ export const updateHearingSchema = createHearingSchema.partial();
 export type UpdateHearingInputs = z.infer<typeof updateHearingSchema>;
 
 export const createHearing = ({ payload }: { payload: HearingFormInputs }) => {
-  console.log(payload);
   return api$.post(`/hearings`, payload);
 };
 

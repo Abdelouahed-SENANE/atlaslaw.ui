@@ -9,6 +9,7 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
+  DrawerTrigger,
 } from "../drawer/drawer";
 
 type FormDrawerProps = {
@@ -21,7 +22,6 @@ type FormDrawerProps = {
   children: React.ReactNode;
   onClose?: () => void;
   className?: string;
-
 };
 
 export const FormDrawer = ({

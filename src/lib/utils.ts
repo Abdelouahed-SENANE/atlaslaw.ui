@@ -90,18 +90,24 @@ export function normalizeFilesErrors(error: any): string[] {
   return Array.from(new Set(messages));
 }
 
-export function toDateOnly(value: Date | string) {
+export function toDateOnly(value: Date | string | undefined ) {
+  if (!value) return null;
   const d = new Date(value);
   const year = d.getFullYear();
   const month = String(d.getMonth() + 1).padStart(2, "0");
   const day = String(d.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
 }
-export function toDateTime(value: Date | string) {
-  const d = new Date(value);
-  return d.toISOString(); 
-}
 
+export function toDateTime(value?: Date | string) {
+  if (!value) return null;
+
+  const d = new Date(value);
+  const pad = (n: number) => n.toString().padStart(2, "0");
+
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T` +
+         `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+}
 
 export function formatDateOnly(date: string | Date, locale: "fr" | "ar") {
   const d = new Date(date);
@@ -149,4 +155,40 @@ export function formatDateTime(date: string | Date, locale: "fr" | "ar") {
   }
 
   return d.toISOString();
+}
+
+export function formatDateRange(
+  from?: Date | string,
+  to?: Date | string,
+  locale: "fr" | "ar" = "fr",
+) {
+  if (!from && !to) return "";
+
+  if (from && to) {
+    return `${formatDateOnly(from, locale)} → ${formatDateOnly(to, locale)}`;
+  }
+
+  if (from) {
+    return `${formatDateOnly(from, locale)} →`;
+  }
+
+  return `→ ${formatDateOnly(to!, locale)}`;
+}
+
+export function formatDateTimeRange(
+  from?: Date | string,
+  to?: Date | string,
+  locale: "fr" | "ar" = "fr",
+) {
+  if (!from && !to) return "";
+
+  if (from && to) {
+    return `${formatDateTime(from, locale)} → ${formatDateTime(to, locale)}`;
+  }
+
+  if (from) {
+    return `${formatDateTime(from, locale)} →`;
+  }
+
+  return `→ ${formatDateTime(to!, locale)}`;
 }

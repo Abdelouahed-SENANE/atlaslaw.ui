@@ -12,7 +12,13 @@
       "cancel": "Annuler",
       "reset": "Réinitialiser",
       "loading": "Chargement...",
-      "update_changes": "Enregistrer les modifications"
+      "update_changes": "Enregistrer les modifications",
+      "trigger_filter": "Recherche avancée",
+      "export_button": "Exporter les audiences"
+    },
+    "filters" : {
+      "active": "Actif filter",
+      "clear_all": "Effacer tout"
     }
   },
 
@@ -1199,14 +1205,14 @@
       "procedure_number": "Numéro de procédure",
       "case_ref": "Reference d'affaire",
       "hearing_date": "Date de l'audience",
-    "next_hearing_at": "Prochaine audience",
+      "next_hearing_at": "Prochaine audience",
       "category_name": "Nature d'affaire",
       "client_name": "Client",
       "court": "Cour",
-      "judge_name" : "Juge",
-      "room_number" : "Salle"
+      "judge_name": "Juge",
+      "room_number": "Salle"
     },
-    "modal" : {
+    "modal": {
       "create_title": "Créer une audience",
       "update_title": "Modifier l’audience",
       "delete_title": "Supprimer l’audience",
@@ -1250,7 +1256,7 @@
         }
       },
       "next_hearing_at": {
-        "label": "Date et heure de la prochaine audience",
+        "label": "Prochaine audience",
         "placeholder": "Sélectionnez la date de la prochaine audience",
         "errors": {
           "required": "La date de la prochaine audience est obligatoire.",
@@ -1277,15 +1283,24 @@
         "placeholder": "Saisissez des observations ou remarques"
       }
     },
-    "toast" : {
-      "created_title" : "Audience créee.",
-      "updated_title" : "Audience mise a jour.",
-      "deleted_title" : "Audience supprimee.",
-      "created_desc" : "L'audience a ete creee.",
-      "updated_desc" : "L'audience a ete mise a jour.",
-      "deleted_desc" : "L'audience a ete supprimee.",
-      "no_changes_title" : "Aucune modification.",
-      "no_changes_desc" : "Aucun changement n'a ete effectue."
+    "filter" : {
+      "from_date": "Du",
+      "to_date": "Au",
+      "category_id" : "Nature d'affaire",
+      "courts": "Courts",
+      "title": "Filtres",
+      "reset": "Reinitialiser",
+      "apply": "Appliquer"
+    },
+    "toast": {
+      "created_title": "Audience créee.",
+      "updated_title": "Audience mise a jour.",
+      "deleted_title": "Audience supprimee.",
+      "created_desc": "L'audience a ete creee.",
+      "updated_desc": "L'audience a ete mise a jour.",
+      "deleted_desc": "L'audience a ete supprimee.",
+      "no_changes_title": "Aucune modification.",
+      "no_changes_desc": "Aucun changement n'a ete effectue."
     }
   }
 }
