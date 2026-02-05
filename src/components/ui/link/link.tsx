@@ -5,9 +5,10 @@ import { cn } from '@/lib/utils';
 export const RouterLink = ({ className, children, ...props }: LinkProps) => {
   return (
     <Link
+    
       className={cn(
-        'text-link hover:text-foreground hover:underline',
-        className
+        className,
+        'hover:underline-none cursor-pointer'
       )}
       {...props}
     >

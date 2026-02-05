@@ -11,6 +11,7 @@ import { Button } from "../button";
 
 import { create } from "zustand";
 import { useTheme } from "../theme";
+import { paths } from "@/config/paths";
 
 type SidebarStore = {
   isCollapsed: boolean;
@@ -40,14 +41,14 @@ const Root = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
           className,
           isCollapsed
             ? "w-(--sidebar-collapsed) hover:w-(--sidebar-expended)"
-            : "w-(--sidebar-expended)"
+            : "w-(--sidebar-expended)",
         )}
         {...props}
       >
         {children}
       </aside>
     );
-  }
+  },
 );
 
 const Separator = React.forwardRef<
@@ -80,7 +81,7 @@ export const Label = React.forwardRef<
           ? "opacity-0 -translate-x-1 pointer-events-none group-hover/sidebar:opacity-100 group-hover/sidebar:translate-x-0"
           : "opacity-100 translate-x-0",
 
-        className
+        className,
       )}
       {...props}
     >
@@ -100,41 +101,35 @@ const Brand = React.forwardRef<
   }
 >(({ className, pathDark, pathLight, pathSmall, ...props }, ref) => {
   const { isCollapsed } = useSidebar();
-  const { theme } = useTheme();
 
   return (
     <div
       ref={ref}
       {...props}
       className={cn(
-        "flex items-center px-4 h-14 relative",
+        "flex items-center px-2 h-14 relative",
         className,
-        isCollapsed ? "justify-center" : "justify-start"
+        isCollapsed ? "justify-center" : "justify-start",
       )}
     >
-      <div className={cn(isCollapsed ? "block" : "hidden")}>
+      <RouterLink to={paths.home.root} className={"flex items-center cursor-pointer group-hover/sidebar:w-full "}>
         <img
-          className="px-2 py-2 h-10 group-hover/sidebar:hidden"
+          className="px-2 py-2 size-9 "
           src={pathSmall}
           alt="small-logo"
         />
-      </div>
-
-      {/* Full logo */}
-      <div
-        className={cn(
-          "items-center w-full flex",
-          isCollapsed && "hidden group-hover/sidebar:block"
-        )}
-      >
-        <div className={theme === "dark" ? "hidden" : "block"}>
-          <img className="px-2" src={pathDark} alt="dark-logo" />
+        <div
+          className={cn(
+            "items-center w-full flex",
+            isCollapsed && "hidden group-hover/sidebar:block",
+          )}
+        >
+          <h3  className="text-xl font-semibold text-card-foreground">
+            AtlasLaw
+          </h3>
         </div>
+      </RouterLink>
 
-        <div className={cn(theme === "dark" ? "block" : "hidden")}>
-          <img className="px-2" src={pathLight} alt="light-logo" />
-        </div>
-      </div>
     </div>
   );
 });
@@ -173,7 +168,7 @@ const Trigger = React.forwardRef<
         className,
         isCollapsed
           ? "left-full rounded-br-sm rounded-tr-sm  border-border border border-l-0"
-          : "right-0 rounded-bl-sm rounded-tl-sm border-border border border-r-0"
+          : "right-0 rounded-bl-sm rounded-tl-sm border-border border border-r-0",
       )}
       {...props}
     >
@@ -233,11 +228,11 @@ export const Link = React.forwardRef<HTMLDivElement, LinkProps>(
 
     const activeSelf = !!matchPath(
       { path: resolved.pathname, end: true },
-      pathname
+      pathname,
     );
     const activeNested = !!matchPath(
       { path: resolved.pathname + "/*", end: false },
-      pathname
+      pathname,
     );
     const isActive = activeSelf || activeNested;
 
@@ -286,7 +281,7 @@ export const Link = React.forwardRef<HTMLDivElement, LinkProps>(
             isActive &&
               "before:border-primary before:bg-primary hover:text-primar text-primary",
             isOpen &&
-              "bg-primary/5 text-primary before:border-primary before:bg-primary hover:text-primary"
+              "bg-primary/5 text-primary before:border-primary before:bg-primary hover:text-primary",
           )}
           {...props}
         >
@@ -296,7 +291,7 @@ export const Link = React.forwardRef<HTMLDivElement, LinkProps>(
               "font-semibold flex-1 whitespace-nowrap transition-all duration-200",
               isCollapsed
                 ? "hidden group-hover/sidebar:inline-block"
-                : "inline-block"
+                : "inline-block",
             )}
           >
             {title}
@@ -310,7 +305,7 @@ export const Link = React.forwardRef<HTMLDivElement, LinkProps>(
                 isOpen && "rotate-180",
                 isCollapsed
                   ? "hidden group-hover/sidebar:inline-flex"
-                  : "inline-flex"
+                  : "inline-flex",
               )}
             >
               {isOpen ? (
@@ -330,7 +325,7 @@ export const Link = React.forwardRef<HTMLDivElement, LinkProps>(
               isCollapsed &&
                 isOpen &&
                 "group-hover/sidebar:grid-rows-[1fr]  group-hover/sidebar:opacity-100",
-              (!isOpen || isCollapsed) && "grid-rows-[0fr] opacity-0 "
+              (!isOpen || isCollapsed) && "grid-rows-[0fr] opacity-0 ",
             )}
           >
             <ul
@@ -342,7 +337,7 @@ export const Link = React.forwardRef<HTMLDivElement, LinkProps>(
               {items.map((item) => {
                 const subActive = !!matchPath(
                   { path: item.to, end: true },
-                  pathname
+                  pathname,
                 );
 
                 return (
@@ -350,10 +345,10 @@ export const Link = React.forwardRef<HTMLDivElement, LinkProps>(
                     <RouterLink
                       to={item.to}
                       onClick={(e) => {
-                          if (subActive) {
-                            e.preventDefault();
-                            e.stopPropagation();
-                          }
+                        if (subActive) {
+                          e.preventDefault();
+                          e.stopPropagation();
+                        }
                       }}
                       className={cn(
                         "flex items-center text-sm font-semibold gap-2 py-1.5 rtl:pl-2 rtl:pr-8 ltr:pl-8 ltr:pr-2 text-sidebar-foreground/70 hover:text-sidebar-foreground rounded-sm transition-colors",
@@ -361,7 +356,7 @@ export const Link = React.forwardRef<HTMLDivElement, LinkProps>(
                         "before:border-2 before:border-primary/40 ",
                         "ltr:before:left-4 rtl:before:right-4",
                         subActive &&
-                          "text-primary before:bg-primary before:border-primary"
+                          "text-primary before:bg-primary before:border-primary",
                       )}
                     >
                       <span>{item.title}</span>
@@ -374,7 +369,7 @@ export const Link = React.forwardRef<HTMLDivElement, LinkProps>(
         )}
       </div>
     );
-  }
+  },
 );
 
 Link.displayName = "SidebarLink";
@@ -384,7 +379,12 @@ const Footer = React.forwardRef<
   React.HTMLAttributes<HTMLDivElement>
 >(({ children, className, ...props }, ref) => {
   return (
-    <div ref={ref} aria-description="sidebar footer" {...props}>
+    <div
+      ref={ref}
+      className="px-4 mb-4"
+      aria-description="sidebar footer"
+      {...props}
+    >
       {children}
     </div>
   );

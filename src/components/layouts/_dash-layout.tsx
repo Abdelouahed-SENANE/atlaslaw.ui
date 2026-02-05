@@ -8,6 +8,7 @@ import {
   Fingerprint,
   Folder,
   Layout,
+  Settings,
   Tag,
   Users2,
   UserX,
@@ -339,6 +340,19 @@ export const DashLayout = ({
               </Fragment>
             ))}
           </Sidebar.Body>
+          <Sidebar.Footer>
+            <Sidebar.Menu className="mb-1">
+              <Sidebar.Label title={t("menu.groups.settings")} />
+              <Sidebar.Item>
+                <Sidebar.Link
+                  className=" transition-colors"
+                  title={t("menu.settings")}
+                  to={paths.settings.route()}
+                  icon={<Settings className="size-4" />}
+                />
+              </Sidebar.Item>
+            </Sidebar.Menu>
+          </Sidebar.Footer>
         </Sidebar.Root>
         <main className={cn("flex-1 relative")}>
           <Topbar />

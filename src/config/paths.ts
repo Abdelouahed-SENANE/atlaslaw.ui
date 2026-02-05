@@ -11,6 +11,10 @@ export const paths = {
     root: "/settings",
     route: () => "/settings",
   },
+  privacy: {
+    root: "/privacy",
+    route: () => "/privacy",
+  },
   login: {
     root: "/login",
     route: (redirectTo: string | null | undefined) =>

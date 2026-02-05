@@ -16,7 +16,7 @@
       "trigger_filter": "Recherche avancée",
       "export_button": "Exporter les audiences"
     },
-    "filters" : {
+    "filters": {
       "active": "Actif filter",
       "clear_all": "Effacer tout"
     }
@@ -100,13 +100,15 @@
     "users": "Utilisateurs",
     "tenants": "Locataires",
     "settings": "Paramètres",
+
     "clients": "Clients",
     "groups": {
       "overview": "Aperçu",
       "home": "Accueil",
       "team": "Equipe",
       "security": "Securité",
-      "laws": "Domaines juridiques"
+      "laws": "Domaines juridiques",
+      "settings": "Configuration"
     },
     "party_types": "Type juridique",
     "list_users": "Liste des utilisateurs",
@@ -1283,10 +1285,10 @@
         "placeholder": "Saisissez des observations ou remarques"
       }
     },
-    "filter" : {
+    "filter": {
       "from_date": "Du",
       "to_date": "Au",
-      "category_id" : "Nature d'affaire",
+      "category_id": "Nature d'affaire",
       "courts": "Courts",
       "title": "Filtres",
       "reset": "Reinitialiser",

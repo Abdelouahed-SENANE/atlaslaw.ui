@@ -26,7 +26,7 @@ export const Provider = ({ children }: ProviderProps) => {
         <ThemeProvider defaultTheme="dark" storageKey="theme">
           <QueryClientProvider client={queryClient}>
             <Toaster />
-            {isDev && <ReactQueryDevtools initialIsOpen={false} />}
+            {/* {isDev && <ReactQueryDevtools initialIsOpen={false} />} */}
             <AuthLoader
               renderError={() => <div>Something went wrong</div>}
               renderLoading={() => <></>}
